@@ -16,7 +16,7 @@ def queryURL(prompt):
 
 def queryKeystrokes(HTML):
     #Filler code - replace later
-    gpt_response = "Given your beautiful HTML-bs, you must do the following:\n1.click(\"ytd-searchbox\")\n2.type(\"never gonna give you up - rick astley\")\n3.press(\"ENTER\")\n4.wait(\"ukfdaskhkhjkl\")\n5.click(\"style-scope ytd-video-renderer\")"
+    gpt_response = "Given your beautiful HTML-bs, you must do the following:\n1.click(\"ytd-searchbox\")\n2.type(\"never gonna give you up - rick astley\")\n3.press(\"ENTER\")\n4.wait(\"ukfdaskhkhjkl\")\n5.click(\"Rick Astley - Never Gonna Give You Up (Official Music Video)\")"
     pattern = re.compile(r'(click|type|press|wait)\s*\(\s*"([^"]+)"\s*\)')
     matches = pattern.findall(gpt_response)
     actions = [Action(command, argument) for command, argument in matches]
