@@ -1,0 +1,40 @@
+import os
+from selenium import webdriver
+from selenium.webdriver.firefox.service import Service;
+from selenium.webdriver.common.by import By
+from selenium.webdriver.support import expected_conditions
+from selenium.webdriver.support.wait import WebDriverWait
+from selenium.webdriver.common.action_chains import ActionChains
+from selenium.webdriver.firefox.options import Options
+from selenium.webdriver.common.keys import Keys
+from selenium.webdriver.common.actions.action_builder import ActionBuilder
+driver = webdriver.Firefox(service=Service(executable_path = os.path.realpath("geckodriver")))
+
+def clickElement(identifier):
+    identified = False
+    trials = [By.CLASS_NAME, By.CSS_SELECTOR, By.ID, By.LINK_TEXT, By.PARTIAL_LINK_TEXT, By.TAG_NAME, By.XPATH]
+    for i in trials:
+        try:
+            element = driver.find_element(i, identifier)
+            actionchain = ActionChains(driver,duration=1)
+            actionchain.move_to_element(to_element=element)
+            for i in range(100):
+                actionchain.click()
+            actionchain.perform()
+            identified = True
+        except:
+            pass
+    if not identified:
+        print("NADA")
+        raise Exception("Element not found")
+    
+def type(text):
+    actionchain = ActionChains(driver)
+    actionchain.send_keys(text)
+    actionchain.perform()
+
+def press(button):
+    if button.lower() == "enter":
+        actionchain = ActionChains(driver)
+        actionchain.send_keys(Keys.RETURN)
+        actionchain.perform()
