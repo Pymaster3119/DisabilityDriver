@@ -2,6 +2,10 @@ import seleniumworker
 import queryGPT
 import time
 
+if __name__ == "__main__":
+    import ui
+
+
 def process(problem):
     #Extract URL
     response = queryGPT.queryURL(problem)
@@ -22,5 +26,7 @@ def process(problem):
             time.sleep(5)
         elif action.command == "returnhtml":
             actions = queryGPT.resendHTML(seleniumworker.driver.page_source)
+        elif action.command == "askquestion":
+            ui.askquestion(action.argument)
         else:
             raise Exception("Unidentified command - something is wrong with if statements from lines 15-22")

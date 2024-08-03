@@ -48,7 +48,7 @@ problem.pack(fill=tk.X, expand=True)
 placeholdertexts = ['Play me "Never Gonna Give You Up" by Rick Astley on YouTube.', 'Compose an email to my boss telling him that I have a doctors appointment tomorrow and send it to him.', 'Find the form for Montville taxes.']
 
 
-tk.Button(root, text = "Send request",command=lambda:main.process(problem.get())).pack(fill=tk.X, expand=True)
+tk.Button(root, text = "Send request",command=lambda:root.after(1, lambda:main.process(problem.get()))).pack(fill=tk.X, expand=True)
 root.after(10, typeoutplaceholders)
 
 root.mainloop()
