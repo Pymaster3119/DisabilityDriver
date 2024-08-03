@@ -8,7 +8,7 @@ def process(problem):
     seleniumworker.driver.get(response)
     time.sleep(5)
     #Extract information
-    actions = queryGPT.queryKeystrokes(seleniumworker.driver.page_source)
+    actions = queryGPT.queryKeystrokes(seleniumworker.driver.page_source, problem)
     print(actions)
     for action in actions:
         print(action.command)
@@ -20,5 +20,7 @@ def process(problem):
             seleniumworker.press(action.argument)
         elif action.command == "wait":
             time.sleep(5)
+        elif action.command == "returnhtml":
+            actions = queryGPT.resendHTML(seleniumworker.driver.page_source)
         else:
             raise Exception("Unidentified command - something is wrong with if statements from lines 15-22")
