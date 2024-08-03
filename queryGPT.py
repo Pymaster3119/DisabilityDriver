@@ -49,17 +49,20 @@ def querygpt(system_text, input, past_messages):
         messages.append({"role": "user", "content": user_msg})
         messages.append({"role": "assistant", "content": gpt_response})
     messages.append({"role": "user", "content": input})
-    response = openai.ChatCompletion.create(
-        model="gpt-4",
-        messages=messages
-    )
-    assistant_response = response['choices'][0]['message']['content']
     
+    try:
+        response = openai.ChatCompletion.create(
+            model="gpt-4",
+            messages=messages
+        )
+        assistant_response = response['choices'][0]['message']['content']
+    except openai.OpenAIError as e:
+        assistant_response = f"An error occurred: {str(e)}"
     return assistant_response
 
 def resendHTML(HTML):
     global drivingmessages
-    with open("WebNavigatonGPT", "r") as txt:
+    with open("WebNavigationGPT", "r") as txt:
         system_text = txt.read()
     prompt= "The new webpage has the following HTML: " + HTML
     gpt_response = querygpt(system_text, prompt, drivingmessages)
