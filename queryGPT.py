@@ -6,7 +6,7 @@ class Action:
         self.argument = argument
 
 def queryURL(prompt):
-    #Filler code - replace later w/ actual GPT prompts
+    #Message 1 - Make GPT give you a search prompt
     system_text = '''
 You are URL GPT, an AI model made to retrieve a URL that could be used to solve a user's problem. When prompted with a user's problem, you are to follow this structure:
 
@@ -15,14 +15,16 @@ You are URL GPT, an AI model made to retrieve a URL that could be used to solve 
 2. When provided search results, you must take these results and find the result that will most suit the user's application.
 
 Always say the most you can with the least number of words possible'''
-    gpt_response = "Montville New Jersey tax payment portal"
-    results = search(gpt_response)
+    gpt_response = querygpt(system_text, prompt)
+    gpt_response = "Montville NJ pay taxes online"
 
+    #Message 2 - Make GPT give you a link
+    results = search(gpt_response)
     prompt = ""
     for x in results:
         prompt += x
     print(prompt)
-    gpt_response = "In order to do blah-de-blah, you must open the following link: https://www.youtube.com/. Let me know what your html is or whatever"
+    gpt_response = "https://www.cit-e.net/montville-nj/cn/TaxBill_Std/?tpid=9078"
     url_pattern = re.compile(r'(https?://\S+)')
     match = url_pattern.search(gpt_response)
     if match:
@@ -36,3 +38,8 @@ def queryKeystrokes(HTML):
     matches = pattern.findall(gpt_response)
     actions = [Action(command, argument) for command, argument in matches]
     return actions
+
+#Filler code
+def querygpt(system_text, input):
+    print(input)
+    return ""
