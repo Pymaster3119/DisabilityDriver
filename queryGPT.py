@@ -30,18 +30,19 @@ def queryURL(prompt):
 drivingmessages = []
 
 def queryKeystrokes(HTML, prompt):
+    global drivingmessages
     #Filler code - replace later
     with open("WebNavigatonGPT", "r") as txt:
         system_text = txt.read()
     prompt = "Prompt: " + prompt + "\nHTML: \n" + HTML
-    querygpt(system_text, prompt, [])
-    gpt_response = "Given your beautiful HTML-bs, you must do the following:\n1.click(\"ytd-searchbox\")\n2.type(\"never gonna give you up - rick astley\")\n3.press(\"ENTER\")\n4.wait(\"ukfdaskhkhjkl\")\n5.click(\"Rick Astley - Never Gonna Give You Up (Official Music Video)\")"
+    gpt_response = querygpt(system_text, prompt, [])
+    gpt_response = "Given your beautiful HTML-bs, you must do the following:\n1.click(\"ytd-searchbox\")\n2.type(\"never gonna give you up - rick astley\")\n3.press(\"ENTER\")\n4.wait(\"ukfdaskhkhjkl\")\n5.click(\"Rick Astley - Never Gonna Give You Up (Official Music Video)\")" #REMOVE
+    drivingmessages.append((prompt, gpt_response))
     pattern = re.compile(r'(click|type|press|wait|returnhtml)\s*\(\s*"([^"]+)"\s*\)')
     matches = pattern.findall(gpt_response)
     actions = [Action(command, argument) for command, argument in matches]
     return actions
 
-#Filler code
 def querygpt(system_text, input, past_messages):
     messages = [{"role": "system", "content": system_text}]
     for user_msg, gpt_response in past_messages:
@@ -55,3 +56,16 @@ def querygpt(system_text, input, past_messages):
     assistant_response = response['choices'][0]['message']['content']
     
     return assistant_response
+
+def resendHTML(HTML):
+    global drivingmessages
+    with open("WebNavigatonGPT", "r") as txt:
+        system_text = txt.read()
+    prompt= "The new webpage has the following HTML: " + HTML
+    gpt_response = querygpt(system_text, prompt, drivingmessages)
+    drivingmessages.append((prompt, gpt_response))
+    gpt_response = "Given your beautiful HTML-bs, you must do the following:\n1.click(\"ytd-searchbox\")\n2.type(\"never gonna give you up - rick astley\")\n3.press(\"ENTER\")\n4.wait(\"ukfdaskhkhjkl\")\n5.click(\"Rick Astley - Never Gonna Give You Up (Official Music Video)\")" #REMOVE
+    pattern = re.compile(r'(click|type|press|wait|returnhtml)\s*\(\s*"([^"]+)"\s*\)')
+    matches = pattern.findall(gpt_response)
+    actions = [Action(command, argument) for command, argument in matches]
+    return actions
