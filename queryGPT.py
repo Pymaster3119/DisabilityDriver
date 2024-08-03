@@ -1,5 +1,7 @@
 import re
 from googlesearch import search
+import openai
+
 class Action:
     def __init__(self, command, argument):
         self.command = command
@@ -56,6 +58,24 @@ Use only the commands in your response. Say what you can in the least number of 
 
 #Filler code
 def querygpt(system_text, input, past_messages):
-
-    print(input)
-    return ""
+    # Create the initial message list with the system message
+    messages = [{"role": "system", "content": system_text}]
+    
+    # Append past messages to the conversation
+    for user_msg, gpt_response in past_messages:
+        messages.append({"role": "user", "content": user_msg})
+        messages.append({"role": "assistant", "content": gpt_response})
+    
+    # Add the current user input to the messages
+    messages.append({"role": "user", "content": input_text})
+    
+    # Make the API call to the OpenAI GPT-4 model
+    response = openai.ChatCompletion.create(
+        model="gpt-4",
+        messages=messages
+    )
+    
+    # Extract the assistant's response from the API response
+    assistant_response = response['choices'][0]['message']['content']
+    
+    return assistant_response
