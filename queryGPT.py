@@ -32,11 +32,11 @@ drivingmessages = []
 def queryKeystrokes(HTML, prompt):
     global drivingmessages
     #Filler code - replace later
-    with open("WebNavigatonGPT", "r") as txt:
+    with open("WebNavigationGPT", "r") as txt:
         system_text = txt.read()
     prompt = "Prompt: " + prompt + "\nHTML: \n" + HTML
     gpt_response = querygpt(system_text, prompt, [])
-    gpt_response = "Given your beautiful HTML-bs, you must do the following:\n1.click(\"ytd-searchbox\")\n2.type(\"never gonna give you up - rick astley\")\n3.press(\"ENTER\")\n4.wait(\"ukfdaskhkhjkl\")\n5.click(\"Rick Astley - Never Gonna Give You Up (Official Music Video)\")" #REMOVE
+    gpt_response = 'click("On-line Tax Payment")\nreturnhtml("")' #REMOVE
     drivingmessages.append((prompt, gpt_response))
     pattern = re.compile(r'(click|type|press|wait|returnhtml|askquestion)\s*\(\s*"([^"]+)"\s*\)')
     matches = pattern.findall(gpt_response)

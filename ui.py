@@ -1,6 +1,7 @@
 import tkinter as tk
 import random
 import main
+import threading
 def on_focus_in(event):
     global update
     if True:
@@ -39,16 +40,35 @@ def typeoutplaceholders():
             direction = -1
         root.after(50, typeoutplaceholders)
 root = tk.Tk()
-tk.Label(root, text= "What would you like to do today?").pack(fill=tk.X, expand=True)
-problem = tk.Entry(root, fg='grey')
-problem.bind('<FocusIn>', on_focus_in)
-problem.bind('<FocusOut>', on_focus_out)
-problem.pack(fill=tk.X, expand=True)
-
+problem = None
 placeholdertexts = ['Play me "Never Gonna Give You Up" by Rick Astley on YouTube.', 'Compose an email to my boss telling him that I have a doctors appointment tomorrow and send it to him.', 'Find the form for Montville taxes.']
 
+def start_thread():
+    pblm = problem.get()
+    task_thread = threading.Thread(target=lambda:main.process(pblm))
+    task_thread.start()
+    drawWorkingUI()
 
-tk.Button(root, text = "Send request",command=lambda:root.after(1, lambda:main.process(problem.get()))).pack(fill=tk.X, expand=True)
-root.after(10, typeoutplaceholders)
+def drawStartingUI():
+    global problem
+    for child in root.winfo_children():
+        child.destroy()
+    tk.Label(root, text= "What would you like to do today?").pack(fill=tk.X, expand=True)
+    problem = tk.Entry(root, fg='grey')
+    problem.bind('<FocusIn>', on_focus_in)
+    problem.bind('<FocusOut>', on_focus_out)
+    problem.pack(fill=tk.X, expand=True)
+    tk.Button(root, text = "Send request",command=start_thread).pack(fill=tk.X, expand=True)
+    root.after(10, typeoutplaceholders)
+
+def drawWorkingUI():
+    for child in root.winfo_children():
+        child.destroy()
+    tk.Label(root, text= "Working...").pack()
+
+drawStartingUI()
+
+
+
 
 root.mainloop()
