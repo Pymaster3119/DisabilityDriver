@@ -28,13 +28,15 @@ def queryURL(prompt):
     raise Exception("URL not found")
 
 drivingmessages = []
-
+links = []
+import seleniumworker
 def queryKeystrokes(HTML, prompt):
     global drivingmessages
     #Filler code - replace later
     with open("WebNavigationGPT", "r") as txt:
         system_text = txt.read()
-    prompt = "Prompt: " + prompt + "\nHTML: \n" + HTML
+    prompt = "Prompt: " + prompt + "\nHTML: \n" + HTML + "\n\nCurrent URL: " + seleniumworker.driver.current_url + "\nPast URLs: " + str(links)
+    links.append(seleniumworker.driver.current_url)
     gpt_response = querygpt(system_text, prompt, [])
     gpt_response = 'click("On-line Tax Payment")\naskquestion("Hello question here")\nreturnhtml("")' #REMOVE
     drivingmessages.append((prompt, gpt_response))
@@ -59,6 +61,7 @@ def querygpt(system_text, input, past_messages):
     except openai.OpenAIError as e:
         assistant_response = f"An error occurred: {str(e)}"
     return assistant_response
+
 
 def resendHTML(HTML):
     global drivingmessages

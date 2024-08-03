@@ -25,6 +25,7 @@ def process(problem):
         elif action.command == "wait":
             time.sleep(5)
         elif action.command == "returnhtml":
+            print("RETURNING HTML")
             answers = []
             actions = queryGPT.resendHTML(seleniumworker.driver.page_source)
         elif action.command == "askquestion":
