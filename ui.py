@@ -74,6 +74,8 @@ drawStartingUI()
 
 def updateanswer(answervar):
     main.answer = answervar.get()
+    print(main.answer)
+    print("Here")
 answervar = tk.StringVar()
 def askquestion(question):
     for child in root.winfo_children():

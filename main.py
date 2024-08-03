@@ -31,8 +31,8 @@ def process(problem):
             ui.askquestion(action.argument)
             while True:
                 if answer != None:
+                    print("HHERE")
                     break
-                time.sleep(0.25)
             answers.append(answer)
         else:
             raise Exception("Unidentified command - something is wrong with if statements from lines 15-22")
