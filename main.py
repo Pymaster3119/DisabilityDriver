@@ -1,12 +1,12 @@
 import seleniumworker
 import queryGPT
 import time
+import ui
 
-if __name__ == "__main__":
-    import ui
-
-
+answer = None
+answers = []
 def process(problem):
+    global answer, answers
     #Extract URL
     response = queryGPT.queryURL(problem)
     seleniumworker.driver.get(response)
@@ -25,8 +25,14 @@ def process(problem):
         elif action.command == "wait":
             time.sleep(5)
         elif action.command == "returnhtml":
+            answers = []
             actions = queryGPT.resendHTML(seleniumworker.driver.page_source)
         elif action.command == "askquestion":
             ui.askquestion(action.argument)
+            while True:
+                if answer != None:
+                    break
+                time.sleep(0.25)
+            answers.append(answer)
         else:
             raise Exception("Unidentified command - something is wrong with if statements from lines 15-22")

@@ -1,7 +1,8 @@
 import tkinter as tk
 import random
-import main
 import threading
+import main
+
 def on_focus_in(event):
     global update
     if True:
@@ -27,17 +28,20 @@ def typeoutplaceholders():
         print("Here")
         return
     else:
-        typingiteration += direction
-        if typingiteration != len(placeholdertexts[index]):
-            text = (placeholdertexts[index][:typingiteration])
-            problem.delete(0, tk.END)
-            problem.insert(0, text)
-            problem.config(fg='grey')
-            if typingiteration <= 0:
-                index = placeholdertexts.index(random.choice(placeholdertexts))
-                direction = 1
-        else:
-            direction = -1
+        try:
+            typingiteration += direction
+            if typingiteration != len(placeholdertexts[index]):
+                text = (placeholdertexts[index][:typingiteration])
+                problem.delete(0, tk.END)
+                problem.insert(0, text)
+                problem.config(fg='grey')
+                if typingiteration <= 0:
+                    index = placeholdertexts.index(random.choice(placeholdertexts))
+                    direction = 1
+            else:
+                direction = -1
+        except:
+            pass
         root.after(50, typeoutplaceholders)
 root = tk.Tk()
 problem = None
@@ -68,7 +72,15 @@ def drawWorkingUI():
 
 drawStartingUI()
 
-
-
+def updateanswer(answervar):
+    main.answer = answervar.get()
+answervar = tk.StringVar()
+def askquestion(question):
+    for child in root.winfo_children():
+        child.destroy()
+    answervar.set("")
+    tk.Label(root, text=question).pack()
+    tk.Entry(root, textvariable=answervar).pack()
+    tk.Button(root, text="Submit Answer", command=lambda:updateanswer(answervar)).pack()
 
 root.mainloop()

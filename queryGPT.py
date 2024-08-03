@@ -36,7 +36,7 @@ def queryKeystrokes(HTML, prompt):
         system_text = txt.read()
     prompt = "Prompt: " + prompt + "\nHTML: \n" + HTML
     gpt_response = querygpt(system_text, prompt, [])
-    gpt_response = 'click("On-line Tax Payment")\nreturnhtml("")' #REMOVE
+    gpt_response = 'click("On-line Tax Payment")\naskquestion("Hello question here")\nreturnhtml("")' #REMOVE
     drivingmessages.append((prompt, gpt_response))
     pattern = re.compile(r'(click|type|press|wait|returnhtml|askquestion)\s*\(\s*"([^"]+)"\s*\)')
     matches = pattern.findall(gpt_response)
