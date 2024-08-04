@@ -120,4 +120,4 @@ querygpt('''
     </div>
 </body>
 </html>
-''', "What is the position of the text 'Flag' on this HTML website, given that it is viewed on a 1000x1000 screen?")
+''', "What is the position of the text 'Flag' on this HTML website, given that it is viewed on a 1000x1000 screen?", past_messages=[])
