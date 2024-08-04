@@ -75,3 +75,49 @@ def resendHTML(HTML):
     matches = pattern.findall(gpt_response)
     actions = [Action(command, argument) for command, argument in matches]
     return actions
+
+#CODE TO TEST STUFF OUT
+querygpt('''
+         <!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Positioned Text</title>
+    <style>
+        html, body {
+            height: 100%;
+            margin: 0;
+            display: grid;
+            place-items: center;
+        }
+        .grid-container {
+            display: grid;
+            grid-template-columns: 1fr auto;
+            grid-template-rows: auto 1fr;
+            width: 100%;
+            height: 100%;
+        }
+        .spacer-x {
+            grid-column: 1;
+        }
+        .spacer-y {
+            grid-row: 1;
+        }
+        .text {
+            grid-column: 2;
+            grid-row: 2;
+            align-self: start;
+            justify-self: start;
+        }
+    </style>
+</head>
+<body>
+    <div class="grid-container">
+        <div class="spacer-x"></div>
+        <div class="spacer-y"></div>
+        <div class="text">flag</div>
+    </div>
+</body>
+</html>
+''', "What is the position of the text 'Flag' on this HTML website, given that it is viewed on a 1000x1000 screen?")

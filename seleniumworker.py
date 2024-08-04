@@ -9,7 +9,7 @@ from selenium.webdriver.firefox.options import Options
 from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.common.actions.action_builder import ActionBuilder
 driver = webdriver.Firefox(service=Service(executable_path = os.path.realpath("geckodriver")))
-
+driver.set_window_size(1000,1000)
 def clickElement(identifier):
     identified = False
     trials = [By.CLASS_NAME, By.CSS_SELECTOR, By.ID, By.LINK_TEXT, By.PARTIAL_LINK_TEXT, By.TAG_NAME, By.XPATH]
