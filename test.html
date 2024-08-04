@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Position Text</title>
+    <title>Hidden Position Text</title>
     <style>
         body {
             margin: 0;
@@ -12,23 +12,50 @@
             align-items: center;
             height: 100vh;
         }
-        #container {
+        .container {
             position: relative;
             width: 1000px;
             height: 1000px;
             border: 1px solid black;
         }
-        #flag {
-            position: absolute;
-            top: 300px;
-            left: 300px;
-            font-size: 20px;
+        .level {
+            position: relative;
+        }
+        .level-1 {
+            top: 50px;
+            left: 100px;
+        }
+        .level-2 {
+            top: 100px;
+            left: 50px;
+        }
+        .level-3 {
+            top: 75px;
+            left: 75px;
+        }
+        .level-4 {
+            top: 75px;
+            left: 75px;
+        }
+        .flag-text {
+            top: 0;
+            left: 0;
         }
     </style>
 </head>
 <body>
-    <div id="container">
-        <div id="flag">flag</div>
+    <div class="container">
+        <div class="level level-1">
+            <div class="level level-2">
+                <div class="level level-3">
+                    <div class="level level-4">
+                        <div class="flag-text">
+                            flag
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
 </body>
 </html>
