@@ -5,7 +5,8 @@ import ui
 
 answer = None
 answers = []
-questions = []
+questions = {}
+answerindex = 0
 def process(problem):
     global answer, answers
     #Extract URL
@@ -20,7 +21,7 @@ def process(problem):
         if action.command == "click":
             seleniumworker.clickElement(action.argument)
         elif action.command == "type":
-            seleniumworker.type(action.argument)
+            seleniumworker.type(action.argument, questions)
         elif action.command == "press":
             seleniumworker.press(action.argument)
         elif action.command == "wait":
@@ -36,7 +37,8 @@ def process(problem):
                 if answer != None:
                     print("HHERE")
                     break
-            answers.append(answer)
+            answerindex += 1
+            answers["answer" + str(answerindex)] = answer
         elif action.command == "clickinteligent":
             seleniumworker.intelliclick(action.argument, questions)
         else:
