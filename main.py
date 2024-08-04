@@ -14,7 +14,7 @@ def process(problem):
     #Extract information
     actions = queryGPT.queryKeystrokes(seleniumworker.driver.page_source, problem)
     print(actions)
-    for action in actions:
+    for idx, action in enumerate(actions):
         print(action.command)
         if action.command == "click":
             seleniumworker.clickElement(action.argument)
@@ -25,9 +25,10 @@ def process(problem):
         elif action.command == "wait":
             time.sleep(5)
         elif action.command == "returnhtml":
-            print("RETURNING HTML")
-            answers = []
-            actions = queryGPT.resendHTML(seleniumworker.driver.page_source)
+            if idx == len(action) - 1:
+                print("RETURNING HTML")
+                answers = []
+                actions = queryGPT.resendHTML(seleniumworker.driver.page_source)
         elif action.command == "askquestion":
             ui.askquestion(action.argument)
             while True:
