@@ -44,9 +44,5 @@ def press(button):
         actionchain.perform()
 
 def clickintelligent(exp, questions):
-    object = eval(exp)
-    actionchain = ActionChains(driver,duration=1)
-    actionchain.move_to_element(to_element=object)
-    for i in range(100):
-        actionchain.click()
-    actionchain.perform()
+    #That's all it took :O
+    eval(exp)
