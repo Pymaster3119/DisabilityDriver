@@ -38,3 +38,11 @@ def press(button):
         actionchain = ActionChains(driver)
         actionchain.send_keys(Keys.RETURN)
         actionchain.perform()
+
+def clickintelligent(exp, questions):
+    object = eval(exp)
+    actionchain = ActionChains(driver,duration=1)
+    actionchain.move_to_element(to_element=object)
+    for i in range(100):
+        actionchain.click()
+    actionchain.perform()

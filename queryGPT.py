@@ -40,7 +40,7 @@ def queryKeystrokes(HTML, prompt):
     gpt_response = querygpt(system_text, prompt, [])
     gpt_response = 'click("On-line Tax Payment")\naskquestion("Hello question here")\nreturnhtml("")' #REMOVE
     drivingmessages.append((prompt, gpt_response))
-    pattern = re.compile(r'(click|type|press|wait|returnhtml|askquestion)\s*\(\s*"([^"]+)"\s*\)')
+    pattern = re.compile(r'(click|type|press|wait|returnhtml|askquestion|clickintelligent)\s*\(\s*"([^"]+)"\s*\)')
     matches = pattern.findall(gpt_response)
     actions = [Action(command, argument) for command, argument in matches]
     return actions
@@ -71,7 +71,7 @@ def resendHTML(HTML):
     gpt_response = querygpt(system_text, prompt, drivingmessages)
     drivingmessages.append((prompt, gpt_response))
     gpt_response = "Given your beautiful HTML-bs, you must do the following:\n1.click(\"ytd-searchbox\")\n2.type(\"never gonna give you up - rick astley\")\n3.press(\"ENTER\")\n4.wait(\"ukfdaskhkhjkl\")\n5.click(\"Rick Astley - Never Gonna Give You Up (Official Music Video)\")" #REMOVE
-    pattern = re.compile(r'(click|type|press|wait|returnhtml|askquestion)\s*\(\s*"([^"]+)"\s*\)')
+    pattern = re.compile(r'(click|type|press|wait|returnhtml|askquestion|clickintelligent)\s*\(\s*"([^"]+)"\s*\)')
     matches = pattern.findall(gpt_response)
     actions = [Action(command, argument) for command, argument in matches]
     return actions

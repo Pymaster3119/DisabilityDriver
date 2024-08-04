@@ -5,6 +5,7 @@ import ui
 
 answer = None
 answers = []
+questions = []
 def process(problem):
     global answer, answers
     #Extract URL
@@ -36,5 +37,7 @@ def process(problem):
                     print("HHERE")
                     break
             answers.append(answer)
+        elif action.command == "clickinteligent":
+            seleniumworker.intelliclick(action.argument, questions)
         else:
             raise Exception("Unidentified command - something is wrong with if statements from lines 15-22")
