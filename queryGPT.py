@@ -38,7 +38,7 @@ def queryKeystrokes(HTML, prompt):
     prompt = "Prompt: " + prompt + "\nHTML: \n" + HTML + "\n\nCurrent URL: " + seleniumworker.driver.current_url + "\nPast URLs: " + str(links)
     links.append(seleniumworker.driver.current_url)
     gpt_response = querygpt(system_text, prompt, [])
-    gpt_response = 'click("On-line Tax Payment")\naskquestion("Hello question here")\nreturnhtml("")' #REMOVE
+    gpt_response = 'click("On-line Tax Payment")\naskquestion("Hello question here")\nreturnhtml("fff")' #REMOVE
     drivingmessages.append((prompt, gpt_response))
     pattern = re.compile(r'(click|type|press|wait|returnhtml|askquestion|clickintelligent)\s*\(\s*"([^"]+)"\s*\)')
     matches = pattern.findall(gpt_response)
@@ -63,7 +63,7 @@ def querygpt(system_text, input, past_messages):
     return assistant_response
 
 
-def resendHTML(HTML, questions):
+def resendHTML(prompt, HTML, questions):
     global drivingmessages
     with open("WebNavigationGPT", "r") as txt:
         system_text = txt.read()

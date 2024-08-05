@@ -26,11 +26,8 @@ def process(problem):
         elif action.command == "wait":
             time.sleep(5)
         elif action.command == "returnhtml":
-            if True:
-                print(idx)
-                print("RETURNING HTML")
-                answers = []
-                actions = queryGPT.resendHTML(seleniumworker.driver.page_source)
+            print("RETURNING HTML")
+            actions = queryGPT.resendHTML(problem, seleniumworker.driver.page_source, answers)
         elif action.command == "askquestion":
             ui.askquestion(action.argument)
             while True:
@@ -38,7 +35,9 @@ def process(problem):
                     print("HHERE")
                     break
             answers[action.argument] = answer
+            print("done")
         elif action.command == "clickinteligent":
             seleniumworker.intelliclick(action.argument, answers)
         else:
             raise Exception("Unidentified command")
+    ui.drawStartingUI()
