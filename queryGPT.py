@@ -63,11 +63,13 @@ def querygpt(system_text, input, past_messages):
     return assistant_response
 
 
-def resendHTML(HTML):
+def resendHTML(HTML, questions):
     global drivingmessages
     with open("WebNavigationGPT", "r") as txt:
         system_text = txt.read()
-    prompt= "The new webpage has the following HTML: " + HTML
+    prompt= "Prompt: " + prompt + "\nHTML: " + HTML + "\nCurrentURL: " + seleniumworker.driver.current_url + "\npastURLs: " + str(links) + "\nquestions:" + str(questions)
+    print(prompt)
+    links.append(seleniumworker.driver.current_url)
     gpt_response = querygpt(system_text, prompt, drivingmessages)
     drivingmessages.append((prompt, gpt_response))
     gpt_response = "Given your beautiful HTML-bs, you must do the following:\n1.click(\"ytd-searchbox\")\n2.type(\"never gonna give you up - rick astley\")\n3.press(\"ENTER\")\n4.wait(\"ukfdaskhkhjkl\")\n5.click(\"Rick Astley - Never Gonna Give You Up (Official Music Video)\")" #REMOVE

@@ -4,8 +4,7 @@ import time
 import ui
 
 answer = None
-answers = []
-questions = {}
+answers = {}
 answerindex = 0
 def process(problem):
     global answer, answers
@@ -21,13 +20,14 @@ def process(problem):
         if action.command == "click":
             seleniumworker.clickElement(action.argument)
         elif action.command == "type":
-            seleniumworker.type(action.argument, questions)
+            seleniumworker.type(action.argument, answers)
         elif action.command == "press":
             seleniumworker.press(action.argument)
         elif action.command == "wait":
             time.sleep(5)
         elif action.command == "returnhtml":
-            if idx == len(action) - 1:
+            if True:
+                print(idx)
                 print("RETURNING HTML")
                 answers = []
                 actions = queryGPT.resendHTML(seleniumworker.driver.page_source)
@@ -37,9 +37,8 @@ def process(problem):
                 if answer != None:
                     print("HHERE")
                     break
-            answerindex += 1
-            answers["answer" + str(answerindex)] = answer
+            answers[action.argument] = answer
         elif action.command == "clickinteligent":
-            seleniumworker.intelliclick(action.argument, questions)
+            seleniumworker.intelliclick(action.argument, answers)
         else:
-            raise Exception("Unidentified command - something is wrong with if statements from lines 15-22")
+            raise Exception("Unidentified command")
