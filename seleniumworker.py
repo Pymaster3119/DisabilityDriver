@@ -10,14 +10,11 @@ from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.common.actions.action_builder import ActionBuilder
 import re
 import time
-driver = webdriver.Firefox(service=Service(executable_path = os.path.realpath("geckodriver")))
-driver.set_window_size(1000,1000)
 
-#Install adblock (THANK GOD!)
-driver.get("https://addons.mozilla.org/en-US/firefox/addon/adblock-for-firefox/")
-time.sleep(1)
-driver.find_element(By.CLASS_NAME, "Button Button--action AMInstallButton-button Button--puffy").click()
-driver.switch_to.alert.accept()
+options = Options()
+options.set_preference("profile", "/Users/aditya/Desktop/DisabledDriver/o0fvibos.Adblock Profile")
+driver = webdriver.Firefox(options=options, service=Service(executable_path = os.path.realpath("geckodriver")))
+driver.set_window_size(1000,1000)
 
 def clickElement(identifier):
     identified = False
