@@ -17,15 +17,8 @@ def queryURL(prompt):
     print(gpt_response)
     #Message 2 - Make GPT give you a link
     results = search(gpt_response)
-    prompt2 = ""
-    for x in results:
-        prompt2 += x
-    gpt_response = querygpt(system_text, prompt2, [(prompt, gpt_response)])
-    print(gpt_response)
-    url_pattern = re.compile(r'(https?://\S+)')
-    match = url_pattern.search(gpt_response)
-    if match:
-        return match.group(0)
+    for j in results:
+        return str(j)
     raise Exception("URL not found")
 
 drivingmessages = []
@@ -84,7 +77,10 @@ def resendHTML(prompt, HTML, questions):
 tagstokeep = [
     'html', 'head', 'body', 'div', 'header', 'footer', 'main', 'section',
     'h1', 'h2', 'h3', 'h4', 'h5', 'h6', 'p', 'span', 'strong', 'em',
-    'ul', 'ol', 'li', 'a', 'form', 'input', 'textarea', 'button', 'label', 'select', 'option', 'img'
+    'ul', 'ol', 'li', 'a', 'form', 'input', 'textarea', 'button', 'label', 'select', 'option', 'img',
+    'nav', 'article', 'aside', 'figure', 'figcaption', 'table', 'thead', 'tbody', 'tr', 'th', 'td', 
+    'video', 'audio', 'source', 'iframe', 'canvas', 'code', 'pre', 'blockquote', 'cite', 'dl', 'dt', 'dd',
+    'b', 'i', 'small', 'sub', 'sup', 'mark', 'q', 'ins', 'del', 'svg', 'path'
 ]
 
 def cleansoup(soup):
