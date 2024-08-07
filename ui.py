@@ -25,7 +25,6 @@ def typeoutplaceholders():
     global index, typingiteration, placeholder_text, direction, update
     if not update:
         root.after(50, typeoutplaceholders)
-        print("Here")
         return
     else:
         try:

@@ -7,9 +7,11 @@ answer = None
 answers = {}
 answerindex = 0
 def process(problem):
+    print("Started")
     global answer, answers
     #Extract URL
     response = queryGPT.queryURL(problem)
+    print("Queried URL")
     seleniumworker.driver.get(response)
     time.sleep(5)
     #Extract information
@@ -41,3 +43,4 @@ def process(problem):
         else:
             raise Exception("Unidentified command")
     ui.drawStartingUI()
+
