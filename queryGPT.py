@@ -15,7 +15,7 @@ def queryURL(prompt):
         system_text = txt.read()
     gpt_response = querygpt(system_text, prompt, [])
     print(gpt_response)
-    #Message 2 - Make GPT give you a link
+    #Message 2 - Get a link
     results = search(gpt_response)
     for j in results:
         return str(j)
@@ -27,7 +27,6 @@ import seleniumworker
 def queryKeystrokes(HTML, prompt):
     global drivingmessages
     HTML = cleanhtml(HTML)
-    #Filler code - replace later
     with open("WebNavigationGPT", "r") as txt:
         system_text = txt.read()
     prompt = "Prompt: " + prompt + "\nHTML: \n" + HTML + "\n\nCurrent URL: " + seleniumworker.driver.current_url + "\nPast URLs: " + str(links)
@@ -80,21 +79,17 @@ tagstokeep = [
     'ul', 'ol', 'li', 'a', 'form', 'input', 'textarea', 'button', 'label', 'select', 'option', 'img',
     'nav', 'article', 'aside', 'figure', 'figcaption', 'table', 'thead', 'tbody', 'tr', 'th', 'td', 
     'video', 'audio', 'source', 'iframe', 'canvas', 'code', 'pre', 'blockquote', 'cite', 'dl', 'dt', 'dd',
-    'b', 'i', 'small', 'sub', 'sup', 'mark', 'q', 'ins', 'del', 'svg', 'path'
+    'b', 'i', 'small', 'sub', 'sup', 'mark', 'q', 'ins', 'del', 'svg', 'path', 'meta', 'link', 'script', 'style', 'noscript', 'iframe', 'embed', 'object', 'param'
 ]
-
-def cleansoup(soup):
-        for tag in soup.find_all(True):
-            if tag.name not in tagstokeep:
-                tag.decompose()
-            else:
-                cleansoup(tag)
 
 def cleanhtml(html_content):
     soup = BeautifulSoup(html_content, 'html.parser')
-    cleansoup(soup)
-    print(soup.prettify())
-    return soup.prettify()
+    for tag in soup(['script', 'style', 'meta', 'link']):
+        tag.decompose()
+    text = soup.get_text(separator=' ', strip=True)
+    text = ' '.join(text.split())
+    
+    return text
 
 if __name__ == "__main__":
     response = querygpt("You are a helpful assistant", "Write an essay about ice cream on a summer's day", [])
