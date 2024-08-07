@@ -57,7 +57,7 @@ def querygpt(system_text, user_input, past_messages):
     
     try:
         response = client.chat.completions.create(
-            model="gpt-4",
+            model="gpt-4o-mini",
             messages=messages
         )
         assistant_response = response.choices[0].message.content.strip()
@@ -97,6 +97,7 @@ def cleansoup(soup):
 def cleanhtml(html_content):
     soup = BeautifulSoup(html_content, 'html.parser')
     cleansoup(soup)
+    print(soup.prettify())
     return soup.prettify()
 
 if __name__ == "__main__":
