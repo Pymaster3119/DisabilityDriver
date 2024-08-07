@@ -9,8 +9,16 @@ from selenium.webdriver.firefox.options import Options
 from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.common.actions.action_builder import ActionBuilder
 import re
+import time
 driver = webdriver.Firefox(service=Service(executable_path = os.path.realpath("geckodriver")))
 driver.set_window_size(1000,1000)
+
+#Install adblock (THANK GOD!)
+driver.get("https://addons.mozilla.org/en-US/firefox/addon/adblock-for-firefox/")
+time.sleep(1)
+driver.find_element(By.CLASS_NAME, "Button Button--action AMInstallButton-button Button--puffy").click()
+driver.switch_to.alert.accept()
+
 def clickElement(identifier):
     identified = False
     trials = [By.CLASS_NAME, By.CSS_SELECTOR, By.ID, By.LINK_TEXT, By.PARTIAL_LINK_TEXT, By.TAG_NAME, By.XPATH]
