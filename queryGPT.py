@@ -17,8 +17,10 @@ def queryURL(prompt):
     print(gpt_response)
     #Message 2 - Get a link
     results = search(gpt_response)
+    prompt2 = ""
     for j in results:
-        return str(j)
+        prompt2 += j
+    gpt_response = querygpt(system_text, prompt2,[prompt, gpt_response])
     raise Exception("URL not found")
 
 drivingmessages = []
@@ -29,7 +31,9 @@ def queryKeystrokes(HTML, prompt):
     HTML = cleanhtml(HTML)
     with open("WebNavigationGPT", "r") as txt:
         system_text = txt.read()
-    prompt = "Prompt: " + prompt + "\nHTML: \n" + HTML + "\n\nCurrent URL: " + seleniumworker.driver.current_url + "\nPast URLs: " + str(links)
+    prompt = "Prompt:" + prompt + "\nHTML:\n" + HTML + "\n\nCurrent URL: " + seleniumworker.driver.current_url + "\nPast URLs:\n"
+    for i in links:
+        prompt += i + "\n"
     links.append(seleniumworker.driver.current_url)
     gpt_response = querygpt(system_text, prompt, [])
     print(gpt_response)
