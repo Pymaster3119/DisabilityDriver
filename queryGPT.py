@@ -3,7 +3,7 @@ from googlesearch import search
 import openai
 from bs4 import BeautifulSoup
 with open("key.txt", "r") as txt:
-    openai.api_key = txt.read()
+    client = openai.OpenAI(api_key=txt.read())
 class Action:
     def __init__(self, command, argument):
         self.command = command
@@ -44,22 +44,23 @@ def queryKeystrokes(HTML, prompt):
     drivingmessages.append((prompt, gpt_response))
     pattern = re.compile(r'(click|type|press|wait|returnhtml|askquestion|clickintelligent)\s*\(\s*"([^"]+)"\s*\)')
     matches = pattern.findall(gpt_response)
-    actions = [Action(command, argument) for command, argument in matches]
+    actions = [Action(command, argument) for command, argument in matches]      
     return actions
 
-def querygpt(system_text, input, past_messages):
+def querygpt(system_text, user_input, past_messages):
+    global client
     messages = [{"role": "system", "content": system_text}]
     for user_msg, gpt_response in past_messages:
         messages.append({"role": "user", "content": user_msg})
         messages.append({"role": "assistant", "content": gpt_response})
-    messages.append({"role": "user", "content": input})
+    messages.append({"role": "user", "content": user_input})
     
     try:
-        response = openai.ChatCompletion.create(
+        response = client.chat.completions.create(
             model="gpt-4",
             messages=messages
         )
-        assistant_response = response['choices'][0]['message']['content']
+        assistant_response = response.choices[0].message.content.strip()
     except openai.OpenAIError as e:
         assistant_response = f"An error occurred: {str(e)}"
     return assistant_response
@@ -97,3 +98,7 @@ def cleanhtml(html_content):
     soup = BeautifulSoup(html_content, 'html.parser')
     cleansoup(soup)
     return soup.prettify()
+
+if __name__ == "__main__":
+    response = querygpt("You are a helpful assistant", "Write an essay about ice cream on a summer's day", [])
+    print(response)
