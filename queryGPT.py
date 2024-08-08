@@ -13,16 +13,16 @@ def queryURL(prompt):
     #Message 1 - Make GPT give you a search prompt
     with open("URLGPTSource", "r") as txt:
         system_text = txt.read()
-    gpt_response = querygpt(system_text, prompt, [], gpt_model="gpt-4o")
+    gpt_response = querygpt(system_text, prompt, [])
     print(gpt_response)
     #Message 2 - Get a link
     results = search(gpt_response)
     prompt2 = ""
     for j in results:
         prompt2 += j
-    gpt_response = querygpt(system_text, prompt2,[(prompt, gpt_response)], gpt_model="gpt-4o")
+    gpt_response = querygpt(system_text, prompt2,[(prompt, gpt_response)])
     print(gpt_response)
-    raise Exception("URL not found")
+    return gpt_response
 
 drivingmessages = []
 links = []

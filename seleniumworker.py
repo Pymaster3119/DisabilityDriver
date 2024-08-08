@@ -8,6 +8,7 @@ from selenium.webdriver.common.action_chains import ActionChains
 from selenium.webdriver.firefox.options import Options
 from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.common.actions.action_builder import ActionBuilder
+from selenium.webdriver.support import expected_conditions as EC
 import re
 import time
 
@@ -49,5 +50,4 @@ def press(button):
         actionchain.perform()
 
 def clickintelligent(exp, questions):
-    #That's all it took :O
     eval(exp)
