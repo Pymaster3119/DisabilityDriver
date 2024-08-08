@@ -14,14 +14,14 @@ def queryURL(prompt):
     #Message 1 - Make GPT give you a search prompt
     with open("URLGPTSource", "r") as txt:
         system_text = txt.read()
-    gpt_response = querygpt(system_text, prompt, [])
+    gpt_response = "Indian classical music or smth" #querygpt(system_text, prompt, [])
     print(gpt_response)
     #Message 2 - Get a link
     results = search(gpt_response)
     prompt2 = ""
     for j in results:
         prompt2 += j
-    gpt_response = querygpt(system_text, prompt2,[(prompt, gpt_response)])
+    gpt_response = "https://www.youtube.com/results?search_query=indian+classical+music"#querygpt(system_text, prompt2,[(prompt, gpt_response)])
     print(gpt_response)
     return gpt_response
 
@@ -85,17 +85,24 @@ def resendHTML(prompt, HTML, questions):
 def cleanhtml(html):
     soup = BeautifulSoup(html, 'html.parser')
     tagdict = {}
-    for i in soup.find_all():
-        if i.name in tagdict.keys():
-            tagdict[i.name] += 1
-        else:
-            tagdict[i.name] = 1
-    print(tagdict)
+    
     body = soup.find('body')
     
     if body:
-        for tag in body.find_all(['style', 'link', 'script', 'img', 'svg', 'css']):
-            tag.decompose()
+        for i in range(10):
+            for tag in body.find_all(['style', 'link', 'script', 'img', 'svg', 'css', 'path']):
+                tag.decompose()
+        svgs = body.find_all('svg')
+        for svg in svgs:
+            for child in svg.find_all(True, recursive=True):
+                child.decompose()
+            svg.decompose()
+        for i in soup.find_all():
+            if i.name in tagdict.keys():
+                tagdict[i.name] += 1
+            else:
+                tagdict[i.name] = 1
+        print(tagdict)
         return str(body)
     else:
         return ''
