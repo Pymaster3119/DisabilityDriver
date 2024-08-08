@@ -13,14 +13,15 @@ def queryURL(prompt):
     #Message 1 - Make GPT give you a search prompt
     with open("URLGPTSource", "r") as txt:
         system_text = txt.read()
-    gpt_response = querygpt(system_text, prompt, [])
+    gpt_response = querygpt(system_text, prompt, [], gpt_model="gpt-4o")
     print(gpt_response)
     #Message 2 - Get a link
     results = search(gpt_response)
     prompt2 = ""
     for j in results:
         prompt2 += j
-    gpt_response = querygpt(system_text, prompt2,[prompt, gpt_response])
+    gpt_response = querygpt(system_text, prompt2,[(prompt, gpt_response)], gpt_model="gpt-4o")
+    print(gpt_response)
     raise Exception("URL not found")
 
 drivingmessages = []
@@ -43,7 +44,7 @@ def queryKeystrokes(HTML, prompt):
     actions = [Action(command, argument) for command, argument in matches]      
     return actions
 
-def querygpt(system_text, user_input, past_messages):
+def querygpt(system_text, user_input, past_messages, gpt_model = "gpt-4o-mini"):
     global client
     messages = [{"role": "system", "content": system_text}]
     for user_msg, gpt_response in past_messages:
@@ -53,7 +54,7 @@ def querygpt(system_text, user_input, past_messages):
     
     try:
         response = client.chat.completions.create(
-            model="gpt-4o-mini",
+            model=gpt_model,
             messages=messages
         )
         assistant_response = response.choices[0].message.content.strip()
