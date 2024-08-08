@@ -13,9 +13,7 @@ def process(problem):
     response = queryGPT.queryURL(problem)
     print("Queried URL")
     seleniumworker.driver.get(response)
-    seleniumworker.WebDriverWait(seleniumworker.driver, 10).until(
-        seleniumworker.EC.presence_of_element_locate(seleniumworker.By.TAG_NAME, 'body')
-    )
+    time.sleep(10)
     #Extract information
     actions = queryGPT.queryKeystrokes(seleniumworker.driver.page_source, problem)
     print(actions)
