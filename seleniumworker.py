@@ -22,12 +22,17 @@ def clickElement(identifier):
     trials = [By.ID, By.CLASS_NAME, By.CSS_SELECTOR, By.LINK_TEXT, By.PARTIAL_LINK_TEXT, By.TAG_NAME, By.XPATH]
     for i in trials:
         try:
-            element = driver.find_element(i, identifier)
-            actionchain = ActionChains(driver,duration=2)
-            actionchain.move_to_element(to_element=element)
-            actionchain.click()
-            actionchain.perform()
-            identified = True
+            elements = driver.find_elements(i, identifier)
+            for element in elements:
+                try:
+                    actionchain = ActionChains(driver,duration=2)
+                    actionchain.move_to_element(to_element=element)
+                    actionchain.click()
+                    actionchain.perform()
+                    identified = True
+                    break
+                except:
+                    pass
         except Exception as e:
             print(e)
     if not identified:

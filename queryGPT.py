@@ -14,13 +14,20 @@ def queryURL(prompt):
     #Message 1 - Make GPT give you a search prompt
     with open("URLGPTSource", "r") as txt:
         system_text = txt.read()
-    gpt_response = "Indian classical music or smth" #querygpt(system_text, prompt, [])
+    gpt_response = "Indian classical music play online" #querygpt(system_text, prompt, [])
     print(gpt_response)
     #Message 2 - Get a link
     results = search(gpt_response)
     prompt2 = ""
+    searchresults = 0
     for j in results:
-        prompt2 += j
+        if searchresults < 10:
+            prompt2 += j + "\n"
+            searchresults += 1
+        else:
+            break
+    with open("totokenize", "w") as txt:
+        txt.write(prompt2)
     gpt_response = "https://www.youtube.com/results?search_query=indian+classical+music"#querygpt(system_text, prompt2,[(prompt, gpt_response)])
     print(gpt_response)
     return gpt_response
@@ -39,7 +46,7 @@ def queryKeystrokes(HTML, prompt):
     for i in links:
         prompt += i + "\n"
     links.append(seleniumworker.driver.current_url)
-    gpt_response = querygpt(system_text, prompt, [])
+    gpt_response = 'click("search")'#querygpt(system_text, prompt, [])
     print(gpt_response)
     drivingmessages.append((prompt, gpt_response))
     pattern = re.compile(r'(click|type|press|wait|returnhtml|askquestion|clickintelligent)\s*\(\s*"([^"]+)"\s*\)')
@@ -97,12 +104,12 @@ def cleanhtml(html):
             for child in svg.find_all(True, recursive=True):
                 child.decompose()
             svg.decompose()
-        for tag in body.find_all(True):
+        for tag in body.find_all(id=True):
             try:
-                print(tag.get("id"))
-                seleniumworker.driver.find_element(seleniumworker.By.ID, tag.get("id"))
+                print(tag['id'])
+                seleniumworker.driver.find_element(seleniumworker.By.ID, tag['id'])
             except Exception as e:
-                pass#tag.decompose()
+                tag.decompose()
         for i in soup.find_all():
             if i.name in tagdict.keys():
                 tagdict[i.name] += 1
