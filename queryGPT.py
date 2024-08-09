@@ -90,7 +90,7 @@ def cleanhtml(html):
     
     if body:
         for i in range(10):
-            for tag in body.find_all(['style', 'link', 'script', 'img', 'svg', 'css', 'path']):
+            for tag in body.find_all(['style', 'link', 'script', 'img', 'svg', 'css', 'path', 'video']):
                 tag.decompose()
         svgs = body.find_all('svg')
         for svg in svgs:
@@ -103,7 +103,8 @@ def cleanhtml(html):
             else:
                 tagdict[i.name] = 1
         print(tagdict)
-        return str(body)
+        htmlhalfcleaned = str(body)
+        return re.sub(r'class="[^"]*"', '', htmlhalfcleaned)
     else:
         return ''
 
