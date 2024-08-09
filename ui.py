@@ -59,7 +59,7 @@ def start_thread():
 def process(audio, recognizer):
     try:
         text = recognizer.recognize_google(audio)
-        problem.set(problem.get() + text)
+        problem.insert(tk.END, text)
     except sr.UnknownValueError:
         pass
 
@@ -74,6 +74,7 @@ def listenfortts():
         with sr.Microphone() as mic:
             recognizer.adjust_for_ambient_noise(mic)
             try:
+                print("HELO")
                 audio = recognizer.listen(mic, timeout=100000,phrase_time_limit=1)
                 threading.Thread(target=lambda: process(audio, recognizer)).start()
             except Exception as e:
@@ -118,9 +119,13 @@ def askquestion(question):
 
 
 def leftButtonUpdated(pressed):
-    global leftbuttonpressed
+    global leftbuttonpressed, update
     leftbuttonpressed = pressed
-for i in root.winfo_children():
+    if pressed:
+        problem.delete(0, tk.END)
+        problem.config(fg='black')
+        update = False
+for i in root.winfo_children() + [root]:
     i.bind("<ButtonPress-1>", lambda x: leftButtonUpdated (True))
     i.bind("<ButtonRelease-1>", lambda x: leftButtonUpdated (False))
 root.mainloop()
