@@ -6,17 +6,9 @@ import speech_recognition as sr
 
 def on_focus_in(event):
     global update
-    if True:
-        problem.delete(0, tk.END)
-        problem.config(fg='black')
-        update = False
-
-def on_focus_out(event):
-    global update, typingiteration
-    if problem.get() == '':
-        problem.config(fg='grey')
-        typingiteration = 0
-        update = True
+    problem.delete(0, tk.END)
+    problem.config(fg='black')
+    update = False
 
 index = 1
 typingiteration = 0
@@ -24,23 +16,28 @@ direction = 1
 update = True
 def typeoutplaceholders():
     global index, typingiteration, placeholder_text, direction, update
-    if not update and not (leftbuttonpressed and accepttts):
-        root.after(50, typeoutplaceholders)
+    if not update and (leftbuttonpressed and accepttts):
+        update = False
     else:
-        try:
-            typingiteration += direction
-            if typingiteration != len(placeholdertexts[index]):
-                text = (placeholdertexts[index][:typingiteration])
-                problem.delete(0, tk.END)
-                problem.insert(0, text)
-                problem.config(fg='grey')
-                if typingiteration <= 0:
-                    index = placeholdertexts.index(random.choice(placeholdertexts))
-                    direction = 1
-            else:
-                direction = -1
-        except:
-            pass
+        partoffillertext = False
+        for i in placeholdertexts:
+            if problem.get() in i:
+                partoffillertext = True
+        if partoffillertext:
+            try:
+                typingiteration += direction
+                if typingiteration != len(placeholdertexts[index]):
+                    text = (placeholdertexts[index][:typingiteration])
+                    problem.delete(0, tk.END)
+                    problem.insert(0, text)
+                    problem.config(fg='grey')
+                    if typingiteration <= 0:
+                        index = placeholdertexts.index(random.choice(placeholdertexts))
+                        direction = 1
+                else:
+                    direction = -1
+            except:
+                pass
         root.after(50, typeoutplaceholders)
 root = tk.Tk()
 problem = None
@@ -57,9 +54,7 @@ def start_thread():
 
 def process(audio, recognizer):
     try:
-        print("Processing Started")
         text = recognizer.recognize_google(audio)
-        print("Processing Ended")
         problem.insert(tk.END, text)
     except sr.UnknownValueError:
         pass
@@ -76,11 +71,10 @@ def listenfortts():
             with sr.Microphone() as mic:
                 recognizer.adjust_for_ambient_noise(mic)
                 try:
-                    print("HELO")
                     audio = recognizer.listen(mic, timeout=100000,phrase_time_limit=1)
                     threading.Thread(target=lambda: process(audio, recognizer)).start()
-                except Exception as e:
-                    print(e)
+                except:
+                    pass
 
 def drawStartingUI():
     global problem, accepttts
@@ -91,7 +85,6 @@ def drawStartingUI():
     tk.Label(root, text= "What would you like to do today?").pack(fill=tk.X, expand=True)
     problem = tk.Entry(root, fg='grey')
     problem.bind('<FocusIn>', on_focus_in)
-    problem.bind('<FocusOut>', on_focus_out)
     problem.pack(fill=tk.X, expand=True)
     tk.Button(root, text = "Send request",command=start_thread).pack(fill=tk.X, expand=True)
     root.after(10, typeoutplaceholders)
@@ -123,11 +116,6 @@ def leftButtonUpdated(pressed):
         problem.delete(0, tk.END)
         problem.config(fg='black')
         update = False
-for i in root.winfo_children() + [root]:
-    i.bind("<ButtonPress-1>", lambda x: leftButtonUpdated (True))
-    i.bind("<ButtonRelease-1>", lambda x: leftButtonUpdated (False))
-def print_threads():
-    print(threading.active_count())
-    root.after(1, print_threads)
-root.after(1, print_threads)
+root.bind("<ButtonPress-1>", lambda x: leftButtonUpdated (True))
+root.bind("<ButtonRelease-1>", lambda x: leftButtonUpdated (False))
 root.mainloop()

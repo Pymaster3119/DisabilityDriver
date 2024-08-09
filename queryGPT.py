@@ -14,8 +14,8 @@ def queryURL(prompt):
     #Message 1 - Make GPT give you a search prompt
     with open("URLGPTSource", "r") as txt:
         system_text = txt.read()
-    gpt_response = "Indian classical music play online" #querygpt(system_text, prompt, [])
-    print(gpt_response)
+    gpt_response = querygpt(system_text, prompt, [])
+    print("GPT RESPONSE:" + gpt_response)
     #Message 2 - Get a link
     results = search(gpt_response)
     prompt2 = ""
@@ -28,7 +28,7 @@ def queryURL(prompt):
             break
     with open("totokenize", "w") as txt:
         txt.write(prompt2)
-    gpt_response = "https://www.youtube.com/results?search_query=indian+classical+music"#querygpt(system_text, prompt2,[(prompt, gpt_response)])
+    gpt_response = querygpt(system_text, prompt2,[(prompt, gpt_response)])
     print(gpt_response)
     return gpt_response
 
