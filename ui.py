@@ -26,7 +26,6 @@ def typeoutplaceholders():
     global index, typingiteration, placeholder_text, direction, update
     if not update and not (leftbuttonpressed and accepttts):
         root.after(50, typeoutplaceholders)
-        return
     else:
         try:
             typingiteration += direction
@@ -58,7 +57,9 @@ def start_thread():
 
 def process(audio, recognizer):
     try:
+        print("Processing Started")
         text = recognizer.recognize_google(audio)
+        print("Processing Ended")
         problem.insert(tk.END, text)
     except sr.UnknownValueError:
         pass
@@ -69,17 +70,17 @@ recognizer.pause_threshold = 0.5
 recognizer.dynamic_energy_threshold = True
 
 def listenfortts():
-    global recognizer
-    if accepttts and leftbuttonpressed:
-        with sr.Microphone() as mic:
-            recognizer.adjust_for_ambient_noise(mic)
-            try:
-                print("HELO")
-                audio = recognizer.listen(mic, timeout=100000,phrase_time_limit=1)
-                threading.Thread(target=lambda: process(audio, recognizer)).start()
-            except Exception as e:
-                print(e)
-    root.after(10, listenfortts)
+    while True:
+        global recognizer
+        if accepttts and leftbuttonpressed:
+            with sr.Microphone() as mic:
+                recognizer.adjust_for_ambient_noise(mic)
+                try:
+                    print("HELO")
+                    audio = recognizer.listen(mic, timeout=100000,phrase_time_limit=1)
+                    threading.Thread(target=lambda: process(audio, recognizer)).start()
+                except Exception as e:
+                    print(e)
 
 def drawStartingUI():
     global problem, accepttts
@@ -94,7 +95,7 @@ def drawStartingUI():
     problem.pack(fill=tk.X, expand=True)
     tk.Button(root, text = "Send request",command=start_thread).pack(fill=tk.X, expand=True)
     root.after(10, typeoutplaceholders)
-    root.after(10, listenfortts)
+    threading.Thread(target=listenfortts).start()
 
 def drawWorkingUI():
     accepttts = False
@@ -115,9 +116,6 @@ def askquestion(question):
     tk.Entry(root, textvariable=answervar).pack()
     tk.Button(root, text="Submit Answer", command=lambda:updateanswer(answervar)).pack()
 
-
-
-
 def leftButtonUpdated(pressed):
     global leftbuttonpressed, update
     leftbuttonpressed = pressed
@@ -128,4 +126,8 @@ def leftButtonUpdated(pressed):
 for i in root.winfo_children() + [root]:
     i.bind("<ButtonPress-1>", lambda x: leftButtonUpdated (True))
     i.bind("<ButtonRelease-1>", lambda x: leftButtonUpdated (False))
+def print_threads():
+    print(threading.active_count())
+    root.after(1, print_threads)
+root.after(1, print_threads)
 root.mainloop()
