@@ -97,6 +97,11 @@ def cleanhtml(html):
             for child in svg.find_all(True, recursive=True):
                 child.decompose()
             svg.decompose()
+        for tag in body.find_all(True, recursive=True):
+            try:
+                seleniumworker.driver.find_element(seleniumworker.By.ID, tag.get("id"))
+            except:
+                tag.decompose()
         for i in soup.find_all():
             if i.name in tagdict.keys():
                 tagdict[i.name] += 1
