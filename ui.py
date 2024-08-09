@@ -24,7 +24,7 @@ direction = 1
 update = True
 def typeoutplaceholders():
     global index, typingiteration, placeholder_text, direction, update
-    if not update:
+    if not update and not (leftbuttonpressed and accepttts):
         root.after(50, typeoutplaceholders)
         return
     else:
