@@ -23,10 +23,9 @@ def clickElement(identifier):
     for i in trials:
         try:
             element = driver.find_element(i, identifier)
-            actionchain = ActionChains(driver,duration=1)
+            actionchain = ActionChains(driver,duration=2)
             actionchain.move_to_element(to_element=element)
-            for i in range(100):
-                actionchain.click()
+            actionchain.click()
             actionchain.perform()
             identified = True
         except Exception as e:

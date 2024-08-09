@@ -10,12 +10,10 @@ with microphone as source:
     while True:
         print("Listening for input...")
         audio = recognizer.listen(source)
-
         try:
-            print("Sending it over to google to recognize")
             text = recognizer.recognize_google(audio)
-            print("You said: " + text)
+            print(text)
         except sr.UnknownValueError:
-            print("Google Speech Recognition could not understand audio")
+            pass
         except sr.RequestError as e:
             print("Could not request results from Google Speech Recognition service; {0}".format(e))

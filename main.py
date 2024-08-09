@@ -34,7 +34,6 @@ def process(problem):
             ui.askquestion(action.argument)
             while True:
                 if answer != None:
-                    print("HHERE")
                     break
             answers[action.argument] = answer
             print("done")

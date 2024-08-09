@@ -89,19 +89,20 @@ def cleanhtml(html):
     body = soup.find('body')
     
     if body:
-        for i in range(10):
-            for tag in body.find_all(['style', 'link', 'script', 'img', 'svg', 'css', 'path', 'video']):
+        for i in range(20):
+            for tag in body.find_all(['style', 'link', 'script', 'img', 'svg', 'css', 'video']):
                 tag.decompose()
         svgs = body.find_all('svg')
         for svg in svgs:
             for child in svg.find_all(True, recursive=True):
                 child.decompose()
             svg.decompose()
-        for tag in body.find_all(True, recursive=True):
+        for tag in body.find_all(True):
             try:
+                print(tag.get("id"))
                 seleniumworker.driver.find_element(seleniumworker.By.ID, tag.get("id"))
-            except:
-                tag.decompose()
+            except Exception as e:
+                pass#tag.decompose()
         for i in soup.find_all():
             if i.name in tagdict.keys():
                 tagdict[i.name] += 1
@@ -113,8 +114,4 @@ def cleanhtml(html):
         htmlhalfcleaned = re.sub(r'style="[^"]*"', '', htmlhalfcleaned)
         return htmlhalfcleaned
     else:
-        return ''
-
-if __name__ == "__main__":
-    response = querygpt("You are a helpful assistant", "Write an essay about ice cream on a summer's day", [])
-    print(response)
+        raise Exception("No body detected - HELP!!!")
