@@ -19,7 +19,7 @@ driver.set_window_size(1000,1000)
 
 def clickElement(identifier):
     identified = False
-    trials = [By.CLASS_NAME, By.CSS_SELECTOR, By.ID, By.LINK_TEXT, By.PARTIAL_LINK_TEXT, By.TAG_NAME, By.XPATH]
+    trials = [By.ID, By.CLASS_NAME, By.CSS_SELECTOR, By.LINK_TEXT, By.PARTIAL_LINK_TEXT, By.TAG_NAME, By.XPATH]
     for i in trials:
         try:
             element = driver.find_element(i, identifier)
@@ -29,10 +29,10 @@ def clickElement(identifier):
                 actionchain.click()
             actionchain.perform()
             identified = True
-        except:
-            pass
+        except Exception as e:
+            print(e)
     if not identified:
-        print("NADA")
+        print(identifier)
         raise Exception("Element not found")
     
 def type(text, questions):

@@ -104,7 +104,9 @@ def cleanhtml(html):
                 tagdict[i.name] = 1
         print(tagdict)
         htmlhalfcleaned = str(body)
-        return re.sub(r'class="[^"]*"', '', htmlhalfcleaned)
+        htmlhalfcleaned = re.sub(r'class="[^"]*"', '', htmlhalfcleaned)
+        htmlhalfcleaned = re.sub(r'style="[^"]*"', '', htmlhalfcleaned)
+        return htmlhalfcleaned
     else:
         return ''
 

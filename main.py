@@ -13,7 +13,7 @@ def process(problem):
     response = queryGPT.queryURL(problem)
     print("Queried URL")
     seleniumworker.driver.get(response)
-    time.sleep(10)
+    time.sleep(20)
     #Extract information
     actions = queryGPT.queryKeystrokes(seleniumworker.driver.page_source, problem)
     print(actions)
