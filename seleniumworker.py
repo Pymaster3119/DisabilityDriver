@@ -48,9 +48,12 @@ def type(text, questions):
     actionchain.perform()
 
 def press(button):
-    if button.lower() == "enter":
-        actionchain = ActionChains(driver)
-        actionchain.send_keys(Keys.RETURN)
+    actionchain = ActionChains(driver)
+    key = getattr(Keys, button.upper(), None)
+    if key is None:
+        raise Exception(f"Key {button} was not recognized - ur gpt screwed up")
+    else:
+        actionchain.send_keys(key)
         actionchain.perform()
 
 def clickintelligent(exp, questions):
