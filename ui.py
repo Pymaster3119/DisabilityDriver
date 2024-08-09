@@ -63,9 +63,21 @@ def process(audio, recognizer):
     except sr.UnknownValueError:
         pass
 
+
+recognizer = sr.Recognizer()
+recognizer.pause_threshold = 0.5
+recognizer.dynamic_energy_threshold = True
+
 def listenfortts():
+    global recognizer
     if accepttts and leftbuttonpressed:
-        pass
+        with sr.Microphone() as mic:
+            recognizer.adjust_for_ambient_noise(mic)
+            try:
+                audio = recognizer.listen(mic, timeout=100000,phrase_time_limit=1)
+                threading.Thread(target=lambda: process(audio, recognizer)).start()
+            except Exception as e:
+                print(e)
     root.after(10, listenfortts)
 
 def drawStartingUI():
@@ -108,6 +120,7 @@ def askquestion(question):
 def leftButtonUpdated(pressed):
     global leftbuttonpressed
     leftbuttonpressed = pressed
-root.bind("<ButtonPress-1>", )
-root.bind("<ButtonRelease-1>", )
+for i in root.winfo_children():
+    i.bind("<ButtonPress-1>", lambda x: leftButtonUpdated (True))
+    i.bind("<ButtonRelease-1>", lambda x: leftButtonUpdated (False))
 root.mainloop()
