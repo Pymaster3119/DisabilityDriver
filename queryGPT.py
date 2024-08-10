@@ -47,7 +47,7 @@ def queryKeystrokes(HTML, prompt):
     for i in links:
         prompt += i + "\n"
     links.append(seleniumworker.driver.current_url)
-    gpt_response = 'click("search")'#querygpt(system_text, prompt, [])
+    gpt_response = querygpt(system_text, prompt, [])
     print(gpt_response)
     drivingmessages.append((prompt, gpt_response))
     pattern = re.compile(r'(click|type|press|wait|returnhtml|askquestion|clickintelligent)\s*\(\s*"([^"]+)"\s*\)')
@@ -107,7 +107,6 @@ def cleanhtml(html):
             svg.decompose()
         for tag in body.find_all(id=True):
             try:
-                print(tag['id'])
                 seleniumworker.driver.find_element(seleniumworker.By.ID, tag['id'])
             except Exception as e:
                 tag.decompose()
