@@ -105,7 +105,7 @@ def cleanhtml(html):
             for child in svg.find_all(True, recursive=True):
                 child.decompose()
             svg.decompose()
-        for tag in body.find_all(id=True):
+        for tag in body.find_all():
             try:
                 seleniumworker.driver.find_element(seleniumworker.By.ID, tag['id'])
             except Exception as e:
@@ -119,6 +119,7 @@ def cleanhtml(html):
         htmlhalfcleaned = str(body)
         htmlhalfcleaned = re.sub(r'class="[^"]*"', '', htmlhalfcleaned)
         htmlhalfcleaned = re.sub(r'style="[^"]*"', '', htmlhalfcleaned)
+        htmlhalfcleaned = re.sub(r'<!--[\s\S]*?-->', '', htmlhalfcleaned)
         return htmlhalfcleaned
     else:
         raise Exception("No body detected - HELP!!!")

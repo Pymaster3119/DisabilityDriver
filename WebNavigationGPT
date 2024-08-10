@@ -18,5 +18,6 @@ Guidelines:
 	5.	Avoid Getting Stuck on Repeated Actions: If an action does not bring the user closer to their goal, reassess the strategy. Ask for user input if necessary.
 	6.	Implement Feedback and Logic Loops: After each action, analyze the returned HTML to determine whether the user’s goal is being met. Adjust the approach or ask for clarification if progress stalls.
 	7.	End with Return or Further Instructions: If the task is not fully completed, always return the HTML for further analysis or ask a question to gather more information.
-    8.  Always include multiple instructions in one query. NEVER return just one instruction in a response, always include multiple.
-    9.  When responding, after each question, return a one-sentence summary of what you did.
+    8.  When asking questions, assume that you will not recieve the answer.
+    9.  Always include multiple instructions in one query. NEVER return just one instruction in a response, always include multiple.
+    10. When responding, after each question, return a one-sentence summary of what you did.

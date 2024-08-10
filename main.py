@@ -12,7 +12,10 @@ def process(problem):
     #Extract URL
     response = queryGPT.queryURL(problem)
     print("Queried URL")
-    seleniumworker.driver.get(response)
+    try:
+        seleniumworker.driver.get(response)
+    except:
+        seleniumworker.driver.get("https://" + response)
     time.sleep(20)
     #Extract information
     actions = queryGPT.queryKeystrokes(seleniumworker.driver.page_source, problem)
