@@ -112,7 +112,7 @@ def askquestion(question):
 def leftButtonUpdated(pressed):
     global leftbuttonpressed, update
     leftbuttonpressed = pressed
-    if pressed:
+    if pressed and update:
         problem.delete(0, tk.END)
         problem.config(fg='black')
         update = False

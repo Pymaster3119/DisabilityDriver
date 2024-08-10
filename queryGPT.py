@@ -14,6 +14,7 @@ def queryURL(prompt):
     #Message 1 - Make GPT give you a search prompt
     with open("URLGPTSource", "r") as txt:
         system_text = txt.read()
+    print(prompt)
     gpt_response = querygpt(system_text, prompt, [])
     print("GPT RESPONSE:" + gpt_response)
     #Message 2 - Get a link
