@@ -1,5 +1,5 @@
 Prompt:Play me indian classical music
 HTML:
-<body dir="ltr" rounded-container=""><div  id="watch-page-skeleton"><div id="container"><div id="related"></div><div id="info-container"><div  id="primary-info"><div  id="title"></div><div id="info"><div  id="count"></div><div id="menu"></div></div></div><div  id="secondary-info"><div id="top-row"><div  id="video-owner"><div  id="channel-icon"></div><div  id="upload-info"><div  id="owner-name"></div><div  id="published-date"></div></div></div><div  id="subscribe-button"></div></div></div></div></div></div></body>
+<body dir="ltr" rounded-container=""></body>
 
-Current URL: https://www.youtube.com/playlist?list=PL7cR9QUuy_SKhzbLWWxxbYIsQtjatMBCK
+Current URL: https://www.youtube.com/results?search_query=indian+classical+music

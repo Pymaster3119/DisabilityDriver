@@ -79,9 +79,19 @@ def resendHTML(prompt, HTML, questions):
     HTML = cleanhtml(HTML)
     with open("WebNavigationGPT", "r") as txt:
         system_text = txt.read()
-    prompt= "Prompt: " + prompt + "\nHTML: " + HTML + "\nCurrentURL: " + seleniumworker.driver.current_url + "\npastURLs: " + str(links) + "\nquestions:" + str(questions)
+    prompt= "Prompt: " + prompt + "\nHTML: " + HTML + "\nCurrentURL: " + seleniumworker.driver.current_url + "\nPast URLs: " + str(links) + "\nQuestions:" + str(questions) + "\nPast Responses and Summaries:\n"
+    for idx, i in enumerate(drivingmessages):
+        prompt += '\t' + str(idx) + ". " + "\n\t\tDirections:"
+        directions = ""
+        message = i[1]
+        matches = re.finditer(r'(click|type|press|wait|returnhtml|askquestion|clickintelligent)\s*\(\s*"([^"]+)"\s*\)', message)
+        
+        for match in matches:
+            directions += "\n\t\t\t" + match
+            message = re.sub(match.re, '', message, count=1)
+        prompt += "\t\tSummary:\n" + message
     links.append(seleniumworker.driver.current_url)
-    gpt_response = querygpt(system_text, prompt, drivingmessages)
+    gpt_response = querygpt(system_text, prompt, [])
     print(gpt_response)
     drivingmessages.append((prompt, gpt_response))
     pattern = re.compile(r'(click|type|press|wait|returnhtml|askquestion|clickintelligent)\s*\(\s*"([^"]+)"\s*\)')
