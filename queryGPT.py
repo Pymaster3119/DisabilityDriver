@@ -120,6 +120,9 @@ def cleanhtml(html):
         print(currentlevel.clear())
         userinput = f'Current tag: {currentlevel.clear}\nParent: {parent}\nChildren:\n{children}'
         response = ""#querygpt(systemtext, userinput, messages)
+        match = re.match(r'<(\w+)>\("([^"]+)"\)')
+        command = match.group(1)
+        argument = match.group(2)
         messages.append((userinput, response))
     return ""
 
