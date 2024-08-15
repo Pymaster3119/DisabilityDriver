@@ -102,34 +102,27 @@ def resendHTML(prompt, HTML, questions):
 
 def cleanhtml(html):
     soup = BeautifulSoup(html, 'html.parser')
-    tagdict = {}
-    
-    body = soup.find('body')
-    
-    if body:
-        for i in range(20):
-            for tag in body.find_all(['style', 'link', 'script', 'img', 'svg', 'css', 'video']):
-                tag.decompose()
-        svgs = body.find_all('svg')
-        for svg in svgs:
-            for child in svg.find_all(True, recursive=True):
-                child.decompose()
-            svg.decompose()
-        for tag in body.find_all():
-            try:
-                seleniumworker.driver.find_element(seleniumworker.By.ID, tag['id'])
-            except Exception as e:
-                tag.decompose()
-        for i in soup.find_all():
-            if i.name in tagdict.keys():
-                tagdict[i.name] += 1
-            else:
-                tagdict[i.name] = 1
-        print(tagdict)
-        htmlhalfcleaned = str(body)
-        htmlhalfcleaned = re.sub(r'class="[^"]*"', '', htmlhalfcleaned)
-        htmlhalfcleaned = re.sub(r'style="[^"]*"', '', htmlhalfcleaned)
-        htmlhalfcleaned = re.sub(r'<!--[\s\S]*?-->', '', htmlhalfcleaned)
-        return htmlhalfcleaned
-    else:
-        raise Exception("No body detected - HELP!!!")
+    taglist = []
+    currentlevel = soup.find("html")
+    command = ""
+    with open("HTMLParser", "r") as txt:
+        systemtext = txt.read()
+    messages = []
+    while not 'done("fff")' in command:
+        parent = currentlevel.parent().clear()
+        print(parent)
+        children = currentlevel.find_all(recursive=False)
+        childrenstring = ""
+        for idx,i in enumerate(children):
+            i.clear()
+            childrenstring += f"{idx + 1}. {i}"
+
+        print(currentlevel.clear())
+        userinput = f'Current tag: {currentlevel.clear}\nParent: {parent}\nChildren:\n{children}'
+        response = ""#querygpt(systemtext, userinput, messages)
+        messages.append((userinput, response))
+    return ""
+
+if __name__ == "__main__":
+    with open("HTML.html", "r") as txt:
+        cleanhtml(txt.read())
