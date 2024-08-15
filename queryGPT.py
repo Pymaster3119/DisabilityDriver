@@ -38,7 +38,7 @@ links = []
 import seleniumworker
 def queryKeystrokes(HTML, prompt):
     global drivingmessages
-    HTML = cleanhtml(HTML)
+    HTML = cleanhtml(HTML, prompt)
     with open("WebNavigationGPT", "r") as txt:
         system_text = txt.read()
     prompt = "Prompt:" + prompt + "\nHTML:\n" + HTML + "\n\nCurrent URL: " + seleniumworker.driver.current_url
@@ -76,7 +76,7 @@ def querygpt(system_text, user_input, past_messages, gpt_model = "gpt-4o-mini"):
 
 def resendHTML(prompt, HTML, questions):
     global drivingmessages
-    HTML = cleanhtml(HTML)
+    HTML = cleanhtml(HTML, prompt)
     with open("WebNavigationGPT", "r") as txt:
         system_text = txt.read()
     prompt= "Prompt: " + prompt + "\nHTML: " + HTML + "\nCurrentURL: " + seleniumworker.driver.current_url + "\nPast URLs: " + str(links) + "\nQuestions:" + str(questions) + "\nPast Responses and Summaries:\n"
@@ -100,7 +100,7 @@ def resendHTML(prompt, HTML, questions):
     print(actions)
     return actions
 
-def cleanhtml(html):
+def cleanhtml(html, problem):
     soup = BeautifulSoup(html, 'html.parser')
     taglist = []
     currentlevel = soup.find("html")
@@ -118,15 +118,16 @@ def cleanhtml(html):
             childrenstring += f"{idx + 1}. {i}"
 
         print(currentlevel.clear())
-        userinput = f'Current tag: {currentlevel.clear()}\nParent: {parent}\nChildren:\n{children}'
-        response = ""#querygpt(systemtext, userinput, messages)
+        userinput = f'Problem; {problem}\nCurrent tag: {currentlevel.clear()}\nParent: {parent}\nChildren:\n{children}'
+        print(userinput)
+        response = "1"#querygpt(systemtext, userinput, messages)
         match = re.match(r'<(\w+)>\("([^"]+)"\)')
         command = match.group(1)
         argument = match.group(2)
         if command == "up":
             currentlevel = currentlevel.parent
         elif command == "down":
-            currentlevel = soup.find(argument)
+            currentlevel = currentlevel.find_all(recursive=False)[int(argument)]
         elif command == "add":
             taglist.append(currentlevel.clear())
         messages.append((userinput, response))
@@ -134,4 +135,4 @@ def cleanhtml(html):
 
 if __name__ == "__main__":
     with open("HTML.html", "r") as txt:
-        cleanhtml(txt.read())
+        cleanhtml(txt.read(), "What does this webpage say?")
