@@ -100,7 +100,25 @@ def resendHTML(prompt, HTML, questions):
     print(actions)
     return actions
 
+def produceMinimap(element):
+    minimap = ''
+    
+    if element.name:
+        minimap += f"<{element.name}>\n"
+    if element.string and element.string.strip():
+        minimap += element.string.strip() + "\n"
+    if hasattr(element, 'children'):
+        for child in element.children:
+            minimap += produceMinimap(child)
+    
+    if element.name:
+        minimap += f"</{element.name}>\n"
+    
+    return minimap
+
 def cleanhtml(html, problem):
+    if html.strip().lower().startswith('<!doctype'):
+        html = html.split('>', 1)[1]
     soup = BeautifulSoup(html, 'html.parser')
     taglist = []
     currentlevel = soup.find("html")
@@ -108,6 +126,9 @@ def cleanhtml(html, problem):
     with open("HTMLParser", "r") as txt:
         systemtext = txt.read()
     messages = []
+
+    minimap = produceMinimap(soup)
+    print(minimap)
     while not 'done("fff")' in command:
         parent = currentlevel.parent().clear()
         print(parent)
@@ -120,8 +141,9 @@ def cleanhtml(html, problem):
         print(currentlevel.clear())
         userinput = f'Problem; {problem}\nCurrent tag: {currentlevel.clear()}\nParent: {parent}\nChildren:\n{children}'
         print(userinput)
-        response = "1"#querygpt(systemtext, userinput, messages)
-        match = re.match(r'<(\w+)>\("([^"]+)"\)')
+        response = querygpt(systemtext, userinput, messages)
+        print(response)
+        match = re.match(r'<(\w+)>\("([^"]+)"\)', response)
         command = match.group(1)
         argument = match.group(2)
         if command == "up":
