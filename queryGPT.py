@@ -143,12 +143,14 @@ def cleanhtml(html, problem):
         print(userinput)
         response = querygpt(systemtext, userinput, messages)
         print(response)
-        match = re.match(r'<(\w+)>\("([^"]+)"\)', response)
+        match = re.match(r'(\w+)\("([^"]+)"\)', response)
         command = match.group(1)
         argument = match.group(2)
         if command == "up":
             currentlevel = currentlevel.parent
         elif command == "down":
+            print(int(argument))
+            print(currentlevel.find_all(recursive=False))
             currentlevel = currentlevel.find_all(recursive=False)[int(argument)]
         elif command == "add":
             taglist.append(currentlevel.clear())
@@ -157,4 +159,4 @@ def cleanhtml(html, problem):
 
 if __name__ == "__main__":
     with open("HTML.html", "r") as txt:
-        cleanhtml(txt.read(), "What does this webpage say?")
+        cleanhtml(txt.read(), "What is this website's title?")
