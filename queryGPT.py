@@ -105,8 +105,8 @@ def produceMinimap(element):
     
     if element.name:
         minimap += f"<{element.name}>\n"
-    if element.string and element.string.strip():
-        minimap += element.string.strip() + "\n"
+    if isinstance(element, str) or isinstance(element, bs4.NavigableString):
+        minimap += element.strip() + "\n"
     if hasattr(element, 'children'):
         for child in element.children:
             minimap += produceMinimap(child)
