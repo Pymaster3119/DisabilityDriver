@@ -128,19 +128,21 @@ def cleanhtml(html, problem):
     messages = []
 
     minimap = produceMinimap(soup)
-    print(minimap)
     while not 'done("fff")' in command:
-        parent = currentlevel.parent().clear()
+        print(currentlevel)
+        try:
+            parent = currentlevel.parent().clear()
+        except:
+            parent = None
         print(parent)
         children = currentlevel.find_all(recursive=False)
+        childrenuncut = children
         childrenstring = ""
         for idx,i in enumerate(children):
             i.clear()
             childrenstring += f"{idx + 1}. {i}"
 
-        print(currentlevel.clear())
         userinput = f'Minimap: {minimap}\nProblem; {problem}\nCurrent tag: {currentlevel.clear()}\nParent: {parent}\nChildren:\n{children}'
-        print(userinput)
         response = querygpt(systemtext, userinput, messages)
         print(response)
         match = re.match(r'(\w+)\("([^"]+)"\)', response)
@@ -150,8 +152,8 @@ def cleanhtml(html, problem):
             currentlevel = currentlevel.parent
         elif command == "down":
             print(int(argument))
-            print(currentlevel.find_all(recursive=False))
-            currentlevel = currentlevel.find_all(recursive=False)[int(argument)]
+            print(childrenuncut[int(argument)])
+            currentlevel = childrenuncut[int(argument)]
         elif command == "add":
             taglist.append(currentlevel.clear())
         messages.append((userinput, response))
