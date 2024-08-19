@@ -139,7 +139,7 @@ def cleanhtml(html, problem):
             childrenstring += f"{idx + 1}. {i}"
 
         print(currentlevel.clear())
-        userinput = f'Problem; {problem}\nCurrent tag: {currentlevel.clear()}\nParent: {parent}\nChildren:\n{children}'
+        userinput = f'Minimap: {minimap}\nProblem; {problem}\nCurrent tag: {currentlevel.clear()}\nParent: {parent}\nChildren:\n{children}'
         print(userinput)
         response = querygpt(systemtext, userinput, messages)
         print(response)
