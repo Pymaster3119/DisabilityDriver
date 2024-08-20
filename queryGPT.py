@@ -117,43 +117,37 @@ def produceminimap(element):
 def cleanhtml(html, problem):
     
     if html.strip().lower().startswith('<!doctype'):
-        html = html.split('>', 1)[1]
-
+        html = html.split('>', 1)[1]    
     soup = BeautifulSoup(html, 'html.parser')
     current_tag = soup.find("html")
+
     with open("HTMLParser", "r") as file:
         system_text = file.read()
-
     command = ""
     messages = []
     minimap = ''
+    
     for tag in soup.find_all(recursive=True):
         print(f"Tag: {tag.name}, Parent: {tag.parent.name if tag.parent else 'None'}")
-
     while 'done("fff")' not in command:
         print(f"Current tag: {current_tag}, Parent: {current_tag.parent}")
-
-    
         parent_tag = current_tag.parent
         if parent_tag:
             parent_tag.clear()
-        children = list(current_tag.children)
-        children = [child for child in current_tag.children if not isinstance(child, str)]
-        children_list = '\n'.join([f"{idx + 1}. {str(child)}" for idx, child in enumerate(children)])
-        user_input = (f"Minimap: {minimap}\nProblem: {problem}\nCurrent tag: {current_tag.clear()}\nParent: {parent_tag}\nChildren:\n{children_list}")
 
+        children = [child for child in current_tag.children if not isinstance(child, str) or isinstance(child, bs4.NavigableString)]
+        children_list = '\n'.join([f"{idx + 1}. {str(child)}" for idx, child in enumerate(children)])
+        user_input = f"Minimap: {minimap}\nProblem: {problem}\nCurrent tag: {current_tag.clear()}\nParent: {parent_tag}\nChildren:\n{children_list}"
         response = querygpt(system_text, user_input, messages)
         match = re.match(r'(\w+)\("([^"]+)"\)', response)
         if match:
             command, argument = match.groups()
-            if command == "up":
+            if command == "up" and current_tag.parent:
                 current_tag = current_tag.parent
             elif command == "down" and children:
-                print(children)
                 current_tag = children[int(argument)]
             elif command == "add":
-                messages.append(current_tag.clear())
-
+                messages.append(f"{current_tag.clear()} {current_tag.parent}")
         messages.append((user_input, response))
 
     return ""
