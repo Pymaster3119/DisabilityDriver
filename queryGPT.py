@@ -35,7 +35,7 @@ def queryURL(prompt):
 
 drivingmessages = []
 links = []
-import seleniumworker
+#import seleniumworker
 def queryKeystrokes(HTML, prompt):
     global drivingmessages
     HTML = cleanhtml(HTML, prompt)
@@ -127,36 +127,37 @@ def cleanhtml(html, problem):
         systemtext = txt.read()
     messages = []
 
-    minimap = produceMinimap(soup)
+    #minimap = produceMinimap(soup)
+    minimap = ''
+    for i in soup.find_all(recursive=True):
+        print(f"Current level: {i.name}, Parent: {i.parent.name if i.parent else 'None'}")
     while not 'done("fff")' in command:
-        print(currentlevel)
-        try:
-            parent = currentlevel.parent().clear()
-        except:
-            parent = None
-        print(parent)
+        #print(currentlevel)
+        print(f"Current level: {currentlevel.name}, Parent: {currentlevel.parent.name if currentlevel.parent else 'None'}")
+        parent = currentlevel.parent
+        parent = parent.clear()
+        #print(parent)
         children = currentlevel.find_all(recursive=False)
         childrenuncut = children
+        print(childrenuncut)
         childrenstring = ""
         for idx,i in enumerate(children):
             i.clear()
             childrenstring += f"{idx + 1}. {i}"
 
         userinput = f'Minimap: {minimap}\nProblem; {problem}\nCurrent tag: {currentlevel.clear()}\nParent: {parent}\nChildren:\n{children}'
-        response = querygpt(systemtext, userinput, messages)
-        print(response)
+        response = 'down("0")'#querygpt(systemtext, userinput, messages)
         match = re.match(r'(\w+)\("([^"]+)"\)', response)
         command = match.group(1)
         argument = match.group(2)
         if command == "up":
             currentlevel = currentlevel.parent
         elif command == "down":
-            print(int(argument))
-            print(childrenuncut[int(argument)])
             currentlevel = childrenuncut[int(argument)]
         elif command == "add":
             taglist.append(currentlevel.clear())
         messages.append((userinput, response))
+
     return ""
 
 if __name__ == "__main__":
