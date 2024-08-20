@@ -115,25 +115,16 @@ def produceminimap(element):
     return minimap
 
 def addelement(output, tag):
-    
-    added_tags = set()
-
-    
-    tags_to_add = []
-
-    
-    while tag:
-        tag_name = tag.name
-        if tag_name and tag_name not in added_tags:
-            tags_to_add.append(tag_name)
-            added_tags.add(tag_name)
-        tag = tag.parent
-
-    
-    if tags_to_add:  
-        output += '\n'.join(reversed(tags_to_add)) + '\n'
-    
+    seen_tags = set()
+    current = tag
+    while current:
+        if current.name and current.name not in seen_tags:
+            seen_tags.add(current.name)
+            output = f"{current.name}\n{output}"
+        current = current.parent
+        
     return output
+
 def cleanhtml(html, problem):
     
     if html.strip().lower().startswith('<!doctype'):
@@ -178,4 +169,9 @@ def cleanhtml(html, problem):
 
 if __name__ == "__main__":
     with open("HTML.html", "r") as txt:
+        # soup = BeautifulSoup(txt.read(), 'html.parser')
+        # body_tag = soup.find('body')
+        # output = ''
+        # output = addelement(output, body_tag)
+        # print(output)
         cleanhtml(txt.read(), "What is this website's title?")
