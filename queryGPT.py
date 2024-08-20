@@ -35,7 +35,7 @@ def queryURL(prompt):
 
 drivingmessages = []
 links = []
-#import seleniumworker
+import seleniumworker
 def queryKeystrokes(HTML, prompt):
     global drivingmessages
     HTML = cleanhtml(HTML, prompt)
@@ -100,17 +100,15 @@ def resendHTML(prompt, HTML, questions):
     print(actions)
     return actions
 
-def produceMinimap(element):
+def produceminimap(element):
     minimap = ''
-    
     if element.name:
         minimap += f"<{element.name}>\n"
-    if isinstance(element, str) or isinstance(element, bs4.NavigableString):
+    if isinstance(element, (str, bs4.NavigableString)):
         minimap += element.strip() + "\n"
     if hasattr(element, 'children'):
         for child in element.children:
-            minimap += produceMinimap(child)
-    
+            minimap += produceminimap(child)
     if element.name:
         minimap += f"</{element.name}>\n"
     
@@ -133,29 +131,25 @@ def cleanhtml(html, problem):
         print(f"Tag: {tag.name}, Parent: {tag.parent.name if tag.parent else 'None'}")
 
     while 'done("fff")' not in command:
-        print(f"Current tag: {current_tag.name}, Parent: {current_tag.parent.name if current_tag.parent else 'None'}")
+        print(f"Current tag: {current_tag}, Parent: {current_tag.parent}")
 
     
         parent_tag = current_tag.parent
         if parent_tag:
             parent_tag.clear()
         children = list(current_tag.children)
+        children = [child for child in current_tag.children if not isinstance(child, str)]
         children_list = '\n'.join([f"{idx + 1}. {str(child)}" for idx, child in enumerate(children)])
-        user_input = (
-            f"Minimap: {minimap}\n"
-            f"Problem: {problem}\n"
-            f"Current tag: {current_tag.clear()}\n"
-            f"Parent: {parent_tag}\n"
-            f"Children:\n{children_list}"
-        )
+        user_input = (f"Minimap: {minimap}\nProblem: {problem}\nCurrent tag: {current_tag.clear()}\nParent: {parent_tag}\nChildren:\n{children_list}")
 
-        response = 'down("0")' 
+        response = querygpt(system_text, user_input, messages)
         match = re.match(r'(\w+)\("([^"]+)"\)', response)
         if match:
             command, argument = match.groups()
             if command == "up":
                 current_tag = current_tag.parent
             elif command == "down" and children:
+                print(children)
                 current_tag = children[int(argument)]
             elif command == "add":
                 messages.append(current_tag.clear())
