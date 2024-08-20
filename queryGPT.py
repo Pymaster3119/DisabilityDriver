@@ -114,17 +114,38 @@ def produceminimap(element):
     
     return minimap
 
+def addelement(output, tag):
+    
+    added_tags = set()
+
+    
+    tags_to_add = []
+
+    
+    while tag:
+        tag_name = tag.name
+        if tag_name and tag_name not in added_tags:
+            tags_to_add.append(tag_name)
+            added_tags.add(tag_name)
+        tag = tag.parent
+
+    
+    if tags_to_add:  
+        output += '\n'.join(reversed(tags_to_add)) + '\n'
+    
+    return output
 def cleanhtml(html, problem):
     
     if html.strip().lower().startswith('<!doctype'):
         html = html.split('>', 1)[1]    
     soup = BeautifulSoup(html, 'html.parser')
-    current_tag = soup.find("html")
+    current_tag = soup.find("body")
 
     with open("HTMLParser", "r") as file:
         system_text = file.read()
     command = ""
     messages = []
+    output = ''
     minimap = ''
     
     for tag in soup.find_all(recursive=True):
@@ -138,7 +159,7 @@ def cleanhtml(html, problem):
         children = [child for child in current_tag.children if not isinstance(child, str) or isinstance(child, bs4.NavigableString)]
         children_list = '\n'.join([f"{idx + 1}. {str(child)}" for idx, child in enumerate(children)])
         user_input = f"Minimap: {minimap}\nProblem: {problem}\nCurrent tag: {current_tag.clear()}\nParent: {parent_tag}\nChildren:\n{children_list}"
-        response = querygpt(system_text, user_input, messages)
+        response = 'add("FFF")'#querygpt(system_text, user_input, messages)
         match = re.match(r'(\w+)\("([^"]+)"\)', response)
         if match:
             command, argument = match.groups()
@@ -147,10 +168,13 @@ def cleanhtml(html, problem):
             elif command == "down" and children:
                 current_tag = children[int(argument)]
             elif command == "add":
-                messages.append(f"{current_tag.clear()} {current_tag.parent}")
+                output = addelement(output, current_tag)
+                command = 'done("fff")'
         messages.append((user_input, response))
 
-    return ""
+    print('\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n')
+    print(output)
+    return output
 
 if __name__ == "__main__":
     with open("HTML.html", "r") as txt:
