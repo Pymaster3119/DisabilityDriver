@@ -119,45 +119,40 @@ def produceMinimap(element):
 def cleanhtml(html, problem):
     if html.strip().lower().startswith('<!doctype'):
         html = html.split('>', 1)[1]
+
     soup = BeautifulSoup(html, 'html.parser')
-    taglist = []
-    currentlevel = soup.find("html")
-    command = ""
+    current_level = soup.find("html")
+
     with open("HTMLParser", "r") as txt:
-        systemtext = txt.read()
+        system_text = txt.read()
+
+    command = ""
     messages = []
+    minimap = ''#produceMinimap(current_level)
+    for tag in soup.find_all(recursive=True):
+        print(f"Tag: {tag.name}, Parent: {tag.parent.name if tag.parent else 'None'}")
 
-    #minimap = produceMinimap(soup)
-    minimap = ''
-    for i in soup.find_all(recursive=True):
-        print(f"Current level: {i.name}, Parent: {i.parent.name if i.parent else 'None'}")
-    while not 'done("fff")' in command:
-        #print(currentlevel)
-        print(f"Current level: {currentlevel.name}, Parent: {currentlevel.parent.name if currentlevel.parent else 'None'}")
-        parent = currentlevel.parent
-        parent = parent.clear()
-        #print(parent)
-        children = currentlevel.find_all(recursive=False)
-        childrenuncut = children
-        print(childrenuncut)
-        childrenstring = ""
-        for idx,i in enumerate(children):
-            i.clear()
-            childrenstring += f"{idx + 1}. {i}"
+    while 'done("fff")' not in command:
+        print(f"Current tag: {current_level.name}, Parent: {current_level.parent.name if current_level.parent else 'None'}")
 
-        userinput = f'Minimap: {minimap}\nProblem; {problem}\nCurrent tag: {currentlevel.clear()}\nParent: {parent}\nChildren:\n{children}'
-        response = 'down("0")'#querygpt(systemtext, userinput, messages)
+        parent = current_level.parent
+        if parent:
+            parent.clear()
+
+        children = current_level.children
+        children_list = '\n'.join([f"{idx + 1}. {child}" for idx, child in enumerate(children)])
+        user_input = f"Minimap: {minimap}\nProblem: {problem}\nCurrent tag: {current_level.clear()}\nParent: {parent}\nChildren:\n{children_list}"
+        response = 'down("0")'  # querygpt(system_text, user_input, messages)
         match = re.match(r'(\w+)\("([^"]+)"\)', response)
-        command = match.group(1)
-        argument = match.group(2)
+        command, argument = match.groups()
         if command == "up":
-            currentlevel = currentlevel.parent
+            current_level = current_level.parent
         elif command == "down":
-            print(currentlevel.find_all(recursive=False))
-            currentlevel = childrenuncut[int(argument)]
+            print(type(children))
+            current_level = children[int(argument)]
         elif command == "add":
-            taglist.append(currentlevel.clear())
-        messages.append((userinput, response))
+            messages.append(current_level.clear())
+        messages.append((user_input, response))
 
     return ""
 
