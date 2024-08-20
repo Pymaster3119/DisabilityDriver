@@ -117,25 +117,21 @@ def produceminimap(element):
 def addelement(output, tag, seen_tags=None):
     if seen_tags is None:
         seen_tags = set()
-
-    tag_hierarchy = []
+    top_tag = None
     current = tag
-
-    
     while current:
         if current not in seen_tags:
             seen_tags.add(current)
-            
             tag_clone = current.__copy__()
             for child in tag_clone.find_all(True):
                 child.extract()
+            if top_tag:
+                tag_clone.append(top_tag)
+            top_tag = tag_clone
 
-            tag_hierarchy.append(tag_clone)
         current = current.parent
-
-    
-    for tag_clone in reversed(tag_hierarchy):
-        output += str(tag_clone) + '\n'
+    if top_tag:
+        output += str(top_tag) + '\n'
 
     return output, seen_tags
 
@@ -198,13 +194,8 @@ if __name__ == "__main__":
         body_tag = soup.find('body')
         output = ''
         seen_tags = set()
-
-        
         output, seen_tags = addelement(output, body_tag, seen_tags)
-
-        
         head_tag = soup.find('head')
         output, seen_tags = addelement(output, head_tag, seen_tags)
-
         print(output)
         #cleanhtml(txt.read(), "What is this website's title?")
