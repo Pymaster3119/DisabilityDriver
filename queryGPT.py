@@ -114,26 +114,22 @@ def produceminimap(element):
     
     return minimap
 
-def addelement(output, tag, seen_tags=None):
-    if seen_tags is None:
-        seen_tags = set()
-    top_tag = None
-    current = tag
-    while current:
-        if current not in seen_tags:
-            seen_tags.add(current)
-            tag_clone = current.__copy__()
-            for child in tag_clone.find_all(True):
-                child.extract()
-            if top_tag:
-                tag_clone.append(top_tag)
-            top_tag = tag_clone
+def addelement(tags_list):
+    output = ""
+    current_tag = None
 
-        current = current.parent
-    if top_tag:
-        output += str(top_tag) + '\n'
+    for tag in reversed(tags_list):
+        if current_tag:
+            # Append the current tag as a child of the next tag in the list
+            tag.append(current_tag)
 
-    return output, seen_tags
+        current_tag = tag
+
+    if current_tag:
+        # Convert the final top-level tag to a string
+        output = str(current_tag)
+
+    return output
 
 def cleanhtml(html, problem):
     if html.strip().lower().startswith('<!doctype'):
@@ -192,10 +188,7 @@ if __name__ == "__main__":
     with open("HTML.html", "r") as txt:
         soup = BeautifulSoup(txt.read(), 'html.parser')
         body_tag = soup.find('body')
-        output = ''
-        seen_tags = set()
-        output, seen_tags = addelement(output, body_tag, seen_tags)
         head_tag = soup.find('head')
-        output, seen_tags = addelement(output, head_tag, seen_tags)
+        output = addelement([body_tag, head_tag])
         print(output)
         #cleanhtml(txt.read(), "What is this website's title?")
