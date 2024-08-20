@@ -126,7 +126,6 @@ def addelement(output, tag):
     return output
 
 def cleanhtml(html, problem):
-    
     if html.strip().lower().startswith('<!doctype'):
         html = html.split('>', 1)[1]    
     soup = BeautifulSoup(html, 'html.parser')
@@ -138,19 +137,24 @@ def cleanhtml(html, problem):
     messages = []
     output = ''
     minimap = ''
-    
-    for tag in soup.find_all(recursive=True):
-        print(f"Tag: {tag.name}, Parent: {tag.parent.name if tag.parent else 'None'}")
-    while 'done("fff")' not in command:
-        print(f"Current tag: {current_tag}, Parent: {current_tag.parent}")
-        parent_tag = current_tag.parent
-        if parent_tag:
-            parent_tag.clear()
+    done = False
 
+    while 'done("' not in command:
+        print("Here")
+        print(f"Current tag: {current_tag}, Parent: {current_tag.parent}")
+
+        parent_tag = current_tag.parent
+        
         children = [child for child in current_tag.children if not isinstance(child, str) or isinstance(child, bs4.NavigableString)]
         children_list = '\n'.join([f"{idx + 1}. {str(child)}" for idx, child in enumerate(children)])
-        user_input = f"Minimap: {minimap}\nProblem: {problem}\nCurrent tag: {current_tag.clear()}\nParent: {parent_tag}\nChildren:\n{children_list}"
-        response = 'add("FFF")'#querygpt(system_text, user_input, messages)
+
+        user_input = f"Minimap: {minimap}\nProblem: {problem}\nCurrent tag: {current_tag.name if current_tag else 'None'}\nParent: {parent_tag.name if parent_tag else 'None'}\nChildren:\n{children_list}"
+        
+        response = 'add("fff")'  #querygpt(system_text, user_input, messages)
+        
+        if done:
+            current_tag = soup.find("head")
+
         match = re.match(r'(\w+)\("([^"]+)"\)', response)
         if match:
             command, argument = match.groups()
@@ -160,7 +164,13 @@ def cleanhtml(html, problem):
                 current_tag = children[int(argument)]
             elif command == "add":
                 output = addelement(output, current_tag)
-                command = 'done("fff")'
+                if done == True:
+                    command = 'done("fff")'
+                done = True
+        
+        if parent_tag:
+            parent_tag.clear()
+        
         messages.append((user_input, response))
 
     print('\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n')
