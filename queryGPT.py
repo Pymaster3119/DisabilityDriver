@@ -153,6 +153,7 @@ def cleanhtml(html, problem):
         if command == "up":
             currentlevel = currentlevel.parent
         elif command == "down":
+            print(currentlevel.find_all(recursive=False))
             currentlevel = childrenuncut[int(argument)]
         elif command == "add":
             taglist.append(currentlevel.clear())
