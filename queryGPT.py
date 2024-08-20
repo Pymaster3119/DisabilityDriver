@@ -141,6 +141,10 @@ def cleanhtml(html, problem):
 
     while 'done("' not in command:
         print("Here")
+
+        if done:
+            current_tag = soup.find_all("title", recursive=True)[0 ]
+        print(current_tag)
         print(f"Current tag: {current_tag}, Parent: {current_tag.parent}")
 
         parent_tag = current_tag.parent
@@ -151,9 +155,6 @@ def cleanhtml(html, problem):
         user_input = f"Minimap: {minimap}\nProblem: {problem}\nCurrent tag: {current_tag.name if current_tag else 'None'}\nParent: {parent_tag.name if parent_tag else 'None'}\nChildren:\n{children_list}"
         
         response = 'add("fff")'  #querygpt(system_text, user_input, messages)
-        
-        if done:
-            current_tag = soup.find("head")
 
         match = re.match(r'(\w+)\("([^"]+)"\)', response)
         if match:
@@ -179,9 +180,11 @@ def cleanhtml(html, problem):
 
 if __name__ == "__main__":
     with open("HTML.html", "r") as txt:
-        # soup = BeautifulSoup(txt.read(), 'html.parser')
-        # body_tag = soup.find('body')
-        # output = ''
-        # output = addelement(output, body_tag)
-        # print(output)
-        cleanhtml(txt.read(), "What is this website's title?")
+        soup = BeautifulSoup(txt.read(), 'html.parser')
+        body_tag = soup.find('body')
+        output = ''
+        output = addelement(output, body_tag)
+        head_tag = soup.find('head')
+        output = addelement(output, head_tag)
+        print(output)
+        #cleanhtml(txt.read(), "What is this website's title?")
