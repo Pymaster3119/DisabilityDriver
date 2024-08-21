@@ -150,20 +150,24 @@ def produceminimap(element, selected):
 
 def processnode(soup, element, tags):
     if element in tags:
+        element.keepme = True
         return True
     if hasattr(element, 'children'):
         for c in element.children:
             if processnode(soup, c, tags):
-                element.mark = True
+                element.keepme = True
                 return True
     return False
 
 def deleteunmarked(soup, element):
-    for c in element.children:
-        if not hasattr(c, "mark"):
-            soup.decompose(c)
-        else:
-            deleteunmarked(soup, c)
+    if hasattr(element, 'children'):
+        for c in element.children:
+            if isinstance(c, bs4.Tag):
+                if c.keepme != True:
+                    c.decompose()
+                else:
+                    deleteunmarked(soup, c)
+            
 
 def addelement(tags_list, soup):
     processnode(soup, soup.find("html"), tags_list)
