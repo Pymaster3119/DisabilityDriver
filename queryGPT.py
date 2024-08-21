@@ -123,29 +123,20 @@ def addelement(tags_list):
     
     def add_element(element):
         if element.name not in added_tags:
-            # Create and add the tag
             new_tag = soup.new_tag(element.name, **element.attrs)
             added_tags[element.name] = new_tag
-            
-            # Add the tag to its parent
             if element.parent:
                 parent_tag_name = element.parent.name
                 if parent_tag_name in added_tags:
                     added_tags[parent_tag_name].append(new_tag)
                 else:
-                    # Add parent tag if it's not already added
                     add_element(element.parent)
                     added_tags[element.parent.name].append(new_tag)
             else:
-                # If no parent, append to the root
                 soup.append(new_tag)
-    
-    # Process each tag in the list
     for tag in tags_list:
         add_element(tag)
-
-    # Get the root tag and format the document
-    root_tag = soup.find(True)  # Find the first non-empty tag
+    root_tag = soup.find(True)
     if root_tag:
         return str(BeautifulSoup(root_tag.prettify(), "html.parser"))
     return ""
