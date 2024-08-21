@@ -115,10 +115,7 @@ def produceminimap(element):
     return minimap
 
 def addelement(tags_list):
-    # Create a new BeautifulSoup object with an empty document
     soup = BeautifulSoup("", "html.parser")
-    
-    # Create a dictionary to track added tags by their names
     added_tags = {}
     
     def add_element(element):
