@@ -123,25 +123,24 @@ def addelement(tags_list):
     soup = BeautifulSoup("", "html.parser")
     added_tags = {}
     
-    def add_element(element):
-        if element.name not in added_tags:
-            new_tag = soup.new_tag(element.name, **element.attrs)
-            added_tags[element.name] = new_tag
-            if element.parent:
-                parent_tag_name = element.parent.name
-                if parent_tag_name in added_tags:
-                    added_tags[parent_tag_name].append(new_tag)
-                else:
-                    add_element(element.parent)
-                    added_tags[element.parent.name].append(new_tag)
-            else:
-                soup.append(new_tag)
     for tag in tags_list:
-        add_element(tag)
-    root_tag = soup.find(True)
-    if root_tag:
-        return str(BeautifulSoup(root_tag.prettify(), "html.parser"))
-    return ""
+        #Loop through all parents and find the greatest nonexistant one
+        parent = tag
+        toadd = []
+        while not soup.find_all(lambda temp: temp.name == parent.name and temp.attrs == parent.attrs and temp.decode_contents() == parent.decode_contents()):
+            toadd.append(parent)
+            parent = parent.parent
+        #Add elements in reverse order
+        toaddtag = reversed(toadd)
+        for toaddtag in toadd:
+            if toaddtag != parent:
+                parent.append(toaddtag)
+                parent = toaddtag
+    #Return clean version
+    return str(soup.prettify())
+        
+
+
 
 def cleanhtml(html, problem):
     if html.strip().lower().startswith('<!doctype'):
@@ -167,19 +166,22 @@ def cleanhtml(html, problem):
         
         response = querygpt(system_text, user_input, messages)
         print(response)
-        print(children)
         match = re.match(r'(\w+)\("([^"]+)"\)', response)
         if match:
             command, argument = match.groups()
             if command == "up" and current_tag.parent:
                 current_tag = current_tag.parent
-            elif command == "down" and children and 0 <= int(argument) < len(children):
+            elif command == "down":
+                print(children[int(argument) - 1])
                 current_tag = children[int(argument) - 1]
-            elif command == "add":
+            elif command == "addtoheirarchy":
                 output.append(current_tag)
         if parent_tag:
             parent_tag.clear()
         messages.append((user_input, response))
+
+    print("\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n")
+    print(output)
     return addelement(output)
 
 if __name__ == "__main__":
@@ -189,4 +191,4 @@ if __name__ == "__main__":
         # head_tag = soup.find('head')
         # output = addelement([body_tag, head_tag])
         # print(output)
-        cleanhtml(txt.read(), "What is this website's title?")
+        print(cleanhtml(txt.read(), "What is this website's title?"))
