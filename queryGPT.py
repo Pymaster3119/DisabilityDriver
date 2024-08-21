@@ -115,21 +115,40 @@ def produceminimap(element):
     return minimap
 
 def addelement(tags_list):
-    output = ""
-    current_tag = None
+    # Create a new BeautifulSoup object with an empty document
+    soup = BeautifulSoup("", "html.parser")
+    
+    # Create a dictionary to track added tags by their names
+    added_tags = {}
+    
+    def add_element(element):
+        if element.name not in added_tags:
+            # Create and add the tag
+            new_tag = soup.new_tag(element.name, **element.attrs)
+            added_tags[element.name] = new_tag
+            
+            # Add the tag to its parent
+            if element.parent:
+                parent_tag_name = element.parent.name
+                if parent_tag_name in added_tags:
+                    added_tags[parent_tag_name].append(new_tag)
+                else:
+                    # Add parent tag if it's not already added
+                    add_element(element.parent)
+                    added_tags[element.parent.name].append(new_tag)
+            else:
+                # If no parent, append to the root
+                soup.append(new_tag)
+    
+    # Process each tag in the list
+    for tag in tags_list:
+        add_element(tag)
 
-    for tag in reversed(tags_list):
-        if current_tag:
-            # Append the current tag as a child of the next tag in the list
-            tag.append(current_tag)
-
-        current_tag = tag
-
-    if current_tag:
-        # Convert the final top-level tag to a string
-        output = str(current_tag)
-
-    return output
+    # Get the root tag and format the document
+    root_tag = soup.find(True)  # Find the first non-empty tag
+    if root_tag:
+        return str(BeautifulSoup(root_tag.prettify(), "html.parser"))
+    return ""
 
 def cleanhtml(html, problem):
     if html.strip().lower().startswith('<!doctype'):
