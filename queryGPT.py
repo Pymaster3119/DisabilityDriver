@@ -103,19 +103,20 @@ def resendHTML(prompt, HTML, questions):
 def produceminimap(element, selected):
     minimap = ''
     if element.name:
-        attributes = ' '.join([f'{attr}="{value}"' for attr, value in element.attrs.items()])
-        minimap += f"<{element.name}{' ' + attributes if attributes else ''}>"
+        minimap += f"<{element.name}>"
     if isinstance(element, (str, bs4.NavigableString)):
-        minimap += element.strip()
+        minimap += element.strip() + ""
     if hasattr(element, 'children'):
         for child in element.children:
             minimap += produceminimap(child, selected)
     if element.name:
         minimap += f"</{element.name}>"
+    
     if element == selected:
         minimap += "<---------"
     if not isinstance(element, (str, bs4.NavigableString)):
         minimap += "\n"
+    
     return minimap
 
 def addelement(tags_list):
@@ -145,39 +146,40 @@ def addelement(tags_list):
 def cleanhtml(html, problem):
     if html.strip().lower().startswith('<!doctype'):
         html = html.split('>', 1)[1]
+    
     soup = BeautifulSoup(html, 'html.parser')
-    current_tag = soup.find("body")
-
+    current_tag = soup.find("html")
+    
     with open("HTMLParser", "r") as file:
         system_text = file.read()
+    
     command = ''
     output = []
     messages = []
-    while 'done("' not in command:
-        minimap =produceminimap(soup, current_tag)
+    
+    while 'done' not in command:
+        minimap = produceminimap(soup, current_tag)
 
+        print(current_tag.name)
         parent_tag = current_tag.parent
-
         children = [child for child in current_tag.children if not isinstance(child, str)]
         user_input = f"Minimap: {minimap}\nProblem: {problem}\nCurrent tag: {current_tag.name}\nParent: {parent_tag.name if parent_tag else 'None'}\nChildren:\n" + '\n'.join([f"{idx + 1}. {str(child)}" for idx, child in enumerate(children)])
-
+        
         response = querygpt(system_text, user_input, messages)
-
+        print(response)
+        print(children)
         match = re.match(r'(\w+)\("([^"]+)"\)', response)
         if match:
             command, argument = match.groups()
-            if command == "up":
+            if command == "up" and current_tag.parent:
                 current_tag = current_tag.parent
-            elif command == "down":
-                current_tag = children[int(argument)]
+            elif command == "down" and children and 0 <= int(argument) < len(children):
+                current_tag = children[int(argument) - 1]
             elif command == "add":
                 output.append(current_tag)
-
         if parent_tag:
             parent_tag.clear()
-
         messages.append((user_input, response))
-
     return addelement(output)
 
 if __name__ == "__main__":
