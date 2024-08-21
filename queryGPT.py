@@ -143,10 +143,23 @@ def addelement(tags_list):
                 print(list(parent.children))
                 parent = toaddtag
     #Return clean version
-    inline_tags = ['title', 'span', 'a', 'strong', 'em']
-    for tag in inline_tags:
-        prettified_html = prettified_html.replace(f"<{tag}>\n", f"<{tag}>").replace(f"\n</{tag}>", f"</{tag}>")
-    return str(soup.prettify())
+    def cleannewlines(tag):
+        if isinstance(tag, bs4.NavigableString):
+            return
+        if tag.string and isinstance(tag.string, bs4.NavigableString):
+            cleanedtext = tag.string.replace("\n", " ").strip()
+            tag.string.replaceWith(cleanedtext)
+        elif tag.contents:
+            for child in tag.contents:
+                if isinstance(child, bs4.NavigableString):
+                    newtext = child.replace("\n", " ").strip()
+                    child.replaceWith(newtext)
+                else:
+                    cleannewlines(child)
+
+    cleannewlines(soup)
+
+    return soup.prettify()
         
 
 
@@ -169,22 +182,19 @@ def cleanhtml(html, problem):
     idx = 0
     while 'done' not in command:
         minimap = produceminimap(soup, current_tag)
-
-        print(current_tag.name)
         parent_tag = current_tag.parent
         children = [child for child in current_tag.children if not isinstance(child, str)]
-        user_input = f"Minimap: {minimap}\nProblem: {problem}\nCurrent tag: {current_tag.name}\nParent: {parent_tag.name if parent_tag else 'None'}\nChildren:\n" + '\n'.join([f"{idx + 1}. {str(child)}" for idx, child in enumerate(children)])
-        
-        response = commands[idx] #querygpt(system_text, user_input, messages)
+        childrennames = [child.name for child in children]
+        user_input = f"Minimap: {minimap}\nProblem: {problem}\nCurrent tag: {current_tag.name}\nParent: {parent_tag.name if parent_tag else 'None'}\nChildren:\n" + '\n'.join([f"{idx + 1}. {str(child)}" for idx, child in enumerate(childrennames)])
+        print(user_input)
+        response = querygpt(system_text, user_input, messages)
         idx += 1
-        print(response)
         match = re.match(r'(\w+)\("([^"]+)"\)', response)
         if match:
             command, argument = match.groups()
             if command == "up" and current_tag.parent:
                 current_tag = current_tag.parent
             elif command == "down":
-                print(children[int(argument) - 1])
                 current_tag = children[int(argument) - 1]
             elif command == "addtoheirarchy":
                 output.append(current_tag)
@@ -193,14 +203,8 @@ def cleanhtml(html, problem):
         messages.append((user_input, response))
 
     print("\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n")
-    print(output)
     return addelement(output)
 
 if __name__ == "__main__":
     with open("HTML.html", "r") as txt:
-        # soup = BeautifulSoup(txt.read(), 'html.parser')
-        # body_tag = soup.find('body')
-        # head_tag = soup.find('head')
-        # output = addelement([body_tag, head_tag])
-        # print(output)
         print(cleanhtml(txt.read(), "What is this website's title?"))
