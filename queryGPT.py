@@ -120,23 +120,32 @@ def produceminimap(element, selected):
     return minimap
 
 def addelement(tags_list):
-    soup = BeautifulSoup("", "html.parser")
+    soup = BeautifulSoup("<!DOCTYPE html>\n<html></html>", "html.parser")
     added_tags = {}
     
     for tag in tags_list:
+        print(tag)
         #Loop through all parents and find the greatest nonexistant one
         parent = tag
         toadd = []
-        while not soup.find_all(lambda temp: temp.name == parent.name and temp.attrs == parent.attrs and temp.decode_contents() == parent.decode_contents()):
+        while not soup.find_all(lambda temp: temp.name == parent.name and temp.attrs == parent.attrs):
+            print(parent.name)
             toadd.append(parent)
             parent = parent.parent
         #Add elements in reverse order
-        toaddtag = reversed(toadd)
+        parent = soup.find_all(lambda temp: temp.name == parent.name and temp.attrs == parent.attrs)[0]
+        toadd = list(reversed(toadd))
+        print(toadd)
         for toaddtag in toadd:
-            if toaddtag != parent:
-                parent.append(toaddtag)
+            if True:
+                print(parent)
+                parent.insert(0, toaddtag)
+                print(list(parent.children))
                 parent = toaddtag
     #Return clean version
+    inline_tags = ['title', 'span', 'a', 'strong', 'em']
+    for tag in inline_tags:
+        prettified_html = prettified_html.replace(f"<{tag}>\n", f"<{tag}>").replace(f"\n</{tag}>", f"</{tag}>")
     return str(soup.prettify())
         
 
@@ -155,7 +164,9 @@ def cleanhtml(html, problem):
     command = ''
     output = []
     messages = []
-    
+
+    commands = ['down("1")','down("1")','addtoheirarchy("fff")','done("fff")']
+    idx = 0
     while 'done' not in command:
         minimap = produceminimap(soup, current_tag)
 
@@ -164,7 +175,8 @@ def cleanhtml(html, problem):
         children = [child for child in current_tag.children if not isinstance(child, str)]
         user_input = f"Minimap: {minimap}\nProblem: {problem}\nCurrent tag: {current_tag.name}\nParent: {parent_tag.name if parent_tag else 'None'}\nChildren:\n" + '\n'.join([f"{idx + 1}. {str(child)}" for idx, child in enumerate(children)])
         
-        response = querygpt(system_text, user_input, messages)
+        response = commands[idx] #querygpt(system_text, user_input, messages)
+        idx += 1
         print(response)
         match = re.match(r'(\w+)\("([^"]+)"\)', response)
         if match:
@@ -176,8 +188,8 @@ def cleanhtml(html, problem):
                 current_tag = children[int(argument) - 1]
             elif command == "addtoheirarchy":
                 output.append(current_tag)
-        if parent_tag:
-            parent_tag.clear()
+        # if parent_tag:
+        #     parent_tag.clear()
         messages.append((user_input, response))
 
     print("\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n")
