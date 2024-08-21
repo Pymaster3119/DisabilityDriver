@@ -122,7 +122,6 @@ def produceminimap(element, selected):
 def addelement(tags_list):
     print(len(tags_list))
     soup = BeautifulSoup("<!DOCTYPE html>\n<html></html>", "html.parser")
-    added_tags = {}
     
     for tag in tags_list:
         print(tag)
@@ -131,8 +130,10 @@ def addelement(tags_list):
         toadd = []
         while not soup.find_all(lambda temp: temp.name == parent.name and temp.attrs == parent.attrs):
             print(parent.name)
-            parent.clear()
-            toadd.append(parent)
+            text = parent.get_text()
+            new_tag = soup.new_tag(parent.name, **parent.attrs)
+            new_tag.string = text
+            toadd.append(new_tag)
             parent = parent.parent
         #Add elements in reverse order
         parent = soup.find_all(lambda temp: temp.name == parent.name and temp.attrs == parent.attrs)[0]
@@ -146,7 +147,6 @@ def addelement(tags_list):
                 parent = toaddtag
     #Return clean version
     return soup.prettify()
-        
 
 
 
@@ -168,8 +168,7 @@ def cleanhtml(html, problem):
         minimap = produceminimap(soup, current_tag)
         parent_tag = current_tag.parent
         children = [child for child in current_tag.children if not isinstance(child, str)]
-        childrennames = [child.name for child in children]
-        user_input = f"Minimap: {minimap}\nProblem: {problem}\nCurrent tag: {current_tag.name}\nParent: {parent_tag.name if parent_tag else 'None'}\nChildren:\n" + '\n'.join([f"{idx + 1}. {str(child)}" for idx, child in enumerate(childrennames)])
+        user_input = f"Minimap: {minimap}\nProblem: {problem}\nCurrent tag: {current_tag.name}\nParent: {parent_tag.name if parent_tag else 'None'}\nChildren:\n" + '\n'.join([f"{idx + 1}. {child}" for idx, child in enumerate(children)])
         print(user_input)
         response = querygpt(system_text, user_input, messages)
         idx += 1
