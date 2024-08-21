@@ -119,36 +119,56 @@ def produceminimap(element, selected):
     
     return minimap
 
-def addelement(tags_list):
-    print(len(tags_list))
-    soup = BeautifulSoup("<!DOCTYPE html>\n<html></html>", "html.parser")
+# def addelement(tags_list):
+#     print(len(tags_list))
+#     soup = BeautifulSoup("<!DOCTYPE html>\n<html></html>", "html.parser")
     
-    for tag in tags_list:
-        print(tag)
-        #Loop through all parents and find the greatest nonexistant one
-        parent = tag
-        toadd = []
-        while not soup.find_all(lambda temp: temp.name == parent.name and temp.attrs == parent.attrs):
-            print(parent.name)
-            text = parent.get_text()
-            new_tag = soup.new_tag(parent.name, **parent.attrs)
-            new_tag.string = text
-            toadd.append(new_tag)
-            parent = parent.parent
-        #Add elements in reverse order
-        parent = soup.find_all(lambda temp: temp.name == parent.name and temp.attrs == parent.attrs)[0]
-        toadd = list(reversed(toadd))
-        print(toadd)
-        for toaddtag in toadd:
-            if True:
-                print(parent)
-                parent.insert(0, toaddtag)
-                print(list(parent.children))
-                parent = toaddtag
-    #Return clean version
+#     for tag in tags_list:
+#         print(tag)
+#         #Loop through all parents and find the greatest nonexistant one
+#         parent = tag
+#         toadd = []
+#         while not soup.find_all(lambda temp: temp.name == parent.name and temp.attrs == parent.attrs):
+#             print(parent.name)
+#             text = parent.get_text()
+#             new_tag = soup.new_tag(parent.name, **parent.attrs)
+#             new_tag.string = text
+#             toadd.append(new_tag)
+#             parent = parent.parent
+#         #Add elements in reverse order
+#         parent = soup.find_all(lambda temp: temp.name == parent.name and temp.attrs == parent.attrs)[0]
+#         toadd = list(reversed(toadd))
+#         print(toadd)
+#         for toaddtag in toadd:
+#             if True:
+#                 print(parent)
+#                 parent.insert(0, toaddtag)
+#                 print(list(parent.children))
+#                 parent = toaddtag
+#     #Return clean version
+#     return soup.prettify()
+
+def processnode(soup, element, tags):
+    if element in tags:
+        return True
+    if hasattr(element, 'children'):
+        for c in element.children:
+            if processnode(soup, c, tags):
+                element.mark = True
+                return True
+    return False
+
+def deleteunmarked(soup, element):
+    for c in element.children:
+        if not hasattr(c, "mark"):
+            soup.decompose(c)
+        else:
+            deleteunmarked(soup, c)
+
+def addelement(tags_list, soup):
+    processnode(soup, soup.find("html"), tags_list)
+    deleteunmarked(soup, soup.find("html"))
     return soup.prettify()
-
-
 
 def cleanhtml(html, problem):
     if html.strip().lower().startswith('<!doctype'):
@@ -164,13 +184,14 @@ def cleanhtml(html, problem):
     output = []
     messages = []
     idx = 0
+    commands = ['down("1")','down("1")','addtoheirarchy("title")', 'done("fff")']
     while 'done' not in command:
         minimap = produceminimap(soup, current_tag)
         parent_tag = current_tag.parent
         children = [child for child in current_tag.children if not isinstance(child, str)]
         user_input = f"Minimap: {minimap}\nProblem: {problem}\nCurrent tag: {current_tag.name}\nParent: {parent_tag.name if parent_tag else 'None'}\nChildren:\n" + '\n'.join([f"{idx + 1}. {child}" for idx, child in enumerate(children)])
         print(user_input)
-        response = querygpt(system_text, user_input, messages)
+        response = commands[idx]#querygpt(system_text, user_input, messages)
         idx += 1
         match = re.match(r'(\w+)\("([^"]+)"\)', response)
         if match:
@@ -187,7 +208,7 @@ def cleanhtml(html, problem):
 
     print("\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n")
     print(idx)
-    return addelement(output)
+    return addelement(output, soup)
 
 if __name__ == "__main__":
     with open("HTML.html", "r") as txt:
