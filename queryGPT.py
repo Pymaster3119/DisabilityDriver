@@ -140,62 +140,46 @@ def addelement(tags_list):
 
 def cleanhtml(html, problem):
     if html.strip().lower().startswith('<!doctype'):
-        html = html.split('>', 1)[1]    
+        html = html.split('>', 1)[1]
     soup = BeautifulSoup(html, 'html.parser')
     current_tag = soup.find("body")
 
     with open("HTMLParser", "r") as file:
         system_text = file.read()
-    command = ""
+    command = ''
+    output = []
     messages = []
-    output = ''
-    minimap = ''
-    done = False
-
+    minimap =produceminimap(soup)
     while 'done("' not in command:
-        print("Here")
-
-        if done:
-            current_tag = soup.find_all("title", recursive=True)[0 ]
-        print(current_tag)
-        print(f"Current tag: {current_tag}, Parent: {current_tag.parent}")
-
         parent_tag = current_tag.parent
-        
-        children = [child for child in current_tag.children if not isinstance(child, str) or isinstance(child, bs4.NavigableString)]
-        children_list = '\n'.join([f"{idx + 1}. {str(child)}" for idx, child in enumerate(children)])
 
-        user_input = f"Minimap: {minimap}\nProblem: {problem}\nCurrent tag: {current_tag.name if current_tag else 'None'}\nParent: {parent_tag.name if parent_tag else 'None'}\nChildren:\n{children_list}"
-        
-        response = 'add("fff")'  #querygpt(system_text, user_input, messages)
+        children = [child for child in current_tag.children if not isinstance(child, str)]
+        user_input = f"Minimap: {minimap}\nProblem: {problem}\nCurrent tag: {current_tag.name}\nParent: {parent_tag.name if parent_tag else 'None'}\nChildren:\n" + '\n'.join([f"{idx + 1}. {str(child)}" for idx, child in enumerate(children)])
+
+        response = querygpt(system_text, user_input, messages)
 
         match = re.match(r'(\w+)\("([^"]+)"\)', response)
         if match:
             command, argument = match.groups()
-            if command == "up" and current_tag.parent:
+            if command == "up":
                 current_tag = current_tag.parent
-            elif command == "down" and children:
+            elif command == "down":
                 current_tag = children[int(argument)]
             elif command == "add":
-                output = addelement(output, current_tag)
-                if done == True:
-                    command = 'done("fff")'
-                done = True
-        
+                output.append(current_tag)
+
         if parent_tag:
             parent_tag.clear()
-        
+
         messages.append((user_input, response))
 
-    print('\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n')
-    print(output)
-    return output
+    return addelement(output)
 
 if __name__ == "__main__":
     with open("HTML.html", "r") as txt:
-        soup = BeautifulSoup(txt.read(), 'html.parser')
-        body_tag = soup.find('body')
-        head_tag = soup.find('head')
-        output = addelement([body_tag, head_tag])
-        print(output)
-        #cleanhtml(txt.read(), "What is this website's title?")
+        # soup = BeautifulSoup(txt.read(), 'html.parser')
+        # body_tag = soup.find('body')
+        # head_tag = soup.find('head')
+        # output = addelement([body_tag, head_tag])
+        # print(output)
+        cleanhtml(txt.read(), "What is this website's title?")
