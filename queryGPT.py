@@ -100,18 +100,22 @@ def resendHTML(prompt, HTML, questions):
     print(actions)
     return actions
 
-def produceminimap(element):
+def produceminimap(element, selected):
     minimap = ''
     if element.name:
-        minimap += f"<{element.name}>\n"
+        attributes = ' '.join([f'{attr}="{value}"' for attr, value in element.attrs.items()])
+        minimap += f"<{element.name}{' ' + attributes if attributes else ''}>"
     if isinstance(element, (str, bs4.NavigableString)):
-        minimap += element.strip() + "\n"
+        minimap += element.strip()
     if hasattr(element, 'children'):
         for child in element.children:
-            minimap += produceminimap(child)
+            minimap += produceminimap(child, selected)
     if element.name:
-        minimap += f"</{element.name}>\n"
-    
+        minimap += f"</{element.name}>"
+    if element == selected:
+        minimap += "<---------"
+    if not isinstance(element, (str, bs4.NavigableString)):
+        minimap += "\n"
     return minimap
 
 def addelement(tags_list):
@@ -149,8 +153,9 @@ def cleanhtml(html, problem):
     command = ''
     output = []
     messages = []
-    minimap =produceminimap(soup)
     while 'done("' not in command:
+        minimap =produceminimap(soup, current_tag)
+
         parent_tag = current_tag.parent
 
         children = [child for child in current_tag.children if not isinstance(child, str)]
