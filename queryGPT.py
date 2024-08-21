@@ -120,6 +120,7 @@ def produceminimap(element, selected):
     return minimap
 
 def addelement(tags_list):
+    print(len(tags_list))
     soup = BeautifulSoup("<!DOCTYPE html>\n<html></html>", "html.parser")
     added_tags = {}
     
@@ -130,6 +131,7 @@ def addelement(tags_list):
         toadd = []
         while not soup.find_all(lambda temp: temp.name == parent.name and temp.attrs == parent.attrs):
             print(parent.name)
+            parent.clear()
             toadd.append(parent)
             parent = parent.parent
         #Add elements in reverse order
@@ -143,22 +145,6 @@ def addelement(tags_list):
                 print(list(parent.children))
                 parent = toaddtag
     #Return clean version
-    def cleannewlines(tag):
-        if isinstance(tag, bs4.NavigableString):
-            return
-        if tag.string and isinstance(tag.string, bs4.NavigableString):
-            cleanedtext = tag.string.replace("\n", " ").strip()
-            tag.string.replaceWith(cleanedtext)
-        elif tag.contents:
-            for child in tag.contents:
-                if isinstance(child, bs4.NavigableString):
-                    newtext = child.replace("\n", " ").strip()
-                    child.replaceWith(newtext)
-                else:
-                    cleannewlines(child)
-
-    cleannewlines(soup)
-
     return soup.prettify()
         
 
@@ -177,8 +163,6 @@ def cleanhtml(html, problem):
     command = ''
     output = []
     messages = []
-
-    commands = ['down("1")','down("1")','addtoheirarchy("fff")','done("fff")']
     idx = 0
     while 'done' not in command:
         minimap = produceminimap(soup, current_tag)
@@ -194,7 +178,7 @@ def cleanhtml(html, problem):
             command, argument = match.groups()
             if command == "up" and current_tag.parent:
                 current_tag = current_tag.parent
-            elif command == "down":
+            elif command == "down" and 1 <= int(argument) <= len(children):
                 current_tag = children[int(argument) - 1]
             elif command == "addtoheirarchy":
                 output.append(current_tag)
@@ -203,8 +187,9 @@ def cleanhtml(html, problem):
         messages.append((user_input, response))
 
     print("\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n")
+    print(idx)
     return addelement(output)
 
 if __name__ == "__main__":
     with open("HTML.html", "r") as txt:
-        print(cleanhtml(txt.read(), "What is this website's title?"))
+        print(cleanhtml(txt.read(), input("Question?: ")))
