@@ -119,35 +119,6 @@ def produceminimap(element, selected):
     
     return minimap
 
-# def addelement(tags_list):
-#     print(len(tags_list))
-#     soup = BeautifulSoup("<!DOCTYPE html>\n<html></html>", "html.parser")
-    
-#     for tag in tags_list:
-#         print(tag)
-#         #Loop through all parents and find the greatest nonexistant one
-#         parent = tag
-#         toadd = []
-#         while not soup.find_all(lambda temp: temp.name == parent.name and temp.attrs == parent.attrs):
-#             print(parent.name)
-#             text = parent.get_text()
-#             new_tag = soup.new_tag(parent.name, **parent.attrs)
-#             new_tag.string = text
-#             toadd.append(new_tag)
-#             parent = parent.parent
-#         #Add elements in reverse order
-#         parent = soup.find_all(lambda temp: temp.name == parent.name and temp.attrs == parent.attrs)[0]
-#         toadd = list(reversed(toadd))
-#         print(toadd)
-#         for toaddtag in toadd:
-#             if True:
-#                 print(parent)
-#                 parent.insert(0, toaddtag)
-#                 print(list(parent.children))
-#                 parent = toaddtag
-#     #Return clean version
-#     return soup.prettify()
-
 def processnode(soup, element, tags):
     if element in tags:
         element.keepme = True
@@ -174,6 +145,14 @@ def addelement(tags_list, soup):
     deleteunmarked(soup, soup.find("html"))
     return soup.prettify()
 
+def printSolo(elem):
+    attrs = ' '.join([ f"{k}='{v}'" for (k,v) in elem.attrs.items()])
+    text = [x.strip() for x in elem.children if isinstance(x, bs4.NavigableString)]
+    text = [x for x in text if len(x)>0]
+    text = ' '.join(text)
+    output = f"<{elem.name} {attrs}>{text}</{elem.name}>"
+    return output
+
 def cleanhtml(html, problem):
     if html.strip().lower().startswith('<!doctype'):
         html = html.split('>', 1)[1]
@@ -184,30 +163,33 @@ def cleanhtml(html, problem):
     with open("HTMLParser", "r") as file:
         system_text = file.read()
     
-    command = ''
     output = []
     messages = []
     idx = 0
-    commands = ['down("1")','down("1")','addtoheirarchy("title")', 'done("fff")']
-    while 'done' not in command:
+    response = ''
+    while 'done' not in response:
         minimap = produceminimap(soup, current_tag)
         parent_tag = current_tag.parent
         children = [child for child in current_tag.children if not isinstance(child, str)]
-        user_input = f"Minimap: {minimap}\nProblem: {problem}\nCurrent tag: {current_tag.name}\nParent: {parent_tag.name if parent_tag else 'None'}\nChildren:\n" + '\n'.join([f"{idx + 1}. {child}" for idx, child in enumerate(children)])
-        print(user_input)
-        response = commands[idx]#querygpt(system_text, user_input, messages)
+        user_input = f"Minimap: {minimap}\nProblem: {problem}\nCurrent tag: {current_tag.name}\nParent: {parent_tag.name if parent_tag else 'None'}\nChildren:\n" + '\n'.join([f"{idx + 1}. {printSolo(child)}" for idx, child in enumerate(children)])
+        with open('inputs.txt', "a") as txt:
+            txt.write(user_input + "\n\n\n")
+        response = querygpt(system_text, user_input, messages)
+        with open('responses.txt', "a") as txt:
+            txt.write(response + "\n\n\n")
         idx += 1
-        match = re.match(r'(\w+)\("([^"]+)"\)', response)
-        if match:
-            command, argument = match.groups()
-            if command == "up" and current_tag.parent:
-                current_tag = current_tag.parent
-            elif command == "down" and 1 <= int(argument) <= len(children):
-                current_tag = children[int(argument) - 1]
-            elif command == "addtoheirarchy":
-                output.append(current_tag)
-        # if parent_tag:
-        #     parent_tag.clear()
+        if "up" in response:
+            current_tag = current_tag.parent
+        elif "select" in response:
+            output.append(current_tag)
+        elif "down" in response:
+            match = re.match(r'down\("([^"]+)"\)', response)
+            if match:
+                argument = match.group(1)
+                if 1 <= int(argument) <= len(children):
+                    current_tag = children[int(argument) - 1]
+        elif "done" in response:
+            break
         messages.append((user_input, response))
 
     print("\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n")
