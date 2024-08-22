@@ -104,6 +104,8 @@ def produceminimap(element, selected):
     minimap = ''
     if element.name:
         minimap += f"<{element.name}>"
+    if element == selected:
+        minimap += "<---------"
     if isinstance(element, (str, bs4.NavigableString)):
         minimap += element.strip() + ""
     if hasattr(element, 'children'):
@@ -112,8 +114,7 @@ def produceminimap(element, selected):
     if element.name:
         minimap += f"</{element.name}>"
     
-    if element == selected:
-        minimap += "<---------"
+    
     if not isinstance(element, (str, bs4.NavigableString)):
         minimap += "\n"
     
@@ -158,8 +159,14 @@ def cleanhtml(html, problem):
         html = html.split('>', 1)[1]
     
     soup = BeautifulSoup(html, 'html.parser')
+
+    for forbidden in ['meta', 'script']:
+        for elem in soup.find_all(forbidden):
+            if isinstance(elem, bs4.Tag):
+                    elem.decompose()
+
+
     current_tag = soup.find("html")
-    
     with open("HTMLParser", "r") as file:
         system_text = file.read()
     
