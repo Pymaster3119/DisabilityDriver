@@ -155,6 +155,7 @@ def printSolo(elem):
     return output
 
 def cleanhtml(html, problem):
+    problem += "Select relevant fields, links and buttons."
     if html.strip().lower().startswith('<!doctype'):
         html = html.split('>', 1)[1]
     
