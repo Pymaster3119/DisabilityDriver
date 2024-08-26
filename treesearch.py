@@ -58,9 +58,25 @@ def findtokens(element, depth=0, resultlist=None):
     
     return resultlist
 elementsofinterest = ['p', 'button', 'form']
+
+def findscore(element):
+    score = 0
+    if not isinstance(element, NavigableString) and isinstance(element, bs4.Tag):
+        for i in element.children:
+            if i.name in elementsofinterest:
+                score += 1
+            score += findscore(i)
+
+
 def findscores(element):
     output = []
-    for i in element.children:
+    elem = element
+    while not isinstance(elem, NavigableString):
+        for i in elem.children:
+            output.append(findscore(i))
+            elem = i
+
+
     
 tokens = []
 scores = []
