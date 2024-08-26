@@ -95,6 +95,12 @@ def mutate(child, mutationrate=0.1):
         return random.randint(0, len(tokens) - 1)
     return child
 
+def countmatchingdescendants(element):
+    count = 0
+    for descendant in element.descendants:
+        if descendant.name in elementsofinterest:
+            count += 1
+    return count
 
 def geneticalgorithm(populationsize=10, generations=50, alpha=0.5, mutationrate=0.1):
     population = [random.randint(0, len(tokens) - 1) for i in range(populationsize)]
@@ -122,12 +128,39 @@ def treesearch(html, problem):
     '''
     for i in soup.children:
         decideonelement(soup, prompt)'''
+    levels = [(soup, 0)]  
+    depthcounts = {}  
+
+    while levels:
+        currentelement, currentdepth = levels.pop(0)
+        
+        
+        if currentdepth not in depthcounts:
+            depthcounts[currentdepth] = {'total': 0, 'matching': 0}
+        
+        
+        for child in currentelement.children:
+            if isinstance(child, BeautifulSoup.Tag):
+                depthcounts[currentdepth]['total'] += 1
+                
+                matchingcount = countmatchingdescendants(child, namelist)
+                depthcounts[currentdepth]['matching'] += matchingcount
+                
+                levels.append((child, currentdepth + 1))
+
     
-    
-    for subtree in soup.descendants:
-        if not isinstance(subtree, bs4.NavigableString) and isinstance(subtree, bs4.Tag) and not isinstance(subtree, bs4.Comment) and len(list(subtree.children)) == 0 and subtree.name != None:
-            score = findscores(subtree)
-            print(score)
+    results = []
+    maxdepth = max(depthcounts.keys())
+    for d in range(maxdepth + 1):
+        if d in depthcounts:
+            totalcount = depthcounts[d]['total']
+            matchingcount = depthcounts[d]['matching']
+            ratio = matchingcount / totalcount if totalcount > 0 else 0
+            results.append(ratio)
+        else:
+            results.append(0)  
+
+    return results
         
 if __name__ == "__main__":
     with open("HTML.html", 'r') as txt:
