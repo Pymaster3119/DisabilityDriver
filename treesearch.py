@@ -59,23 +59,17 @@ def findtokens(element, depth=0, resultlist=None):
     return resultlist
 elementsofinterest = ['p', 'button', 'form']
 
-def findscore(element):
-    score = 0
-    if not isinstance(element, NavigableString) and isinstance(element, bs4.Tag):
-        for i in element.children:
-            if i.name in elementsofinterest:
-                score += 1
-            score += findscore(i)
-
 
 def findscores(element):
     output = []
-    elem = element
-    while not isinstance(elem, NavigableString):
-        for i in elem.children:
-            output.append(findscore(i))
-            elem = i
-
+    parent = element.parent
+    while parent is not None:
+        currentscore = 0
+        for i in elementsofinterest:
+            num_elements = len(parent.find_all(element))
+            currentscore += num_elements
+        parent = parent.parent
+    return output
 
     
 tokens = []
@@ -120,7 +114,6 @@ def treesearch(html, problem):
     if html.strip().lower().startswith('<!doctype'):
         html = html.split('>', 1)[1]
     soup = BeautifulSoup(html, 'html.parser')
-
     for forbidden in ['meta', 'script', 'head']:
         for elem in soup.find_all(forbidden):
             if isinstance(elem, bs4.Tag):
@@ -131,11 +124,10 @@ def treesearch(html, problem):
         decideonelement(soup, prompt)'''
     
     
-    for subtree in soup.find("body").children:
-        tokens = findtokens(subtree)
-        scores = findscores(subtree)
-        print(tokens)
-        print(scores)
+    for subtree in soup.descendants:
+        if not isinstance(subtree, bs4.NavigableString) and isinstance(subtree, bs4.Tag) and not isinstance(subtree, bs4.Comment) and len(list(subtree.children)) == 0 and subtree.name != None:
+            score = findscores(subtree)
+            print(score)
         
 if __name__ == "__main__":
     with open("HTML.html", 'r') as txt:
