@@ -1,6 +1,6 @@
 # DisabledDriver
 ## Overview
-DisabledDriver is an innovative project designed by Aditya Anand with the goal of making the internet more accessible and easier to navigate for individuals with disabilities or anyone seeking a more streamlined online experience. This project harnesses the power of AI, specifically OpenAI's GPT-40-mini model, to assist users in performing various online tasks with minimal manual input.
+DisabledDriver is an innovative project with the goal of making the internet more accessible and easier to navigate for individuals with disabilities or anyone seeking a more streamlined online experience. This project harnesses the power of AI, specifically OpenAI's GPT-40-mini model, to assist users in performing various online tasks with minimal manual input.
 
 ## Key Features
 - AI-Driven Navigation: DisabledDriver uses ChatGPT to interact with websites via Selenium, automating tasks such as filling out forms, playing music, and finding news articles. The AI guides Selenium in making decisions, allowing users to complete tasks hands-free.
