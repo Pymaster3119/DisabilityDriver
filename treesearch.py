@@ -1,5 +1,6 @@
 import queryGPT
 from bs4 import *
+import bs4
 import tokenizer
 import random
 
@@ -48,26 +49,18 @@ def findtokens(element, depth=0, resultlist=None):
     if depth >= len(resultlist):
         resultlist.append([])
     if element.name:
-        result = tokenizer.num_tokens_from_string(element)
+        result = tokenizer.num_tokens_from_string(str(element))
         resultlist[depth].append(result)
-    for child in element.children:
-        if child.name:
-            findtokens(child, depth + 1, resultlist)
+    if not isinstance(element, bs4.NavigableString):
+        for child in element.children:
+            if child.name:
+                findtokens(child, depth + 1, resultlist)
     
     return resultlist
 elementsofinterest = ['p', 'button', 'form']
-def findscores(element, depth=0, scorelist=None):
-    if scorelist is None:
-        scorelist = []
-    if depth >= len(scorelist):
-        scorelist.append(0)
-    if element.name in elementsofinterest:
-        scorelist[depth] += 1
-    for child in element.children:
-        if child.name:
-            findscores(child, depth + 1, scorelist)
-    
-    return scorelist
+def findscores(element):
+    output = []
+    for i in element.children:
     
 tokens = []
 scores = []
@@ -106,7 +99,7 @@ def geneticalgorithm(populationsize=10, generations=50, alpha=0.5, mutationrate=
     bestindex = min(population, key=lambda x: fitness(x, alpha))
     return bestindex
 
-def treesearch(html, prompt):
+def treesearch(html, problem):
     problem += "Select relevant fields, links and buttons necessary to fullfil the user's prompt. Remember to keep as little HTML as possible while still making the user's prompt possible based on the trimmed HTML you produce alone."
     if html.strip().lower().startswith('<!doctype'):
         html = html.split('>', 1)[1]
@@ -114,7 +107,7 @@ def treesearch(html, prompt):
 
     for forbidden in ['meta', 'script', 'head']:
         for elem in soup.find_all(forbidden):
-            if isinstance(elem, Tag):
+            if isinstance(elem, bs4.Tag):
                     elem.decompose()
     soup = removeads(soup)
     '''
@@ -125,3 +118,9 @@ def treesearch(html, prompt):
     for subtree in soup.find("body").children:
         tokens = findtokens(subtree)
         scores = findscores(subtree)
+        print(tokens)
+        print(scores)
+        
+if __name__ == "__main__":
+    with open("HTML.html", 'r') as txt:
+        treesearch(txt.read(), "Pay my taxes to Montviille New Jersey")
