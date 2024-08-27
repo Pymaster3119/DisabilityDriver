@@ -57,7 +57,7 @@ def findtokens(element, depth=0, resultlist=None):
                 findtokens(child, depth + 1, resultlist)
     
     return resultlist
-elementsofinterest = ['p', 'button', 'form']
+elementsofinterest = ['p', 'button', 'form', 'input']
 
 
 def findscores(element):
@@ -129,41 +129,45 @@ def treesearch(html, problem):
     for i in soup.children:
         decideonelement(soup, prompt)'''
     levels = [(soup, 0)]  
-    depthcounts = {}  
+    depthinfo = {}  
 
     while levels:
         currentelement, currentdepth = levels.pop(0)
         
         
-        if currentdepth not in depthcounts:
-            depthcounts[currentdepth] = {'total': 0, 'matching': 0}
+        if currentdepth not in depthinfo:
+            depthinfo[currentdepth] = {'total': 0, 'matching': 0, 'tags': []}
         
         
         for child in currentelement.children:
             if isinstance(child, bs4.Tag):
-                depthcounts[currentdepth]['total'] += 1
+                depthinfo[currentdepth]['total'] += 1
+                depthinfo[currentdepth]['tags'].append(child.name)
+                
                 
                 matchingcount = countmatchingdescendants(child)
-                depthcounts[currentdepth]['matching'] += matchingcount
+                depthinfo[currentdepth]['matching'] += matchingcount
+                
                 
                 levels.append((child, currentdepth + 1))
 
     
     results = []
-    maxdepth = max(depthcounts.keys())
+    maxdepth = max(depthinfo.keys())
     for d in range(maxdepth + 1):
-        if d in depthcounts:
-            totalcount = depthcounts[d]['total']
-            matchingcount = depthcounts[d]['matching']
+        if d in depthinfo:
+            totalcount = depthinfo[d]['total']
+            matchingcount = depthinfo[d]['matching']
+            tagnames = depthinfo[d]['tags']
             ratio = matchingcount / totalcount if totalcount > 0 else 0
-            results.append(ratio)
+            results.append((d, ratio, tagnames))
         else:
-            results.append(0)  
+            results.append((d, 0, []))  
+    
+    for level, ratio, tags in results:
+        print(f"Level {level}: Ratio = {ratio}, Tags = {tags}")
 
-
-    print(results)
-    return results
-        
+    
 if __name__ == "__main__":
     with open("HTML.html", 'r') as txt:
         treesearch(txt.read(), "Pay my taxes to Montviille New Jersey")
