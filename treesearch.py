@@ -159,13 +159,54 @@ def treesearch(html, problem):
             totalcount = depthinfo[d]['total']
             matchingcount = depthinfo[d]['matching']
             tagnames = depthinfo[d]['tags']
-            ratio = matchingcount / totalcount if totalcount > 0 else 0
+            ratio = matchingcount
             results.append((d, ratio, tagnames))
         else:
             results.append((d, 0, []))  
     
     for level, ratio, tags in results:
         print(f"Level {level}: Ratio = {ratio}, Tags = {tags}")
+
+    levels = [(soup, 0)]  
+    depthinfo = {}  
+
+    while levels:
+        currentelement, currentdepth = levels.pop(0)
+        
+        
+        if currentdepth not in depthinfo:
+            depthinfo[currentdepth] = {'tags': [], 'total_tokens': 0}
+
+        
+        for child in currentelement.children:
+            if isinstance(child, bs4.Tag):
+                depthinfo[currentdepth]['tags'].append(child.name)
+
+
+                tokens = tokenizer.num_tokens_from_string(str(child))
+                depthinfo[currentdepth]['totaltokens'] += tokens
+                
+
+                levels.append((child, currentdepth + 1))
+
+    
+    avgtokenlengthresults = []
+    maxdepth = max(depthinfo.keys())
+    for d in range(maxdepth + 1):
+        if d in depthinfo:
+            tokenlengths = depthinfo[d]['tokenlengths']
+            tagnames = depthinfo[d]['tags']
+            avgtokenlength = sum(tokenlengths) / len(tokenlengths) if tokenlengths else 0
+            avgtokenlengthresults.append((d, avgtokenlength, tagnames))
+        else:
+            avgtokenlengthresults.append((d, 0, []))  
+
+    for level, token, tags in avgtokenlengthresults:
+        print(f"Level {level}: tokens = {token}, Tags = {tags}")
+
+    touse = []
+    for i in len(avgtokenlengthresults):
+        touse.append(results[i][1]/avgtokenlengthresults[i][1])
 
     
 if __name__ == "__main__":
