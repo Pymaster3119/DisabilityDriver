@@ -140,10 +140,10 @@ def treesearch(html, problem):
         
         
         for child in currentelement.children:
-            if isinstance(child, BeautifulSoup.Tag):
+            if isinstance(child, bs4.Tag):
                 depthcounts[currentdepth]['total'] += 1
                 
-                matchingcount = countmatchingdescendants(child, namelist)
+                matchingcount = countmatchingdescendants(child)
                 depthcounts[currentdepth]['matching'] += matchingcount
                 
                 levels.append((child, currentdepth + 1))
@@ -160,6 +160,8 @@ def treesearch(html, problem):
         else:
             results.append(0)  
 
+
+    print(results)
     return results
         
 if __name__ == "__main__":
