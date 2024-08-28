@@ -118,124 +118,124 @@ def geneticalgorithm(populationsize=10, generations=50, alpha=0.5, mutationrate=
 def treesearch(html, problem):
     problem += "Select relevant fields, links and buttons necessary to fullfil the user's prompt. Remember to keep as little HTML as possible while still making the user's prompt possible based on the trimmed HTML you produce alone."
     
-if html.strip().lower().startswith('<!doctype'):
-    html = html.split('>', 1)[1]
+    if html.strip().lower().startswith('<!doctype'):
+        html = html.split('>', 1)[1]
 
-soup = BeautifulSoup(html, 'html.parser')
+    soup = BeautifulSoup(html, 'html.parser')
 
-for forbidden in ['meta', 'script', 'head']:
-    for elem in soup.find_all(forbidden):
-        if isinstance(elem, bs4.Tag):
-            elem.decompose()
+    for forbidden in ['meta', 'script', 'head']:
+        for elem in soup.find_all(forbidden):
+            if isinstance(elem, bs4.Tag):
+                elem.decompose()
 
-soup = removeads(soup)
-
-
-if soup:
-    pass  
+    soup = removeads(soup)
 
 
-levels = [(soup, 0)]  
-depthinfo = {}  
+    if soup:
+        pass  
 
-while levels:
-    currentelement, currentdepth = levels.pop(0)
 
-    
-    if isinstance(currentelement, bs4.Tag):
-        tempdepth = currentdepth
-        while tempdepth > 0:
-            tempdepth -= 1
+    levels = [(soup, 0)]  
+    depthinfo = {}  
 
-    if currentdepth not in depthinfo:
-        depthinfo[currentdepth] = {'total': 0, 'matching': 0, 'tags': []}
-    
-    
-    for child in currentelement.children:
-        if isinstance(child, bs4.Tag):
-            depthinfo[currentdepth]['total'] += 1
-            depthinfo[currentdepth]['tags'].append(child.name)
+    while levels:
+        currentelement, currentdepth = levels.pop(0)
 
-            matchingcount = countmatchingdescendants(child)
-            depthinfo[currentdepth]['matching'] += matchingcount
+        
+        if isinstance(currentelement, bs4.Tag):
+            tempdepth = currentdepth
+            while tempdepth > 0:
+                tempdepth -= 1
 
-            
-            if matchingcount >= 0:
+        if currentdepth not in depthinfo:
+            depthinfo[currentdepth] = {'total': 0, 'matching': 0, 'tags': []}
+        
+        
+        for child in currentelement.children:
+            if isinstance(child, bs4.Tag):
+                depthinfo[currentdepth]['total'] += 1
+                depthinfo[currentdepth]['tags'].append(child.name)
+
+                matchingcount = countmatchingdescendants(child)
+                depthinfo[currentdepth]['matching'] += matchingcount
+
+                
+                if matchingcount >= 0:
+                    levels.append((child, currentdepth + 1))
+
+    results = []
+    maxdepth = max(depthinfo.keys())
+    for d in range(maxdepth + 1):
+        if d in depthinfo:
+            totalcount = depthinfo[d]['total']
+            matchingcount = depthinfo[d]['matching']
+            tagnames = depthinfo[d]['tags']
+            ratio = matchingcount
+            results.append((d, ratio, tagnames))
+        else:
+            results.append((d, 0, []))  
+        
+
+    for level, ratio, tags in results:
+        print(f"Level {level}: Ratio = {ratio}, Tags = {tags}")
+
+
+    levels = [(soup, 0)]  
+    depthinfo = {}  
+
+    while levels:
+        currentelement, currentdepth = levels.pop(0)
+
+        
+        if currentelement:
+            pass
+
+        if currentdepth not in depthinfo:
+            depthinfo[currentdepth] = {'tags': [], 'totaltokens': 0, 'tokenlengths': []}
+
+        for child in currentelement.children:
+            if isinstance(child, bs4.Tag):
+                depthinfo[currentdepth]['tags'].append(child.name)
+
+                tokens = tokenizer.num_tokens_from_string(str(child))
+                depthinfo[currentdepth]['totaltokens'] += tokens
+                depthinfo[currentdepth]['tokenlengths'].append(tokens)
+
+                
                 levels.append((child, currentdepth + 1))
 
-results = []
-maxdepth = max(depthinfo.keys())
-for d in range(maxdepth + 1):
-    if d in depthinfo:
-        totalcount = depthinfo[d]['total']
-        matchingcount = depthinfo[d]['matching']
-        tagnames = depthinfo[d]['tags']
-        ratio = matchingcount
-        results.append((d, ratio, tagnames))
-    else:
-        results.append((d, 0, []))  
-    
-
-for level, ratio, tags in results:
-    print(f"Level {level}: Ratio = {ratio}, Tags = {tags}")
+    avgtokenlengthresults = []
+    maxdepth = max(depthinfo.keys())
+    for d in range(maxdepth + 1):
+        if d in depthinfo:
+            tokenlengths = depthinfo[d]['tokenlengths']
+            tagnames = depthinfo[d]['tags']
+            avgtokenlength = sum(tokenlengths) / len(tokenlengths) if tokenlengths else 0
+            avgtokenlengthresults.append((d, avgtokenlength, tagnames))
+        else:
+            avgtokenlengthresults.append((d, 0, []))  
 
 
-levels = [(soup, 0)]  
-depthinfo = {}  
+    for level, token, tags in avgtokenlengthresults:
+        print(f"Level {level}: tokens = {token}, Tags = {tags}")
 
-while levels:
-    currentelement, currentdepth = levels.pop(0)
-
-    
-    if currentelement:
-        pass
-
-    if currentdepth not in depthinfo:
-        depthinfo[currentdepth] = {'tags': [], 'totaltokens': 0, 'tokenlengths': []}
-
-    for child in currentelement.children:
-        if isinstance(child, bs4.Tag):
-            depthinfo[currentdepth]['tags'].append(child.name)
-
-            tokens = tokenizer.num_tokens_from_string(str(child))
-            depthinfo[currentdepth]['totaltokens'] += tokens
-            depthinfo[currentdepth]['tokenlengths'].append(tokens)
-
-            
-            levels.append((child, currentdepth + 1))
-
-avgtokenlengthresults = []
-maxdepth = max(depthinfo.keys())
-for d in range(maxdepth + 1):
-    if d in depthinfo:
-        tokenlengths = depthinfo[d]['tokenlengths']
-        tagnames = depthinfo[d]['tags']
-        avgtokenlength = sum(tokenlengths) / len(tokenlengths) if tokenlengths else 0
-        avgtokenlengthresults.append((d, avgtokenlength, tagnames))
-    else:
-        avgtokenlengthresults.append((d, 0, []))  
-
-
-for level, token, tags in avgtokenlengthresults:
-    print(f"Level {level}: tokens = {token}, Tags = {tags}")
-
-
-touse = []
-for i in range(len(avgtokenlengthresults)):
-    
-    if avgtokenlengthresults[i][1] > 0:
-        touse.append(results[i][1] / avgtokenlengthresults[i][1])
-    else:
-        touse.append(0)
-
-
-print("Final 'to use' values based on unnecessary logic:")
-for i, value in enumerate(touse):
-    print(f"Index {i}: {value}")
 
     touse = []
-    for i in len(avgtokenlengthresults):
-        touse.append(results[i][1]/avgtokenlengthresults[i][1])
+    for i in range(len(avgtokenlengthresults)):
+        
+        if avgtokenlengthresults[i][1] > 0:
+            touse.append(results[i][1] / avgtokenlengthresults[i][1])
+        else:
+            touse.append(0)
+
+
+    print("Final 'to use' values based on unnecessary logic:")
+    for i, value in enumerate(touse):
+        print(f"Index {i}: {value}")
+
+        touse = []
+        for i in len(avgtokenlengthresults):
+            touse.append(results[i][1]/avgtokenlengthresults[i][1])
 
     
 if __name__ == "__main__":
