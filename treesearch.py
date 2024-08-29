@@ -18,7 +18,9 @@ def removeattributes(tag):
     return str(tag)
 
 def decideonelement(element,prompt):
+    print(removeattributes(element) + "\nPrompt:" + prompt)
     response = queryGPT.querygpt(systemtext, removeattributes(element) + "\nPrompt:" + prompt, [])
+    print(response)
     if "keep" in response:
         try:
             for i in element.children:
@@ -115,8 +117,9 @@ def geneticalgorithm(populationsize=10, generations=50, alpha=0.5, mutationrate=
     bestindex = min(population, key=lambda x: fitness(x, alpha))
     return bestindex
 
+tokill = []
 def treesearch(html, problem):
-    problem += "Select relevant fields, links and buttons necessary to fullfil the user's prompt. Remember to keep as little HTML as possible while still making the user's prompt possible based on the trimmed HTML you produce alone."
+    problem += " Select relevant fields, links and buttons necessary to fullfil the user's prompt. Remember to keep as little HTML as possible while still making the user's prompt possible based on the trimmed HTML you produce alone."
     if html.strip().lower().startswith('<!doctype'):
         html = html.split('>', 1)[1]
     soup = BeautifulSoup(html, 'html.parser')
@@ -183,7 +186,35 @@ def treesearch(html, problem):
     print("\nTotal Tokens, Levels, and Tags:")
     for level, totaltokens, tags in totaltokensresults:
         print(f"Level {level}: Total Tokens = {totaltokens}, Tags = {tags}")
+    
+    processed = []
+    for i in range(len(totaltokensresults[0])):
+        token = totaltokensresults[i][1]
+        forms = results[i][1]
+        processed.append(token / forms)
+    
+    layer = processed.index(min(processed))
+    print(layer)
 
+    target_elements = []
+
+    levels = [(soup, 0)]  
+    while levels:
+        currentelement, currentdepth = levels.pop(0)
+        
+        if currentdepth == layer:
+            target_elements.append(currentelement)
+            
+        if currentdepth < layer:
+            for child in currentelement.children:
+                if isinstance(child, bs4.Tag):
+                    levels.append((child, currentdepth + 1))
+    
+    print(len(target_elements))
+    for element in target_elements:
+        decideonelement(element, problem)
+
+    print(soup)
     
 if __name__ == "__main__":
     with open("HTML.html", 'r') as txt:
