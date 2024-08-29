@@ -132,103 +132,25 @@ def treesearch(html, problem):
     for comment in comments:
         comment.extract()
     print(soup)
-
-    levels = [(soup, 0)]  
-    depthinfo = {}  
-
-    while levels:
-        currentelement, currentdepth = levels.pop(0)
-        if currentdepth not in depthinfo:
-            depthinfo[currentdepth] = {'total': 0, 'matching': 0, 'tags': []}
-        
-        
-        for child in currentelement.children:
-            if isinstance(child, bs4.Tag):
-                depthinfo[currentdepth]['total'] += 1
-                depthinfo[currentdepth]['tags'].append(child.name)
-                matchingcount = countmatchingdescendants(child)
-                depthinfo[currentdepth]['matching'] += matchingcount
-                levels.append((child, currentdepth + 1))
-
-    results = []
-    maxdepth = max(depthinfo.keys())
-    for d in range(maxdepth + 1):
-        if d in depthinfo:
-            totalcount = depthinfo[d]['total']
-            matchingcount = depthinfo[d]['matching']
-            tagnames = depthinfo[d]['tags']
-            ratio = matchingcount
-            results.append((d, ratio, tagnames))
-        else:
-            results.append((d, 0, []))  
-    for level, ratio, tags in results:
-        print(f"Level {level}: Ratio = {ratio}, Tags = {tags}")
-
-    levels = [(soup, 0)]  
-    depthinfo = {}  
-    while levels:
-        currentelement, currentdepth = levels.pop(0)
-        if currentdepth not in depthinfo:
-            depthinfo[currentdepth] = {'tags': [], 'totaltokens': 0}
-
-        
-        for child in currentelement.children:
-            if isinstance(child, bs4.Tag):
-                depthinfo[currentdepth]['tags'].append(child.name)
-                tokens = tokenizer.num_tokens_from_string(str(child))
-                depthinfo[currentdepth]['totaltokens'] += tokens
-                levels.append((child, currentdepth + 1))
-    totaltokensresults = []
-    maxdepth = max(depthinfo.keys())
-    for d in range(maxdepth + 1):
-        if d in depthinfo:
-            totaltokens = depthinfo[d]['totaltokens']
-            tagnames = depthinfo[d]['tags']
-            totaltokensresults.append((d, totaltokens, tagnames))
-        else:
-            totaltokensresults.append((d, 0, []))  
-
-    print("\nTotal Tokens, Levels, and Tags:")
-    for level, totaltokens, tags in totaltokensresults:
-        print(f"Level {level}: Total Tokens = {totaltokens}, Tags = {tags}")
     
-    processed = []
-    print(totaltokensresults)
-    print(results)
-    for i in range(len(totaltokensresults)):
-        print(i)
-        token = totaltokensresults[i][1]
-        forms = results[i][1]
-        try:
-            processed.append(token / forms)
-        except:
-            processed.append(0)
     
-    layer = processed.index(min(processed))
-    print(layer)
-
-    target_elements = []
-
-    levels = [(soup, 0)]  
-    while levels:
-        currentelement, currentdepth = levels.pop(0)
-        
-        if currentdepth == layer:
-            target_elements.append(currentelement)
-            
-        if currentdepth < layer:
-            for child in currentelement.children:
-                if isinstance(child, bs4.Tag):
-                    levels.append((child, currentdepth + 1))
+    #Find levels list
+    levels = []
+    current_level = [soup]
     
-    print(len(target_elements))
-    for element in target_elements:
-        decideonelement(element, problem)
-
-    print(soup)
-    with open("totokenize", 'w') as txt:
-        txt.write(str(soup))
+    while current_level:
+        next_level = []
+        level_tags = []
+        for element in current_level:
+            if element.name:
+                level_tags.append(element.name)
+            for child in element.find_all(recursive=False):
+                next_level.append(child)
+        levels.append(level_tags)
+        current_level = next_level
     
+    print('\n\n\n\n\n\n\n')
+    print(levels)
     return soup
 
 if __name__ == "__main__":
