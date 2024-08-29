@@ -18,8 +18,8 @@ def removeattributes(tag):
     return str(tag)
 
 def decideonelement(element,prompt):
-    print(removeattributes(element) + "\nPrompt:" + prompt)
-    response = queryGPT.querygpt(systemtext, removeattributes(element) + "\nPrompt:" + prompt, [])
+    print(str(element) + "\nPrompt:" + prompt)
+    response = queryGPT.querygpt(systemtext, str(element) + "\nPrompt:" + prompt, [])
     print(response)
     if "keep" in response:
         try:
@@ -215,6 +215,8 @@ def treesearch(html, problem):
         decideonelement(element, problem)
 
     print(soup)
+    with open("totokenize", 'w') as txt:
+        txt.write(str(soup))
     
 if __name__ == "__main__":
     with open("HTML.html", 'r') as txt:
