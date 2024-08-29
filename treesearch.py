@@ -193,13 +193,16 @@ def treesearch(html, problem):
         print(f"Level {level}: Total Tokens = {totaltokens}, Tags = {tags}")
     
     processed = []
-    for i in range(len(totaltokensresults[0])):
+    print(totaltokensresults)
+    print(results)
+    for i in range(len(totaltokensresults)):
+        print(i)
         token = totaltokensresults[i][1]
         forms = results[i][1]
         try:
             processed.append(token / forms)
         except:
-            processed.append(90 ** 90) # practically infinity
+            processed.append(0)
     
     layer = processed.index(min(processed))
     print(layer)
