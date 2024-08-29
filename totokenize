@@ -1,170 +1,84 @@
-<body style="position: relative; min-height: 100%; top: 0px;">
+<html lang="en">
+<body class="interior">
+<aside class="alertApp">
+<h1 id="alert_15">
+Announcing Montville Citizen Alert System  ›
+</h1>
 
+</aside>
+<aside class="alertApp caution">
+<h1 id="alert_27">
+Current/Upcoming Road Closures and Road Work  ›
+</h1>
 
-
-<div class="main-container" role="main">
-<div class="main wrapper clearfix" id="main-content">
-<article class="modtaxstd_index modpayment_index">
+</aside>
 <header>
-<h1>On-line Tax Payment</h1>
-<div class="misctop">
-<div class="misctop1">
-<div class="contactus">
-<img alt="?" border="0" class="contacticon" src="../images/icon_mini_faq.gif"/> For questions or assistance: <a accesskey="q" class="contactusopen" href="#" title="Popup window with contact information (Access Key q)">Contact Us</a>.
-                </div>
+<aside><a href="#content" id="skipNavigation" tabindex="0">Skip Navigation</a></aside>
+<a href="/" id="brand" title="Town of Montville, CT">Montville, CT</a>
+<div id="navContainer">
+<aside class="menu">‹ Close Menu</aside>
+<nav id="mainnav">
+<ul><li><a class="Menu" href="/government/" target="_self">Government</a><ul><li><a href="/government/mayor/" target="_self">Mayor</a></li><li><a href="/government/town-council/" target="_self">Town Council</a></li><li><a href="/government/town-boards-and-commissions/" target="_self">Town Boards &amp; Commissions</a></li><li><a href="/government/town-representatives-to-regional-agencies/" target="_self">Town Representatives to Regional Agencies</a></li><li><a href="/government/task-specific-committees-and-commissions/" target="_self">Task-Specific Committees &amp; Commissions</a></li><li><a href="/government/state-and-federal-elected-officials/" target="_self">State &amp; Federal Elected Officials</a></li><li><a href="/government/adopted-ordinances-by-year/" target="_self">Adopted Ordinances by Year</a></li></ul><span></span></li><li class="on open"><a class="Menu" href="/department-services/" target="_self">Department/Services</a><ul style="display: block;"><li><a href="/department-services/assessors-office/" target="_self">Assessor's Office</a></li><li><a href="/department-services/animal-control/" target="_self">Animal Control</a></li><li><a href="/department-services/building-department/" target="_self">Building Department</a></li><li><a href="/department-services/finance-department/" target="_self">Finance Department</a></li><li><a href="/department-services/fire-marshall-emergency-management/" target="_self">Fire Marshal/ Emergency Management</a></li><li><a href="/department-services/health-department/" target="_self">Health Department</a></li><li><a href="/department-services/human-resources/" target="_self">Human Resources</a></li><li><a href="/department-services/planning-department/" target="_self">Land Use and Development Department</a></li><li><a href="/department-services/office-of-the-mayor/" target="_self">Office of the Mayor</a></li><li><a href="/department-services/parks-and-recreation/" target="_self">Parks &amp; Recreation</a></li><li><a href="/department-services/police-department/" target="_self">Police Department</a></li><li><a href="/department-services/probate-court/" target="_self">Probate Court</a></li><li><a href="/department-services/public-works/" target="_self">Public Works</a></li><li><a href="https://raymondlibraryblog.wordpress.com/" target="_blank">The Raymond Library</a></li><li><a href="/department-services/registrar-of-voters/" target="_self">Registrar of Voters</a></li><li><a href="/department-services/senior-services-department/" target="_self">Senior Services Department</a></li><li><a href="/department-services/social-services-office/" target="_self">Social Services Office</a></li><li class="on open"><a href="/department-services/tax-collection/" target="_self">Tax Collection</a></li><li><a href="/department-services/town-clerk/" target="_self">Town Clerk</a></li><li><a href="/department-services/veterans-affairs/" target="_self">Veterans Affairs</a></li><li><a href="https://www.montvillewpca.com/" target="_blank">Water Pollution Control Authority (WPCA)</a></li><li><a href="/department-services/youth-service-bureau/" target="_self">Youth Service Bureau</a></li></ul><span></span></li><li><a class="Menu" href="/education/" target="_self">Education</a><ul><li><a href="/government/town-boards-and-commissions/board-of-education/" target="_self">Montville Board of Education</a></li><li><a href="https://www.montvilleschools.org/" target="_blank">Montville Public Schools Website</a></li></ul><span></span></li><li><a class="Menu" href="/economic-development/" target="_self">Economic Development</a><ul><li><a href="/economic-development/why-montville-/" target="_self">Why Montville?</a></li><li><a href="/economic-development/development-opportunities/" target="_self">Development Opportunities</a></li><li><a href="/economic-development/labor-and-business/" target="_self">Labor &amp; Business</a></li><li><a href="/economic-development/links-of-interest/" target="_self">Links of Interest</a></li><li><a href="/economic-development/starting-a-business-in-montville/" target="_self">Starting a Business in Montville</a></li><li><a href="/economic-development/transportation/" target="_self">Transportation</a></li><li><a href="http://info.chamberect.com/list" target="_blank">Business Directory, Chamber of Commerce, Eastern Connecticut</a></li><li><a href="https://web.norwichchamber.com/search" target="_blank">Greater Norwich Chamber of Commerce Business Directory</a></li><li><a href="/economic-development/contacts/" target="_self">Contacts</a></li><li><a href="/form-repository/DownloadFile.aspx?FileID=5605" target="_blank">EDC Brochure</a></li></ul><span></span></li><li><a class="Menu" href="/calendar/" target="_self">Calendar</a></li><li><a class="Menu" href="/resources/" target="_self">Resources</a><ul><li><a href="/form-repository/" target="_self">Form Repository</a></li><li><a href="/faq/" target="_self">FAQ</a></li><li><a href="/town-directory/" target="_self">Town Directory</a></li><li><a href="/links/" target="_self">Links</a></li><li><a href="/announcements/" target="_self">Announcements</a></li><li><a href="/resources/meeting-recordings/" target="_self">Meeting Recordings</a></li><li><a href="/resources/history-of-montville/" target="_self">History of Montville</a></li></ul><span></span></li><li><a class="Menu" href="/news/" target="_self">News</a></li><li><a class="Menu" href="/how-do-i/" target="_self">How Do I</a></li></ul>
+</nav>
+<nav id="ancillary">
+<ul><li><a href="/contact/" target="_self">Contact</a></li></ul>
+<form action="/Search/" class="search" method="get">
+<input aria-label="Search" name="s" type="text"/>
+<div class="search-icon">
+<input name="FormAction" type="submit" value="Search"/>
 </div>
-<div class="misctop2"> </div>
+</form>
+</nav>
 </div>
-<div class="pagecontent defaultContentEditor pageContentEditor">
-<p align="center"><br/><span><font size="4"><font color="#ff0000"><strong><em>NOTICE:<br/></em></strong>Payments are posted and the on-line payment system is updated at 4:00pm each day.<br/>All payments received <strong><em>after 4:00pm</em></strong> will be processed on the <u><strong>next</strong></u> municipal business day.<br/></font></font></span><br/></p>
-</div>
+<nav id="mobilenav">
+<a href="/government/" target="_self">Government</a><a href="/department-services/" target="_self">Department/Services</a>
+<span class="menu">Menu <svg viewbox="0 0 448 512" xmlns="http://www.w3.org/2000/svg"><path d="M16 132h416c8.837 0 16-7.163 16-16V76c0-8.837-7.163-16-16-16H16C7.163 60 0 67.163 0 76v40c0 8.837 7.163 16 16 16zm0 160h416c8.837 0 16-7.163 16-16v-40c0-8.837-7.163-16-16-16H16c-8.837 0-16 7.163-16 16v40c0 8.837 7.163 16 16 16zm0 160h416c8.837 0 16-7.163 16-16v-40c0-8.837-7.163-16-16-16H16c-8.837 0-16 7.163-16 16v40c0 8.837 7.163 16 16 16z"></path></svg></span>
+</nav>
+<span class="menu hamburger"><svg viewbox="0 0 448 512" xmlns="http://www.w3.org/2000/svg"><path d="M16 132h416c8.837 0 16-7.163 16-16V76c0-8.837-7.163-16-16-16H16C7.163 60 0 67.163 0 76v40c0 8.837 7.163 16 16 16zm0 160h416c8.837 0 16-7.163 16-16v-40c0-8.837-7.163-16-16-16H16c-8.837 0-16 7.163-16 16v40c0 8.837 7.163 16 16 16zm0 160h416c8.837 0 16-7.163 16-16v-40c0-8.837-7.163-16-16-16H16c-8.837 0-16 7.163-16 16v40c0 8.837 7.163 16 16 16z"></path></svg></span>
 </header>
-<section>
-<div class="regUserLoginMsgBox">
 
-<div class="regUserLoginMsgBody">
-<div><a href="https://www.cit-e.net/montville-nj/cn/RegUserAdmin"><img id="imgFastLane" src="../images/fast_lane2_200px.png"/></a></div>
-<div><p>With Fastlane you can save your property accounts and payment methods to make your payments easier and quicker.</p>
-<p>Click <a href="https://www.cit-e.net/montville-nj/cn/RegUserAdmin"><span class="bold">here</span></a> to login or register.</p></div>
+<main>
+<div class="wrap">
+<div class="content" id="content">
+<h1>INFORMATION REGARDING PAYING TAXES ONLINE</h1>
+<h2>Oldest Obligation</h2>
+<p>Per Connecticut General Statute Sec 12-144b, payments must first be applied to the taxpayer’s oldest outstanding obligation (by tax type – real estate, personal property, or motor vehicle.)</p>
+<p>If you owe motor vehicle or personal property taxes older than two grand list years you must contact Rossi Law Offices by calling (800) 647-6774 or online by visiting www.payrossilaw.com to settle your account.</p>
+<h2>DMV Clearances</h2>
+<p><strong>DMV NO LONGER ACCEPTS PAPER CLEARANCES. DMV will be electronically notified of your payment.</strong></p>
+<p>Per Connecticut General Statute 14-33, if motor vehicle taxes are unpaid, you will not be able to newly register or renew any vehicle registration with the Connecticut Department of Motor Vehicles. ALL outstanding vehicle and personal property taxes associated with your name and/or your registration marker number(s) must be paid in full for a release to be issued.</p>
+<p><strong>If you are making a payment online and a DMV release is required, payment, must be made by debit or credit card. You should be cleared to register two business days after your payment (for example, if your payment was made on Monday, you could register on Wednesday.) Payments made by EFT check require a 10-business day hold.</strong></p>
+<p><strong>Please check first whether you have any compliance issues at ct.gov/dmv/online. Once cleared, you may be able to renew online without the need to visit a DMV office.</strong></p>
+<h2>Partial Payments</h2>
+<p>Partial payments can be made online. Select the bill/bills you wish to pay and add them to the “shopping cart.” During the checkout process, you will be allowed to change the amount of the payment from the full amount due to the amount you desire to pay. Once you enter the amount you wish to pay, the service fee will also adjust. You will have an opportunity to review the payment before proceeding.</p>
+<h2>Receipts</h2>
+<p>You will receive an immediate receipt for your payment, however, due to processing time, it will take two to four business days for your payment to be reflected on the web site.</p>
+<p><a href="https://www.mytaxbill.org/inet/revenue/disclaimer.do?town=montville" rel="noopener" target="_blank"><img alt="" height="61" src="/Customer-Content/www/CMS/files/PointandPayTaxes2.gif" width="350"/></a></p>
 </div>
+<aside><nav id="sidenav"><ul><li><a href="/department-services/assessors-office/" target="_self">Assessor's Office</a> </li><li><a href="/department-services/animal-control/" target="_self">Animal Control</a> </li><li><a href="/department-services/building-department/" target="_self">Building Department</a> </li><li><a href="/department-services/finance-department/" target="_self">Finance Department</a> </li><li><a href="/department-services/fire-marshall-emergency-management/" target="_self">Fire Marshal/ Emergency Management</a> </li><li><a href="/department-services/health-department/" target="_self">Health Department</a> </li><li><a href="/department-services/human-resources/" target="_self">Human Resources</a> </li><li><a href="/department-services/planning-department/" target="_self">Land Use and Development Department</a> </li><li><a href="/department-services/office-of-the-mayor/" target="_self">Office of the Mayor</a> </li><li><a href="/department-services/parks-and-recreation/" target="_self">Parks &amp; Recreation</a> </li><li><a href="/department-services/police-department/" target="_self">Police Department</a> </li><li><a href="/department-services/probate-court/" target="_self">Probate Court</a> </li><li><a href="/department-services/public-works/" target="_self">Public Works</a> </li><li><a href="https://raymondlibraryblog.wordpress.com/" target="_blank">The Raymond Library</a> </li><li><a href="/department-services/registrar-of-voters/" target="_self">Registrar of Voters</a> </li><li><a href="/department-services/senior-services-department/" target="_self">Senior Services Department</a> </li><li><a href="/department-services/social-services-office/" target="_self">Social Services Office</a> </li><li class="on"><a href="/department-services/tax-collection/" target="_self">Tax Collection</a> <ul><li class="on"><a href="/department-services/tax-collection/paying-taxes-online/" target="_self">Paying Taxes Online</a> </li></ul></li><li><a href="/department-services/town-clerk/" target="_self">Town Clerk</a> </li><li><a href="/department-services/veterans-affairs/" target="_self">Veterans Affairs</a> </li><li><a href="https://www.montvillewpca.com/" target="_blank">Water Pollution Control Authority (WPCA)</a> </li><li><a href="/department-services/youth-service-bureau/" target="_self">Youth Service Bureau</a> </li></ul></nav></aside>
 </div>
-<h3>
-
-Making your tax payment online is fast, easy, and safe. In just a few minutes, your transaction will be complete.  You can choose to pay by a <span class="italic">Bank Account ACH Payment (e-Check)</span> or by a <span class="italic">Credit Card Payment</span>.
-
-</h3>
-<p>You can search for your tax bill by either the property's <b>Block/Lot Number</b>, <b>Account No.</b>, or <b>Street Address</b> in the fields below. Click the "Search" button to to find all matches.</p>
-<div class="paystepgroup">
-<div class="stepline">
-<div class="stepnumber">STEP 1</div>
-<div class="steptitle">Search for and select the tax bill you wish to view.</div>
+</main>
+<footer>
+<div class="fatFooter">
+<address>
+<strong>Montville Town Hall</strong><br/>
+310 Norwich-New London Tpke.<br/>
+Uncasville, CT 06382<br/>
+860.848.3030<br/>
+<a href="/contact/">Contact</a><br/>
+<a href="/driving-directions/">Driving Directions</a>
+</address>
+<nav>
+<ul><li class="on"><a href="/department-services/" target="_self">Department/Services</a><ul><li><a href="/department-services/assessors-office/" target="_self">Assessor's Office</a></li><li><a href="/department-services/animal-control/" target="_self">Animal Control</a></li><li><a href="/department-services/building-department/" target="_self">Building Department</a></li><li><a href="/department-services/finance-department/" target="_self">Finance Department</a></li><li><a href="/department-services/fire-marshall-emergency-management/" target="_self">Fire Marshal/ Emergency Management</a></li><li><a href="/department-services/health-department/" target="_self">Health Department</a></li><li><a href="/department-services/human-resources/" target="_self">Human Resources</a></li><li><a href="/department-services/planning-department/" target="_self">Land Use and Development Department</a></li><li><a href="/department-services/office-of-the-mayor/" target="_self">Office of the Mayor</a></li><li><a href="/department-services/parks-and-recreation/" target="_self">Parks &amp; Recreation</a></li><li><a href="/department-services/police-department/" target="_self">Police Department</a></li><li><a href="/department-services/probate-court/" target="_self">Probate Court</a></li><li><a href="/department-services/public-works/" target="_self">Public Works</a></li><li><a href="https://raymondlibraryblog.wordpress.com/" target="_blank">The Raymond Library</a></li><li><a href="/department-services/registrar-of-voters/" target="_self">Registrar of Voters</a></li><li><a href="/department-services/senior-services-department/" target="_self">Senior Services Department</a></li><li><a href="/department-services/social-services-office/" target="_self">Social Services Office</a></li><li class="on"><a href="/department-services/tax-collection/" target="_self">Tax Collection</a></li><li><a href="/department-services/town-clerk/" target="_self">Town Clerk</a></li><li><a href="/department-services/veterans-affairs/" target="_self">Veterans Affairs</a></li><li><a href="https://www.montvillewpca.com/" target="_blank">Water Pollution Control Authority (WPCA)</a></li><li><a href="/department-services/youth-service-bureau/" target="_self">Youth Service Bureau</a></li></ul></li></ul>
+<ul><li><a href="/how-do-i/" target="_self">How Do I</a><ul><li><a href="/department-services/registrar-of-voters/" target="_self">Register to Vote </a></li><li><a href="/department-services/town-clerk/dog-licenses/" target="_self">Get or Renew a Dog License</a></li><li><a href="/department-services/town-clerk/licenses-and-permits/" target="_self">Get a Hunting and Fishing License</a></li><li><a href="/department-services/tax-collection/" target="_self">Pay My Taxes</a></li><li><a href="/department-services/human-resources/employment-opportunities/" target="_self">Apply for Employment</a></li><li><a href="/department-services/town-clerk/marriage-licenses/" target="_self">Get a Marriage License</a></li></ul></li></ul>
+<ul><li><a href="/employee-file-repository/" target="_self">Employees</a></li></ul>
+</nav>
 </div>
+<div class="wrap">
+<div id="web-solutions"><a href="https://www.exposure.com/" target="_blank" title="CT Web Design and Development Company - Exposure Internet Marketing">Web Solutions</a></div>
+<div>© 2019 – 2024 Town of Montville. All rights reserved. <nav class="dontPrint"><span></span><a href="/privacy-policy/" target="_self">Privacy Policy</a><span></span><a href="/terms-of-use/" target="_self">Terms of Use</a><span></span><a href="/disclaimer/" target="_self">Disclaimer</a><span></span><a href="/accessibility/" target="_self">Web Accessibility</a><span></span><a href="/site-map/" target="_self">Site Map</a></nav></div>
+<div id="seoFooter"></div>
 </div>
-<div class="formwrapper">
-<p>Enter information in <span class="bold">ONLY ONE</span> of the sections below and click the corresponding "Search" button to find matches.</p>
-<form action="finditems.cfm" id="blockform" method="POST" name="blockform">
-<div class="formelement">
-<label class="frmlabel" for="Block">Block:</label>
-<div class="multiInput">
-<input id="Block" maxlength="5" name="Block" required="" size="5" type="text"/> .
-        <input id="SubBlock" maxlength="4" name="SubBlock" size="4" type="text"/>
-</div>
-</div>
-<div class="formelement">
-<label class="frmlabel" for="Lot">Lot:</label>
-<div class="multiInput">
-<input id="Lot" maxlength="5" name="Lot" size="5" type="text"/> . 
-        <input id="SubLot" maxlength="4" name="SubLot" size="4" type="text"/>
-</div>
-</div>
-<div class="formelement">
-<label class="frmlabel" for="Qualifier">Qualifier:</label>
-<input id="Qualifier" maxlength="11" name="Qualifier" size="11" type="text"/>
-<input accesskey="b" name="searchBlock" title="Search (Access Key b)" type="submit" value="Search"/>
-</div>
-<input name="tpid" type="hidden" value="9078"/>
-<hr/>
-</form>
-<form action="finditems.cfm" id="accountform" method="POST" name="accountform">
-<div class="formelement">
-<label class="frmlabel" for="AccountNo">Tax Account No:</label>
-<input id="AccountNo" maxlength="8" name="BillNum" required="" size="9" type="text"/>
-<input accesskey="a" name="searchAccount" title="Search (Access Key a)" type="submit" value="Search"/>
-<input name="tpid" type="hidden" value="9078"/>
-</div>
-</form>
-<hr/>
-<form action="finditems.cfm" id="streetform" method="POST" name="streetform">
-<div class="formelement">
-<label class="frmlabel" for="Street">Street:</label>
-<input id="Street" maxlength="25" name="Street" required="" size="25" type="text"/>
-<input accesskey="c" name="searchStreet" title="Search (Access Key c)" type="submit" value="Search"/>
-<p class="frmparablock" id="stInfo"><b>Please note:</b> The suffix of your address (e.g. Street, Road, Avenue, etc.) may be abbreviated in our records.  If you do not find your property try searching without it, or try different versions (e.g. St, Rd, Ave, etc.).</p>
-</div>
-<input name="tpid" type="hidden" value="9078"/>
-</form>
-</div>
-
-<hr class="bottombreak"/>
-<p>
-<img alt="This site is protected by VikingCloud's Trusted Commerce program" border="0" id="vikingcloudSealImage" onclick="javascript:window.open('https://seal.securetrust.com/cert.php?customerId=x4ipVcxxrNOh4gUyxZ9FGSva2uw8Ww&amp;size=105x54&amp;style=normal', 'c_TW', 'location=no, toolbar=no, resizable=yes, scrollbars=yes, directories=no, status=no, width=615, height=720'); return false;" oncontextmenu="javascript:alert('Copying Prohibited by Law - Trusted Commerce is a Service Mark of Viking Cloud, Inc.'); return false;" src="https://seal.securetrust.com/seal_image.php?customerId=x4ipVcxxrNOh4gUyxZ9FGSva2uw8Ww&amp;size=105x54&amp;style=normal" style="cursor:pointer;" title="This site is protected by VikingCloud's Trusted Commerce program"/>   
-
-
-    <br/><br/>We use SSL encryption to protect your personal information and ensure a secure payment.
-
-
-    </p>
-<br/>
-
-</section>
-</article>
-</div> 
-</div> 
-<div aria-label="main-footer" class="footer-container" role="contentinfo">
-<div id="SiteDesignFoot1">
-<div class="top">
-<div class="townInfo">
-<h3>Contact Us</h3>
-<span>Township of Montville</span> <span>Municipal Building / Business Offices</span> <span>195 Changebridge Road</span> <span>Montville, NJ 07045</span></div>
-<div class="townSeal"><img src="/montville-nj/images/new/townSeal.png"/></div>
-</div>
-<div class="bottom"><img class="poweredBy" src="/images/poweredBy.svg"/></div>
-</div>
-</div>
-
-
-
-
-
-
-
-
-
-<div class="remodal-overlay remodal-is-closed" style="display: none;"></div><div class="remodal-wrapper remodal-is-closed" style="display: none;"><div class="remodal emailpage remodal-is-initialized remodal-is-closed" data-remodal-id="modal" tabindex="-1">
-<button class="remodal-close" data-remodal-action="close"></button>
-<div class="emailSent hidden">Your email has been sent!</div>
-<h1>Township of Montville</h1>
-<p>http://www.cit-e.net/montville-nj/cn/TaxBill_Std/index.cfm?tpid=9078</p>
-            Email a link to this web page.<br/>
-            Simply fill out this form and click <span class="bold">Send</span>.<br/>
-<div>*Fields in <span class="highlight">Red</span> are required.</div>
-<div class="formwrapper">
-<form action="" id="emailform" method="post" name="emailform">
-<div class="formelement">
-<label class="frmlabel required" for="yourname">Your Name:</label>
-<input id="yourname" maxlength="50" name="yourname" required="" size="25" type="text"/>
-</div>
-<div class="formelement">
-<label class="frmlabel required" for="youremail">Your Email:</label>
-<input enabled="Yes" id="youremail" maxlength="100" name="youremail" required="" size="25" type="text" visible="Yes"/>
-<div class="error-popup">*You must enter a valid email</div>
-</div>
-<div class="formelement">
-<label class="frmlabel" for="sendcopy">Send a copy to yourself?</label>
-<input id="sendcopy" name="sendcopy" type="checkbox" value="1"/>
-</div>
-<div class="formelement">
-<label class="frmlabel required" for="friendname">Recipient's Name:</label>
-<input id="friendname" maxlength="50" name="friendname" required="" size="25" type="text"/>
-</div>
-<div class="formelement">
-<label class="frmlabel required" for="friendemail">Recipient's Email:</label>
-<input enabled="Yes" id="friendemail" maxlength="50" name="friendemail" required="" size="25" type="text" visible="Yes"/>
-<div class="error-popup">*You must enter a valid email.</div>
-</div>
-<div class="formelement">
-<label class="frmlabel" for="message">Additional Message:</label>
-<textarea cols="28" id="message" name="message" rows="5" wrap="hard"></textarea>
-</div>
-<div class="g-recaptcha" data-sitekey="6Le7k_8SAAAAANoyZpyrfaAmXwsK0erhF5A-TSnb" id="recaptcha-box"><div style="width: 304px; height: 78px;"><div><iframe frameborder="0" height="78" name="a-zazfm0n06hd2" role="presentation" sandbox="allow-forms allow-popups allow-same-origin allow-scripts allow-top-navigation allow-modals allow-popups-to-escape-sandbox allow-storage-access-by-user-activation" scrolling="no" src="https://www.google.com/recaptcha/api2/anchor?ar=1&amp;k=6Le7k_8SAAAAANoyZpyrfaAmXwsK0erhF5A-TSnb&amp;co=aHR0cHM6Ly93d3cuY2l0LWUubmV0OjQ0Mw..&amp;hl=en&amp;v=i7X0JrnYWy9Y_5EYdoFM79kV&amp;size=normal&amp;cb=cr4o1zlt98ol" title="reCAPTCHA" width="304"></iframe></div><textarea class="g-recaptcha-response" id="g-recaptcha-response" name="g-recaptcha-response" style="width: 250px; height: 40px; border: 1px solid rgb(193, 193, 193); margin: 10px 25px; padding: 0px; resize: none; display: none;"></textarea></div><iframe style="display: none;"></iframe></div>
-<div class="formactions">
-<input name="Send" type="hidden" value="1"/>
-<button class="remodal-cancel" data-remodal-action="cancel">Cancel</button>
-<button class="remodal-confirm" id="send">Send</button>
-<input id="current_page" name="current_page" type="hidden" value="http://www.cit-e.net/montville-nj/cn/TaxBill_Std/index.cfm?tpid=9078"/>
-</div>
-</form>
-</div>
-</div></div><div class="VIpgJd-yAWNEb-L7lbkb skiptranslate" data-id="" id="goog-gt-tt" style="border-radius: 12px; margin: 0 0 0 -23px; padding: 0; font-family: 'Google Sans', Arial, sans-serif;"><div class="VIpgJd-yAWNEb-hvhgNd" id="goog-gt-vt"><div class="VIpgJd-yAWNEb-hvhgNd-l4eHX-i3jM8c"><img alt="" height="24" src="https://fonts.gstatic.com/s/i/productlogos/translate/v14/24px.svg" width="24"/></div><div class="VIpgJd-yAWNEb-hvhgNd-k77Iif-i3jM8c"><div class="VIpgJd-yAWNEb-hvhgNd-IuizWc" dir="ltr">Original text</div><div class="VIpgJd-yAWNEb-nVMfcd-fmcmS VIpgJd-yAWNEb-hvhgNd-axAV1" id="goog-gt-original-text"></div></div><div class="VIpgJd-yAWNEb-hvhgNd-N7Eqid ltr"><div class="VIpgJd-yAWNEb-hvhgNd-N7Eqid-B7I4Od ltr" dir="ltr"><div class="VIpgJd-yAWNEb-hvhgNd-UTujCb">Rate this translation</div><div class="VIpgJd-yAWNEb-hvhgNd-eO9mKe">Your feedback will be used to help improve Google Translate</div></div><div class="VIpgJd-yAWNEb-hvhgNd-xgov5 ltr"><button aria-label="Good translation" aria-pressed="false" class="VIpgJd-yAWNEb-hvhgNd-bgm6sf" id="goog-gt-thumbUpButton" title="Good translation" type="button"><span id="goog-gt-thumbUpIcon"><svg class="VIpgJd-yAWNEb-hvhgNd-THI6Vb NMm5M" focusable="false" height="24" viewbox="0 0 24 24" width="24"><path d="M21 7h-6.31l.95-4.57.03-.32c0-.41-.17-.79-.44-1.06L14.17 0S7.08 6.85 7 7H2v13h16c.83 0 1.54-.5 1.84-1.22l3.02-7.05c.09-.23.14-.47.14-.73V9c0-1.1-.9-2-2-2zM7 18H4V9h3v9zm14-7l-3 7H9V8l4.34-4.34L12 9h9v2z"></path></svg></span><span id="goog-gt-thumbUpIconFilled"><svg class="VIpgJd-yAWNEb-hvhgNd-THI6Vb NMm5M" focusable="false" height="24" viewbox="0 0 24 24" width="24"><path d="M21 7h-6.31l.95-4.57.03-.32c0-.41-.17-.79-.44-1.06L14.17 0S7.08 6.85 7 7v13h11c.83 0 1.54-.5 1.84-1.22l3.02-7.05c.09-.23.14-.47.14-.73V9c0-1.1-.9-2-2-2zM5 7H1v13h4V7z"></path></svg></span></button><button aria-label="Poor translation" aria-pressed="false" class="VIpgJd-yAWNEb-hvhgNd-bgm6sf" id="goog-gt-thumbDownButton" title="Poor translation" type="button"><span id="goog-gt-thumbDownIcon"><svg class="VIpgJd-yAWNEb-hvhgNd-THI6Vb NMm5M" focusable="false" height="24" viewbox="0 0 24 24" width="24"><path d="M3 17h6.31l-.95 4.57-.03.32c0 .41.17.79.44 1.06L9.83 24s7.09-6.85 7.17-7h5V4H6c-.83 0-1.54.5-1.84 1.22l-3.02 7.05c-.09.23-.14.47-.14.73v2c0 1.1.9 2 2 2zM17 6h3v9h-3V6zM3 13l3-7h9v10l-4.34 4.34L12 15H3v-2z"></path></svg></span><span id="goog-gt-thumbDownIconFilled"><svg class="VIpgJd-yAWNEb-hvhgNd-THI6Vb NMm5M" focusable="false" height="24" viewbox="0 0 24 24" width="24"><path d="M3 17h6.31l-.95 4.57-.03.32c0 .41.17.79.44 1.06L9.83 24s7.09-6.85 7.17-7V4H6c-.83 0-1.54.5-1.84 1.22l-3.02 7.05c-.09.23-.14.47-.14.73v2c0 1.1.9 2 2 2zm16 0h4V4h-4v13z"></path></svg></span></button></div></div><div class="VIpgJd-yAWNEb-hvhgNd-aXYTce" id="goog-gt-votingHiddenPane"><form action="//translate.googleapis.com/translate_voting?client=te" class="VIpgJd-yAWNEb-hvhgNd-aXYTce" id="goog-gt-votingForm" method="post" target="votingFrame"><input id="goog-gt-votingInputSrcLang" name="sl" type="text"/><input id="goog-gt-votingInputTrgLang" name="tl" type="text"/><input id="goog-gt-votingInputSrcText" name="query" type="text"/><input id="goog-gt-votingInputTrgText" name="gtrans" type="text"/><input id="goog-gt-votingInputVote" name="vote" type="text"/></form><iframe frameborder="0" name="votingFrame"></iframe></div></div></div><div class="remodal-wrapper remodal-is-closed" style="display: none;"><div class="remodal contact_dialog remodal-is-initialized remodal-is-closed" tabindex="-1" title="Contact Information"><button class="remodal-close" data-remodal-action="close"></button><div class="defaultContentEditor taxbillstdContactEditor"><p><strong><font color="#008000"><font size="3">       Montville Township Tax Office</font></font></strong></p>
-<p><strong><font size="3">        (973) 331- 3310 or (973)-331-3309</font></strong></p>
-</div></div></div><div class="VIpgJd-ZVi9od-aZ2wEe-wOHMyf"><div class="VIpgJd-ZVi9od-aZ2wEe-OiiCO"><svg class="VIpgJd-ZVi9od-aZ2wEe" height="96px" viewbox="0 0 66 66" width="96px" xmlns="http://www.w3.org/2000/svg"><circle class="VIpgJd-ZVi9od-aZ2wEe-Jt5cK" cx="33" cy="33" fill="none" r="30" stroke-linecap="round" stroke-width="6"></circle></svg></div></div><div style="background-color: rgb(255, 255, 255); border: 1px solid rgb(204, 204, 204); box-shadow: rgba(0, 0, 0, 0.2) 2px 2px 3px; position: absolute; transition: visibility linear 0.3s, opacity 0.3s linear; opacity: 0; visibility: hidden; z-index: 2000000000; left: 0px; top: -10000px;"><div style="width: 100%; height: 100%; position: fixed; top: 0px; left: 0px; z-index: 2000000000; background-color: rgb(255, 255, 255); opacity: 0.05;"></div><div class="g-recaptcha-bubble-arrow" style="border: 11px solid transparent; width: 0px; height: 0px; position: absolute; pointer-events: none; margin-top: -11px; z-index: 2000000000;"></div><div class="g-recaptcha-bubble-arrow" style="border: 10px solid transparent; width: 0px; height: 0px; position: absolute; pointer-events: none; margin-top: -10px; z-index: 2000000000;"></div><div style="z-index: 2000000000; position: relative;"><iframe frameborder="0" name="c-zazfm0n06hd2" sandbox="allow-forms allow-popups allow-same-origin allow-scripts allow-top-navigation allow-modals allow-popups-to-escape-sandbox allow-storage-access-by-user-activation" scrolling="no" src="https://www.google.com/recaptcha/api2/bframe?hl=en&amp;v=i7X0JrnYWy9Y_5EYdoFM79kV&amp;k=6Le7k_8SAAAAANoyZpyrfaAmXwsK0erhF5A-TSnb" style="width: 100%; height: 100%;" title="recaptcha challenge expires in two minutes"></iframe></div></div></body>
+</footer>
+<iframe height="1" style="position: absolute; top: 0px; left: 0px; border: medium; visibility: hidden;" width="1"></iframe>
+</body></html>

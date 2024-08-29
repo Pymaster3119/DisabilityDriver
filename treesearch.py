@@ -196,7 +196,10 @@ def treesearch(html, problem):
     for i in range(len(totaltokensresults[0])):
         token = totaltokensresults[i][1]
         forms = results[i][1]
-        processed.append(token / forms)
+        try:
+            processed.append(token / forms)
+        except:
+            processed.append(90 ** 90) # practically infinity
     
     layer = processed.index(min(processed))
     print(layer)
@@ -223,6 +226,8 @@ def treesearch(html, problem):
     with open("totokenize", 'w') as txt:
         txt.write(str(soup))
     
+    return soup
+
 if __name__ == "__main__":
     with open("HTML.html", 'r') as txt:
         treesearch(txt.read(), "Pay my taxes to Montviille New Jersey")

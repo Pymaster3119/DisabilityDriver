@@ -3,6 +3,7 @@ from googlesearch import search
 import openai
 from bs4 import BeautifulSoup
 import bs4
+import treesearch
 with open("key.txt", "r") as txt:
     client = openai.OpenAI(api_key=txt.read())
 class Action:
@@ -155,6 +156,8 @@ def printSolo(elem):
     return output
 
 def cleanhtml(html, problem):
+    treesearch.treesearch(html, problem)
+    '''
     problem += "Select relevant fields, links and buttons."
     if html.strip().lower().startswith('<!doctype'):
         html = html.split('>', 1)[1]
@@ -203,6 +206,7 @@ def cleanhtml(html, problem):
     print("\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n")
     print(idx)
     return addelement(output, soup)
+    '''
 
 if __name__ == "__main__":
     with open("HTML.html", "r") as txt:
