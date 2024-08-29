@@ -1,7 +1,5 @@
 <body style="position: relative; min-height: 100%; top: 0px;">
-<!--[if lt IE 8]>
-        <p class="browserupgrade">You are using an <strong>outdated</strong> browser. Please <a href="https://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
-    <![endif]-->
+
 
 
 <div class="main-container" role="main">
@@ -86,7 +84,7 @@ Making your tax payment online is fast, easy, and safe. In just a few minutes, y
 <input name="tpid" type="hidden" value="9078"/>
 </form>
 </div>
-<!-- BEGIN CUSTOMER SERVICE -->
+
 <hr class="bottombreak"/>
 <p>
 <img alt="This site is protected by VikingCloud's Trusted Commerce program" border="0" id="vikingcloudSealImage" onclick="javascript:window.open('https://seal.securetrust.com/cert.php?customerId=x4ipVcxxrNOh4gUyxZ9FGSva2uw8Ww&amp;size=105x54&amp;style=normal', 'c_TW', 'location=no, toolbar=no, resizable=yes, scrollbars=yes, directories=no, status=no, width=615, height=720'); return false;" oncontextmenu="javascript:alert('Copying Prohibited by Law - Trusted Commerce is a Service Mark of Viking Cloud, Inc.'); return false;" src="https://seal.securetrust.com/seal_image.php?customerId=x4ipVcxxrNOh4gUyxZ9FGSva2uw8Ww&amp;size=105x54&amp;style=normal" style="cursor:pointer;" title="This site is protected by VikingCloud's Trusted Commerce program"/>   
@@ -97,11 +95,11 @@ Making your tax payment online is fast, easy, and safe. In just a few minutes, y
 
     </p>
 <br/>
-<!-- END CUSTOMER SERVICE -->
+
 </section>
 </article>
-</div> <!-- main -->
-</div> <!-- main-container -->
+</div> 
+</div> 
 <div aria-label="main-footer" class="footer-container" role="contentinfo">
 <div id="SiteDesignFoot1">
 <div class="top">

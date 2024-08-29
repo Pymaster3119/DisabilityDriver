@@ -128,6 +128,11 @@ def treesearch(html, problem):
             if isinstance(elem, bs4.Tag):
                 elem.decompose()
     soup = removeads(soup)
+    comments = soup.find_all(text=lambda text: isinstance(text, bs4.Comment))
+    for comment in comments:
+        comment.extract()
+    print(soup)
+
     levels = [(soup, 0)]  
     depthinfo = {}  
 
